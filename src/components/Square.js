@@ -17,11 +17,11 @@ import wp from '../assets/pieces/wp.jpg';
 
 export const Square = (props) => {
     const context = useContext(PositionContext);
-    const { allPositions,  glowSqs} = context;
+    const { allPositions, glowSqs } = context;
 
     const pieceStyle = { maxHeight: '100%', maxWidth: '100%', };
 
-    
+
     const renderSwitch = (param) => {
         switch (param) {
             case 'br': return br;
@@ -36,11 +36,13 @@ export const Square = (props) => {
             case 'wk': return wk;
             case 'wq': return wq;
             case 'wp': return wp;
+            default: return;
         }
     }
 
     return (
-        <div className={glowSqs[props.ind] ? `${styles.maindiv} ${styles.maindiv2}  ${styles.eachDiv}` : styles.eachDiv} >
+        <div className={glowSqs[props.ind] ? `${styles.maindiv} ${styles.maindiv2}  ${styles.eachDiv}` : styles.eachDiv}
+            onClick={()=>{props.squareClicked(props.ind)}}>
             <img style={pieceStyle} src={renderSwitch(allPositions[props.ind])} alt={allPositions[props.ind]} />
         </div>
     )
