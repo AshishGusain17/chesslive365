@@ -13,15 +13,15 @@ import wb from '../assets/pieces/wb.jpg';
 import wk from '../assets/pieces/wk.jpg';
 import wq from '../assets/pieces/wq.jpg';
 import wp from '../assets/pieces/wp.jpg';
-
-import NoteContext from '../context/notes/NoteContext';
+ 
+import PositionContext from '../context/position/PositionContext';
 import styles from '../css/squares.module.css';
 
 export default function Home(props) {
     const pieceStyle = { maxHeight: '100%', maxWidth: '100%', };
 
-    const context = useContext(NoteContext);
-    const { allPositions } = context;
+    const context = useContext(PositionContext);
+    const { allPositions,  glowSqs, updateGlowSqs} = context;
 
     console.log(1, allPositions[1]);
 
@@ -59,10 +59,10 @@ export default function Home(props) {
 
             <div className="flex-container1">
                 <div className={`flex-container2 ${styles.wrappper}`}>
-                    <div className={'1'==='2'?`${styles.maindiv} ${styles.maindiv2}  ${styles.eachDiv}`:styles.eachDiv} >
+                    <div className={glowSqs[1]?`${styles.maindiv} ${styles.maindiv2}  ${styles.eachDiv}`:styles.eachDiv} >
                         <img style={pieceStyle} src={renderSwitch(allPositions[1])} alt={allPositions[1]} />
                     </div>
-                    <div className="eachDiv">
+                    <div className={glowSqs[2]?`${styles.maindiv} ${styles.maindiv2}  ${styles.eachDiv}`:styles.eachDiv} >
                         <img style={pieceStyle} src={renderSwitch(allPositions[2])} alt={allPositions[2]} />
                     </div>
                     <div className="eachDiv">

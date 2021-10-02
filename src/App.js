@@ -5,7 +5,7 @@ import Home from "./components/Home";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import About from "./components/About";
-import NoteState from './context/notes/NoteState';
+import PositionState from './context/position/PositionState'
 import Alert from "./components/Alert";
 
 
@@ -21,7 +21,7 @@ export default function App() {
 
   return (
     <>
-      <NoteState>
+      <PositionState>
         <Router>
 
           <Alert alertObj={alertObj} />
@@ -34,7 +34,7 @@ export default function App() {
             </Route>
           </Switch>
         </Router>
-      </NoteState>
+      </PositionState>
     </>
   );
 }
