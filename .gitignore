@@ -1,5 +1,5 @@
 node_modules
-db.sqlite3
+backend
 Credentials_Save.py
 Credentials_Save.json
 build
