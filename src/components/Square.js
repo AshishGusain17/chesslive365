@@ -3,13 +3,13 @@ import PositionContext from '../context/position/PositionContext';
 import styles from '../css/squares.module.css'
 
 import br from '../assets/pieces/br.jpg';
-import bg from '../assets/pieces/bg.jpg';
+import bn from '../assets/pieces/bn.jpg';
 import bb from '../assets/pieces/bb.jpg';
 import bk from '../assets/pieces/bk.jpg';
 import bq from '../assets/pieces/bq.jpg';
 import bp from '../assets/pieces/bp.jpg';
 import wr from '../assets/pieces/wr.jpg';
-import wg from '../assets/pieces/wg.jpg';
+import wn from '../assets/pieces/wn.jpg';
 import wb from '../assets/pieces/wb.jpg';
 import wk from '../assets/pieces/wk.jpg';
 import wq from '../assets/pieces/wq.jpg';
@@ -25,13 +25,13 @@ export const Square = (props) => {
     const renderSwitch = (param) => {
         switch (param) {
             case 'br': return br;
-            case 'bg': return bg;
+            case 'bn': return bn;
             case 'bb': return bb;
             case 'bk': return bk;
             case 'bq': return bq;
             case 'bp': return bp;
             case 'wr': return wr;
-            case 'wg': return wg;
+            case 'wn': return wn;
             case 'wb': return wb;
             case 'wk': return wk;
             case 'wq': return wq;
