@@ -1,4 +1,14 @@
 
+/* square id for all boxes, remove when done */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color:rgb(9, 247, 1);
+}
+
+
   .wrapper {
     /* height: 100vh; */
     /* display: -webkit-box;

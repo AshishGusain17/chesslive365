@@ -208,6 +208,100 @@ export default function Home(props) {
 
 
 
+
+
+
+
+
+    // find all possible moves for white bishop 
+    const findSqs_4_WBishop = (square_id) => {
+        // possibleMoves has all possible squares where white bishop can move to
+        let possibleMoves = [];
+
+
+        console.log(possibleMoves)
+        let val = square_id;
+        for (let ind = 0; ind <= 9; ind++) {
+            if (val % 8 === 0) {
+                break;
+            }
+            else {
+                val = val -7;
+                if (val <=0){
+                    break;
+                }
+                else{
+                    possibleMoves.push(val);
+
+                }
+            }
+        }
+        console.log(possibleMoves)
+        val = square_id;
+        for (let ind = 0; ind <= 9; ind++) {
+            if (val % 8 === 1) {
+                break;
+            }
+            else {
+                val = val -9;
+                if (val <=0){
+                    break;
+                }
+                else{
+                    possibleMoves.push(val);
+
+                }
+            }
+        }
+        console.log(possibleMoves)
+
+        val = square_id;
+        for (let ind = 0; ind <= 9; ind++) {
+            if (val % 8 === 1) {
+                break;
+            }
+            else {
+                val = val +7;
+                if (val >64){
+                    break;
+                }
+                else{
+                    possibleMoves.push(val);
+
+                }
+            }
+        }
+
+        console.log(possibleMoves)
+        val = square_id;
+        for (let ind = 0; ind <= 9; ind++) {
+            if (val % 8 === 0) {
+                break;
+            }
+            else {
+                val = val +9;
+                if (val >64){
+                    break;
+                }
+                else{
+                    possibleMoves.push(val);
+
+                }
+            }
+        }
+
+        console.log(possibleMoves);
+
+
+
+
+        glowSquares(possibleMoves);
+    }
+
+
+
+
+
     const squareClicked = (square_id) => {
         // user wants to make a move as he selects a square that was glowing
         if (glowSqs[square_id] === 1) {
@@ -253,6 +347,11 @@ export default function Home(props) {
                     findSqs_4_WPawn(square_id);
                 }
 
+                piece = 'wb';
+                if (allPositions[square_id] === piece) {
+                    updatePieceClicked({ sq: square_id, piece: piece });
+                    findSqs_4_WBishop(square_id);
+                }
             }
             else {
                 // code if the piece is pawn
@@ -260,6 +359,12 @@ export default function Home(props) {
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     findSqs_4_BPawn(square_id);
+                }
+
+                piece = 'bb';
+                if (allPositions[square_id] === piece) {
+                    updatePieceClicked({ sq: square_id, piece: piece });
+                    findSqs_4_WBishop(square_id);
                 }
             }
 

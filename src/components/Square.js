@@ -44,6 +44,7 @@ export const Square = (props) => {
         <div className={glowSqs[props.ind] ? `${styles.maindiv} ${styles.maindiv2}  ${styles.eachDiv}` : styles.eachDiv}
             onClick={()=>{props.squareClicked(props.ind)}}>
             <img style={pieceStyle} src={renderSwitch(allPositions[props.ind])} alt={allPositions[props.ind]} />
+            <div className={styles.centered}>{props.ind}</div>
         </div>
     )
 }
