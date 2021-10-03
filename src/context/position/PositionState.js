@@ -32,9 +32,12 @@ const PositionState = (props) => {
 
     const [turn, updateTurn] = useState(1);
 
-    const [pieceClicked, updatePieceClicked] = useState({ num: 0, piece: "" });
+    const [pieceClicked, updatePieceClicked] = useState({ sq: 0, piece: "" });
+
+    const [enpassant, updateEnpassant] = useState({ active: 0, sq: -1 })
 
     const [currPGN, updatePGN] = useState("");
+
 
 
     return (
@@ -43,6 +46,7 @@ const PositionState = (props) => {
             initGlowSqs, glowSqs, updateGlowSqs,
             turn, updateTurn,
             pieceClicked, updatePieceClicked,
+            enpassant, updateEnpassant,
             currPGN, updatePGN
         }}>
             {props.children}

@@ -10,6 +10,7 @@ export default function Home(props) {
         initGlowSqs, glowSqs, updateGlowSqs,
         turn, updateTurn,
         pieceClicked, updatePieceClicked,
+        enpassant, updateEnpassant,
     } = context;
 
 
@@ -39,139 +40,170 @@ export default function Home(props) {
     }
 
 
-    const findPawnSquares = async (square_id, turn) => {
-        // possibleMoves has all possible squares where a pawn can move to
+    // find all possible moves for white pawn 
+    const findSqs_4_WPawn = (square_id) => {
+        // possibleMoves has all possible squares where white pawn can move to
         let possibleMoves = [];
 
-        //for white pawn
-        if (turn === 1) {
-            if (square_id >= 49) {
-                possibleMoves.push(square_id - 8);
-                possibleMoves.push(square_id - 16);
-            }
-            else {
-                possibleMoves.push(square_id - 8);
-            }
+        if (square_id >= 49) {
+            possibleMoves.push(square_id - 8);
+            possibleMoves.push(square_id - 16);
+        }
+        else {
+            possibleMoves.push(square_id - 8);
+        }
 
-            let opponentColor = 'b';
-            let ourColor = 'w';
-            if (square_id % 8 === 1) {
-                possibleMoves.push(square_id - 7);
-            }
-            else if (square_id % 8 === 0) {
-                possibleMoves.push(square_id - 9);
-            }
-            else {
-                possibleMoves.push(square_id - 9);
-                possibleMoves.push(square_id - 7);
-            }
+        let opponentColor = 'b';
+        let ourColor = 'w';
+        if (square_id % 8 === 1) {
+            possibleMoves.push(square_id - 7);
+        }
+        else if (square_id % 8 === 0) {
+            possibleMoves.push(square_id - 9);
+        }
+        else {
+            possibleMoves.push(square_id - 9);
+            possibleMoves.push(square_id - 7);
+        }
 
-            let sqToRemove = new Set();
-            for (let ind = 0; ind < possibleMoves.length; ind++) {
-                let sq = possibleMoves[ind];
 
-                // possible move is out of the box
-                if (sq < 1) {
-                    sqToRemove.add(sq)
-                }
-                // possible move is to take a piece in north-east direction(that square should have opponent piece)
-                else if (Math.abs(sq - square_id) === 7) {
-                    if (allPositions[sq] === "" || allPositions[sq][0] === ourColor) {
-                        sqToRemove.add(sq);
-                    }
-                }
-                // possible move is to take a piece in north-west direction(that square should have opponent piece)
-                else if (Math.abs(sq - square_id) === 9) {
-                    if (allPositions[sq] === "" || allPositions[sq][0] === ourColor) {
-                        sqToRemove.add(sq);
-                    }
-                }
-                // possible move is only if north direction square is empty for 1 step(that square should be empty)
-                else if (Math.abs(sq - square_id) === 8) {
-                    if (allPositions[sq][0] === opponentColor || allPositions[sq][0] === ourColor) {
-                        sqToRemove.add(sq);
-                    }
-                }
-                // possible move is only if north direction squares are empty for 2 steps(those 2 squares should be empty)
-                else if (Math.abs(sq - square_id) === 16) {
-                    if (allPositions[sq][0] === opponentColor || allPositions[sq][0] === ourColor
-                        || allPositions[sq + 8][0] === opponentColor || allPositions[sq + 8][0] === ourColor) {
-                        sqToRemove.add(sq);
-                    }
+
+        let sqToRemove = new Set();
+        for (let ind = 0; ind < possibleMoves.length; ind++) {
+            let sq = possibleMoves[ind];
+
+            // possible move is out of the box
+            if (sq < 1) {
+                sqToRemove.add(sq)
+            }
+            // possible move is to take a piece in north-east direction(that square should have opponent piece)
+            else if (Math.abs(sq - square_id) === 7) {
+                if (allPositions[sq] === "" || allPositions[sq][0] === ourColor) {
+                    sqToRemove.add(sq);
                 }
             }
-
-            for (let val of sqToRemove) {
-                possibleMoves.splice(possibleMoves.indexOf(val), 1);
+            // possible move is to take a piece in north-west direction(that square should have opponent piece)
+            else if (Math.abs(sq - square_id) === 9) {
+                if (allPositions[sq] === "" || allPositions[sq][0] === ourColor) {
+                    sqToRemove.add(sq);
+                }
+            }
+            // possible move is only if north direction square is empty for 1 step(that square should be empty)
+            else if (Math.abs(sq - square_id) === 8) {
+                if (allPositions[sq][0] === opponentColor || allPositions[sq][0] === ourColor) {
+                    sqToRemove.add(sq);
+                }
+            }
+            // possible move is only if north direction squares are empty for 2 steps(those 2 squares should be empty)
+            else if (Math.abs(sq - square_id) === 16) {
+                if (allPositions[sq][0] === opponentColor || allPositions[sq][0] === ourColor
+                    || allPositions[sq + 8][0] === opponentColor || allPositions[sq + 8][0] === ourColor) {
+                    sqToRemove.add(sq);
+                }
             }
         }
-        // for black pawn
-        else {
-            if (square_id <= 16) {
-                possibleMoves.push(square_id + 8);
-                possibleMoves.push(square_id + 16);
-            }
-            else {
-                possibleMoves.push(square_id + 8);
-            }
 
-            let opponentColor = 'w';
-            let ourColor = 'b';
-            if (square_id % 8 === 1) {
-                possibleMoves.push(square_id + 9);
-            }
-            else if (square_id % 8 === 0) {
-                possibleMoves.push(square_id + 7);
-            }
-            else {
-                possibleMoves.push(square_id + 9);
-                possibleMoves.push(square_id + 7);
-            }
+        for (let val of sqToRemove) {
+            possibleMoves.splice(possibleMoves.indexOf(val), 1);
+        }
 
-            let sqToRemove = new Set();
-            for (let ind = 0; ind < possibleMoves.length; ind++) {
-                let sq = possibleMoves[ind];
-                // possible move is out of the box
-                if (sq > 64) {
-                    sqToRemove.add(sq)
-                }
-                // possible move is to take a piece in south-east direction(that square should have opponent piece)
-                else if (Math.abs(sq - square_id) === 9) {
-                    if (allPositions[sq] === "" || allPositions[sq][0] === ourColor) {
-                        sqToRemove.add(sq);
-                    }
-                }
-                // possible move is to take a piece in south-west direction(that square should have opponent piece)
-                else if (Math.abs(sq - square_id) === 7) {
-                    if (allPositions[sq] === "" || allPositions[sq][0] === ourColor) {
-                        sqToRemove.add(sq);
-                    }
-                }
-                // possible move is only if north direction square is empty for 1 step(that square should be empty)
-                else if (Math.abs(sq - square_id) === 8) {
-                    if (allPositions[sq][0] === opponentColor || allPositions[sq][0] === ourColor) {
-                        sqToRemove.add(sq);
-                    }
-                }
-                // possible move is only if north direction squares are empty for 2 steps(those 2 squares should be empty)
-                else if (Math.abs(sq - square_id) === 16) {
-                    if (allPositions[sq][0] === opponentColor || allPositions[sq][0] === ourColor
-                        || allPositions[sq - 8][0] === opponentColor || allPositions[sq - 8][0] === ourColor) {
-                        sqToRemove.add(sq);
-                    }
-                }
-            }
 
-            for (let val of sqToRemove) {
-                possibleMoves.splice(possibleMoves.indexOf(val), 1);
+        // enpassant check 
+        if (enpassant.active === 1) {
+            if (enpassant.sq === 25 && square_id === 26) {
+                possibleMoves.push(enpassant.sq - 8);
+            }
+            else if (26 <= enpassant.sq <= 31 && Math.abs(square_id - enpassant.sq) === 1) {
+                possibleMoves.push(enpassant.sq - 8);
+            }
+            else if (enpassant.sq === 32 && square_id === 31) {
+                possibleMoves.push(enpassant.sq - 8);
             }
         }
 
         glowSquares(possibleMoves);
-
-        // enpasssant logic left
-        // king check is still left(checkKingSafety function to implement)
     }
+
+
+    // find all possible squares where black pawn can move 
+    const findSqs_4_BPawn = (square_id) => {
+        // possibleMoves has all possible squares where black pawn can move to
+        let possibleMoves = [];
+
+        if (square_id <= 16) {
+            possibleMoves.push(square_id + 8);
+            possibleMoves.push(square_id + 16);
+        }
+        else {
+            possibleMoves.push(square_id + 8);
+        }
+
+        let opponentColor = 'w';
+        let ourColor = 'b';
+        if (square_id % 8 === 1) {
+            possibleMoves.push(square_id + 9);
+        }
+        else if (square_id % 8 === 0) {
+            possibleMoves.push(square_id + 7);
+        }
+        else {
+            possibleMoves.push(square_id + 9);
+            possibleMoves.push(square_id + 7);
+        }
+
+        let sqToRemove = new Set();
+        for (let ind = 0; ind < possibleMoves.length; ind++) {
+            let sq = possibleMoves[ind];
+            // possible move is out of the box
+            if (sq > 64) {
+                sqToRemove.add(sq)
+            }
+            // possible move is to take a piece in south-east direction(that square should have opponent piece)
+            else if (Math.abs(sq - square_id) === 9) {
+                if (allPositions[sq] === "" || allPositions[sq][0] === ourColor) {
+                    sqToRemove.add(sq);
+                }
+            }
+            // possible move is to take a piece in south-west direction(that square should have opponent piece)
+            else if (Math.abs(sq - square_id) === 7) {
+                if (allPositions[sq] === "" || allPositions[sq][0] === ourColor) {
+                    sqToRemove.add(sq);
+                }
+            }
+            // possible move is only if north direction square is empty for 1 step(that square should be empty)
+            else if (Math.abs(sq - square_id) === 8) {
+                if (allPositions[sq][0] === opponentColor || allPositions[sq][0] === ourColor) {
+                    sqToRemove.add(sq);
+                }
+            }
+            // possible move is only if north direction squares are empty for 2 steps(those 2 squares should be empty)
+            else if (Math.abs(sq - square_id) === 16) {
+                if (allPositions[sq][0] === opponentColor || allPositions[sq][0] === ourColor
+                    || allPositions[sq - 8][0] === opponentColor || allPositions[sq - 8][0] === ourColor) {
+                    sqToRemove.add(sq);
+                }
+            }
+        }
+
+        for (let val of sqToRemove) {
+            possibleMoves.splice(possibleMoves.indexOf(val), 1);
+        }
+
+        // enpassant check 
+        if (enpassant.active === 1) {
+            if (enpassant.sq === 33 && square_id === 34) {
+                possibleMoves.push(enpassant.sq + 8);
+            }
+            else if (34 <= enpassant.sq <= 39 && Math.abs(square_id - enpassant.sq) === 1) {
+                possibleMoves.push(enpassant.sq + 8);
+            }
+            else if (enpassant.sq === 32 && square_id === 31) {
+                possibleMoves.push(enpassant.sq + 8);
+            }
+        }
+        glowSquares(possibleMoves);
+    }
+
 
 
 
@@ -179,9 +211,26 @@ export default function Home(props) {
     const squareClicked = (square_id) => {
         // user wants to make a move as he selects a square that was glowing
         if (glowSqs[square_id] === 1) {
-            // 
             let allPositionsCopy = { ...allPositions };
-            allPositionsCopy[pieceClicked.num] = "";
+
+            // checking enpassant to be active or not
+            if (Math.abs(pieceClicked.sq - square_id) === 16 && pieceClicked.piece[1] === "p") {
+                updateEnpassant({ active: 1, sq: square_id });
+            }
+            else {
+                updateEnpassant({ active: 0, sq: -1 });
+            }
+            // if it's a pawn and moving diagonally and in a empty square, than enpassant has happened
+            if (pieceClicked.piece[1] === "p" && Math.abs(pieceClicked.sq - square_id) !== 8 && allPositionsCopy[square_id] === "") {
+                if (turn === 1) {
+                    allPositionsCopy[square_id + 8] = "";
+                }
+                else {
+                    allPositionsCopy[square_id - 8] = "";
+                }
+
+            }
+            allPositionsCopy[pieceClicked.sq] = "";
             allPositionsCopy[square_id] = pieceClicked.piece;
             updatePosition(allPositionsCopy);
             updateGlowSqs(initGlowSqs);
@@ -200,8 +249,8 @@ export default function Home(props) {
                 // code if the piece is pawn
                 let piece = 'wp';
                 if (allPositions[square_id] === piece) {
-                    updatePieceClicked({ num: square_id, piece: piece });
-                    findPawnSquares(square_id, turn);
+                    updatePieceClicked({ sq: square_id, piece: piece });
+                    findSqs_4_WPawn(square_id);
                 }
 
             }
@@ -209,8 +258,8 @@ export default function Home(props) {
                 // code if the piece is pawn
                 let piece = 'bp';
                 if (allPositions[square_id] === piece) {
-                    updatePieceClicked({ num: square_id, piece: piece });
-                    findPawnSquares(square_id, turn);
+                    updatePieceClicked({ sq: square_id, piece: piece });
+                    findSqs_4_BPawn(square_id);
                 }
             }
 
