@@ -113,7 +113,7 @@ export default function Home(props) {
             if (enpassant.sq === 25 && square_id === 26) {
                 possibleMoves.push(enpassant.sq - 8);
             }
-            else if (26 <= enpassant.sq <= 31 && Math.abs(square_id - enpassant.sq) === 1) {
+            else if (26 <= enpassant.sq && enpassant.sq <= 31 && Math.abs(square_id - enpassant.sq) === 1) {
                 possibleMoves.push(enpassant.sq - 8);
             }
             else if (enpassant.sq === 32 && square_id === 31) {
@@ -194,7 +194,7 @@ export default function Home(props) {
             if (enpassant.sq === 33 && square_id === 34) {
                 possibleMoves.push(enpassant.sq + 8);
             }
-            else if (34 <= enpassant.sq <= 39 && Math.abs(square_id - enpassant.sq) === 1) {
+            else if (34 <= enpassant.sq && enpassant.sq <= 39 && Math.abs(square_id - enpassant.sq) === 1) {
                 possibleMoves.push(enpassant.sq + 8);
             }
             else if (enpassant.sq === 32 && square_id === 31) {
@@ -215,14 +215,14 @@ export default function Home(props) {
 
     // find all possible moves for bishops 
     const findSqs_4_Bishop = (square_id, turn) => {
-        let opponentColor = "";
+        // let opponentColor = "";
         let ourColor = "";
         if (turn === 1) {
-            opponentColor = "b";
+            // opponentColor = "b";
             ourColor = "w";
         }
         else {
-            opponentColor = "w";
+            // opponentColor = "w";
             ourColor = "b";
         }
 
@@ -338,14 +338,14 @@ export default function Home(props) {
     //find all possible moves for knight
     const findSqs_4_Knight = (square_id, turn) => {
         let opponentColor = "";
-        let ourColor = "";
+        // let ourColor = "";
         if (turn === 1) {
             opponentColor = "b";
-            ourColor = "w";
+            // ourColor = "w";
         }
         else {
             opponentColor = "w";
-            ourColor = "b";
+            // ourColor = "b";
         }
 
         // possibleMoves has all possible squares where knight can move to
@@ -421,15 +421,119 @@ export default function Home(props) {
 
         let possibleMovesCopy = [...possibleMoves];
         possibleMoves = [];
-        for(let ind=0;ind<possibleMovesCopy.length;ind++){
-            let val =  possibleMovesCopy[ind]
-            if(allPositions[val]!==""){
-                if(allPositions[val][0]===opponentColor){
+        for (let ind = 0; ind < possibleMovesCopy.length; ind++) {
+            let val = possibleMovesCopy[ind]
+            if (allPositions[val] !== "") {
+                if (allPositions[val][0] === opponentColor) {
                     possibleMoves.push(val);
                 }
             }
-            else{
+            else {
                 possibleMoves.push(val);
+            }
+        }
+        glowSquares(possibleMoves);
+    }
+
+
+
+    //find all possible moves for rook
+    const findSqs_4_Rook = (square_id, turn) => {
+        let opponentColor = "";
+        if (turn === 1) {
+            opponentColor = "b";
+        }
+        else {
+            opponentColor = "w";
+        }
+
+        // possibleMoves has all possible squares where rook can move to
+        let possibleMoves = [];
+        let val = square_id;
+        for(let ind=0;ind<=9;ind++){
+            if(val>=57 && val<=64){
+                break;
+            }
+            else{
+                val = val+8;
+                if(allPositions[val]!==""){
+                    if(allPositions[val][0] === opponentColor){
+                        possibleMoves.push(val);
+                        break;
+                    }
+                    else{
+                        break;
+                    }
+                }
+                else{
+                    possibleMoves.push(val);
+                }   
+            }
+        }
+
+        val = square_id;
+        for(let ind=0;ind<=9;ind++){
+            if(val>=1 && val<=8){
+                break;
+            }
+            else{
+                val = val-8;
+                if(allPositions[val]!==""){
+                    if(allPositions[val][0] === opponentColor){
+                        possibleMoves.push(val);
+                        break;
+                    }
+                    else{
+                        break;
+                    }
+                }
+                else{
+                    possibleMoves.push(val);
+                }
+            }
+        }
+
+        val = square_id;
+        for(let ind=0;ind<=9;ind++){
+            if(val%8===0){
+                break;
+            }
+            else{
+                val = val+1;
+                if(allPositions[val]!==""){
+                    if(allPositions[val][0] === opponentColor){
+                        possibleMoves.push(val);
+                        break;
+                    }
+                    else{
+                        break;
+                    }
+                }
+                else{
+                    possibleMoves.push(val);
+                }
+            }
+        }
+
+        val = square_id;
+        for(let ind=0;ind<=9;ind++){
+            if(val%8===1){
+                break;
+            }
+            else{
+                val = val-1;
+                if(allPositions[val]!==""){
+                    if(allPositions[val][0] === opponentColor){
+                        possibleMoves.push(val);
+                        break;
+                    }
+                    else{
+                        break;
+                    }
+                }
+                else{
+                    possibleMoves.push(val);
+                }
             }
         }
         glowSquares(possibleMoves);
@@ -497,6 +601,13 @@ export default function Home(props) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     findSqs_4_Knight(square_id, turn);
                 }
+
+                // code if the piece is white rook
+                piece = 'wr';
+                if (allPositions[square_id] === piece) {
+                    updatePieceClicked({ sq: square_id, piece: piece });
+                    findSqs_4_Rook(square_id, turn);
+                }
             }
             else {
                 // code if the piece is black pawn
@@ -518,6 +629,12 @@ export default function Home(props) {
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     findSqs_4_Knight(square_id, turn);
+                }
+                // code if the piece is black rook
+                piece = 'br';
+                if (allPositions[square_id] === piece) {
+                    updatePieceClicked({ sq: square_id, piece: piece });
+                    findSqs_4_Rook(square_id, turn);
                 }
             }
 
