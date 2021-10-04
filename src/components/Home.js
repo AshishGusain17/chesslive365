@@ -213,47 +213,45 @@ export default function Home(props) {
 
 
 
-    // find all possible moves for white bishop 
-    const findSqs_4_WBishop = (square_id) => {
+    // find all possible moves for bishops 
+    const findSqs_4_Bishop = (square_id, turn) => {
+        let opponentColor = "";
+        let ourColor = "";
+        if (turn===1){
+            opponentColor = "b";
+            ourColor = "w";
+        }
+        else{
+            opponentColor = "w";
+            ourColor = "b";  
+        }
+
         // possibleMoves has all possible squares where white bishop can move to
         let possibleMoves = [];
-
-
-        console.log(possibleMoves)
         let val = square_id;
         for (let ind = 0; ind <= 9; ind++) {
             if (val % 8 === 0) {
                 break;
             }
             else {
-                val = val -7;
-                if (val <=0){
+                val = val - 7;
+                if (val <= 0) {
                     break;
                 }
-                else{
+                else {
+                    if (allPositions[val] !== "") {
+                        if(allPositions[val][0] === ourColor){
+                            break;
+                        }
+                        else{
+                            possibleMoves.push(val);
+                            break;
+                        }
+                    }
                     possibleMoves.push(val);
-
                 }
             }
         }
-        console.log(possibleMoves)
-        val = square_id;
-        for (let ind = 0; ind <= 9; ind++) {
-            if (val % 8 === 1) {
-                break;
-            }
-            else {
-                val = val -9;
-                if (val <=0){
-                    break;
-                }
-                else{
-                    possibleMoves.push(val);
-
-                }
-            }
-        }
-        console.log(possibleMoves)
 
         val = square_id;
         for (let ind = 0; ind <= 9; ind++) {
@@ -261,40 +259,74 @@ export default function Home(props) {
                 break;
             }
             else {
-                val = val +7;
-                if (val >64){
+                val = val - 9;
+                if (val <= 0) {
                     break;
                 }
-                else{
+                else {
+                    if (allPositions[val] !== "") {
+                        if(allPositions[val][0] === ourColor){
+                            break;
+                        }
+                        else{
+                            possibleMoves.push(val);
+                            break;
+                        }
+                    }
                     possibleMoves.push(val);
-
                 }
             }
         }
 
-        console.log(possibleMoves)
+        val = square_id;
+        for (let ind = 0; ind <= 9; ind++) {
+            if (val % 8 === 1) {
+                break;
+            }
+            else {
+                val = val + 7;
+                if (val > 64) {
+                    break;
+                }
+                else {
+                    if (allPositions[val] !== "") {
+                        if(allPositions[val][0] === ourColor){
+                            break;
+                        }
+                        else{
+                            possibleMoves.push(val);
+                            break;
+                        }
+                    }
+                    possibleMoves.push(val);
+                }
+            }
+        }
+
         val = square_id;
         for (let ind = 0; ind <= 9; ind++) {
             if (val % 8 === 0) {
                 break;
             }
             else {
-                val = val +9;
-                if (val >64){
+                val = val + 9;
+                if (val > 64) {
                     break;
                 }
-                else{
+                else {
+                    if (allPositions[val] !== "") {
+                        if(allPositions[val][0] === ourColor){
+                            break;
+                        }
+                        else{
+                            possibleMoves.push(val);
+                            break;
+                        }
+                    }
                     possibleMoves.push(val);
-
                 }
             }
         }
-
-        console.log(possibleMoves);
-
-
-
-
         glowSquares(possibleMoves);
     }
 
@@ -340,31 +372,34 @@ export default function Home(props) {
         else {
             // code for white's turn
             if (turn === 1) {
-                // code if the piece is pawn
+                // code if the piece is white pawn
                 let piece = 'wp';
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     findSqs_4_WPawn(square_id);
                 }
 
+                // code if the piece is white bishop
                 piece = 'wb';
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
-                    findSqs_4_WBishop(square_id);
+                    findSqs_4_Bishop(square_id, turn);
                 }
+                
             }
             else {
-                // code if the piece is pawn
+                // code if the piece is black pawn
                 let piece = 'bp';
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     findSqs_4_BPawn(square_id);
                 }
 
+                // code if the piece is black bishop
                 piece = 'bb';
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
-                    findSqs_4_WBishop(square_id);
+                    findSqs_4_Bishop(square_id, turn);
                 }
             }
 
