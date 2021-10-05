@@ -31,12 +31,21 @@ export default function Home(props) {
     //     return currPosition;
     // }
 
-    const glowSquares = (possibleMoves) => {
-        const copyGlowSqs = { ...initGlowSqs };
-        for (let ind = 0; ind < possibleMoves.length; ind++) {
-            copyGlowSqs[possibleMoves[ind]] = 1;
+    const glowSquares = (possibleMoves, glow) => {
+        if (glow){
+            let copyGlow = { ...glow };
+            for (let ind = 0; ind < possibleMoves.length; ind++) {
+                copyGlow[possibleMoves[ind]] = 1;
+            }
+            return copyGlow;
         }
-        updateGlowSqs(copyGlowSqs);
+        else{
+            const copyGlowSqs = { ...initGlowSqs };
+            for (let ind = 0; ind < possibleMoves.length; ind++) {
+                copyGlowSqs[possibleMoves[ind]] = 1;
+            }
+            updateGlowSqs(copyGlowSqs);
+        }
     }
 
 
@@ -214,7 +223,7 @@ export default function Home(props) {
 
 
     // find all possible moves for bishops 
-    const findSqs_4_Bishop = (square_id, turn) => {
+    const findSqs_4_Bishop = (square_id, turn, glow_2) => {
         // let opponentColor = "";
         let ourColor = "";
         if (turn === 1) {
@@ -327,7 +336,7 @@ export default function Home(props) {
                 }
             }
         }
-        glowSquares(possibleMoves);
+        return glowSquares(possibleMoves, glow_2);
     }
 
 
@@ -438,7 +447,7 @@ export default function Home(props) {
 
 
     //find all possible moves for rook
-    const findSqs_4_Rook = (square_id, turn) => {
+    const findSqs_4_Rook = (square_id, turn, glow_1) => {
         let opponentColor = "";
         if (turn === 1) {
             opponentColor = "b";
@@ -450,93 +459,93 @@ export default function Home(props) {
         // possibleMoves has all possible squares where rook can move to
         let possibleMoves = [];
         let val = square_id;
-        for(let ind=0;ind<=9;ind++){
-            if(val>=57 && val<=64){
+        for (let ind = 0; ind <= 9; ind++) {
+            if (val >= 57 && val <= 64) {
                 break;
             }
-            else{
-                val = val+8;
-                if(allPositions[val]!==""){
-                    if(allPositions[val][0] === opponentColor){
+            else {
+                val = val + 8;
+                if (allPositions[val] !== "") {
+                    if (allPositions[val][0] === opponentColor) {
                         possibleMoves.push(val);
                         break;
                     }
-                    else{
+                    else {
                         break;
                     }
                 }
-                else{
-                    possibleMoves.push(val);
-                }   
-            }
-        }
-
-        val = square_id;
-        for(let ind=0;ind<=9;ind++){
-            if(val>=1 && val<=8){
-                break;
-            }
-            else{
-                val = val-8;
-                if(allPositions[val]!==""){
-                    if(allPositions[val][0] === opponentColor){
-                        possibleMoves.push(val);
-                        break;
-                    }
-                    else{
-                        break;
-                    }
-                }
-                else{
+                else {
                     possibleMoves.push(val);
                 }
             }
         }
 
         val = square_id;
-        for(let ind=0;ind<=9;ind++){
-            if(val%8===0){
+        for (let ind = 0; ind <= 9; ind++) {
+            if (val >= 1 && val <= 8) {
                 break;
             }
-            else{
-                val = val+1;
-                if(allPositions[val]!==""){
-                    if(allPositions[val][0] === opponentColor){
+            else {
+                val = val - 8;
+                if (allPositions[val] !== "") {
+                    if (allPositions[val][0] === opponentColor) {
                         possibleMoves.push(val);
                         break;
                     }
-                    else{
+                    else {
                         break;
                     }
                 }
-                else{
+                else {
                     possibleMoves.push(val);
                 }
             }
         }
 
         val = square_id;
-        for(let ind=0;ind<=9;ind++){
-            if(val%8===1){
+        for (let ind = 0; ind <= 9; ind++) {
+            if (val % 8 === 0) {
                 break;
             }
-            else{
-                val = val-1;
-                if(allPositions[val]!==""){
-                    if(allPositions[val][0] === opponentColor){
+            else {
+                val = val + 1;
+                if (allPositions[val] !== "") {
+                    if (allPositions[val][0] === opponentColor) {
                         possibleMoves.push(val);
                         break;
                     }
-                    else{
+                    else {
                         break;
                     }
                 }
-                else{
+                else {
                     possibleMoves.push(val);
                 }
             }
         }
-        glowSquares(possibleMoves);
+
+        val = square_id;
+        for (let ind = 0; ind <= 9; ind++) {
+            if (val % 8 === 1) {
+                break;
+            }
+            else {
+                val = val - 1;
+                if (allPositions[val] !== "") {
+                    if (allPositions[val][0] === opponentColor) {
+                        possibleMoves.push(val);
+                        break;
+                    }
+                    else {
+                        break;
+                    }
+                }
+                else {
+                    possibleMoves.push(val);
+                }
+            }
+        }
+        return glowSquares(possibleMoves, glow_1);
     }
 
 
@@ -608,6 +617,15 @@ export default function Home(props) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     findSqs_4_Rook(square_id, turn);
                 }
+                // code if the piece is white queen
+                piece = 'wq';
+                if (allPositions[square_id] === piece) {
+                    updatePieceClicked({ sq: square_id, piece: piece });
+                    let glow_1 = initGlowSqs;
+                    let glow_2 = findSqs_4_Rook(square_id, turn, glow_1);
+                    let glow = findSqs_4_Bishop(square_id, turn, glow_2);
+                    updateGlowSqs(glow);
+                }
             }
             else {
                 // code if the piece is black pawn
@@ -635,6 +653,16 @@ export default function Home(props) {
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     findSqs_4_Rook(square_id, turn);
+                }
+
+                // code if the piece is black queen
+                piece = 'bq';
+                if (allPositions[square_id] === piece) {
+                    updatePieceClicked({ sq: square_id, piece: piece });
+                    let glow_1 = initGlowSqs;
+                    let glow_2 = findSqs_4_Rook(square_id, turn, glow_1);
+                    let glow = findSqs_4_Bishop(square_id, turn, glow_2);
+                    updateGlowSqs(glow);
                 }
             }
 
