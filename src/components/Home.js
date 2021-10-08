@@ -141,7 +141,16 @@ export default function Home() {
 
             }
             allPositionsCopy[pieceClicked.sq] = "";
-            allPositionsCopy[square_id] = pieceClicked.piece;
+            if(pieceClicked.piece==='wp' && square_id<=8 && square_id>=1){
+                allPositionsCopy[square_id] = 'wq';
+            }
+            else if(pieceClicked.piece==='bp' && square_id<=64 && square_id>=57){
+                allPositionsCopy[square_id] = 'bq';
+            }
+            else{
+                allPositionsCopy[square_id] = pieceClicked.piece;
+            }
+            
             updatePosition(allPositionsCopy);
             updateGlowSqs(initGlowSqs);
 
