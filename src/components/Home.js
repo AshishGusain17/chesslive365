@@ -3,6 +3,8 @@ import React, { useContext } from 'react';
 import PositionContext from '../context/position/PositionContext';
 import styles from '../css/squares.module.css';
 import { Square } from './Square';
+// import {moves50Check} from '../utils/draw';
+import { castleCheck } from '../utils/castle';
 
 export default function Home(props) {
     const context = useContext(PositionContext);
@@ -32,6 +34,8 @@ export default function Home(props) {
     // }
 
     const glowSquares = (possibleMoves, glow) => {
+        // for queen(since it includes moves of bishop and rook) 
+        // 2 function one by one gets executed for moves of queen, so copyGlow has to be returned
         if (glow) {
             let copyGlow = { ...glow };
             for (let ind = 0; ind < possibleMoves.length; ind++) {
@@ -39,6 +43,7 @@ export default function Home(props) {
             }
             return copyGlow;
         }
+        // for all pieces other than queen
         else {
             const copyGlowSqs = { ...initGlowSqs };
             for (let ind = 0; ind < possibleMoves.length; ind++) {
@@ -47,6 +52,57 @@ export default function Home(props) {
             updateGlowSqs(copyGlowSqs);
         }
     }
+
+
+
+
+
+    // const checkKingSafety = (piece, square_id, possibleMoves) => {
+    //     console.log(piece, square_id, possibleMoves);
+    //     let possibleMovesCopy = [...possibleMoves];
+    //     possibleMoves = [];
+    //     for (let ind = 0; ind < possibleMovesCopy.length; ind++) {
+    //         let currMove = possibleMovesCopy[ind];
+    //         let allPositionsCopy = { ...allPositions };
+    //         let checkOrNot = false;
+
+    //         // if it's a pawn and moving diagonally and in a empty square, than enpassant has happened
+    //         if (piece[1] === "p" && Math.abs(currMove - square_id) !== 8 && allPositionsCopy[square_id] === "") {
+    //             if (turn === 1) {
+    //                 allPositionsCopy[square_id + 8] = "";
+    //             }
+    //             else {
+    //                 allPositionsCopy[square_id - 8] = "";
+    //             }
+    //         }
+    //         allPositionsCopy[square_id] = "";
+    //         allPositionsCopy[currMove] = piece;
+
+    //         // finding if in this particular position(allPositionsCopy), whether the king is in check or not
+    //         if (turn === 1) {
+    //             let revPos = reversePositionObject(allPositionsCopy);
+    //             let kingPos = revPos['wk'][0];
+    //             if(revPos['br'].length===2){
+    //                 let rook1Pos = revPos['br'][0];
+    //                 if((Math.abs(rook1Pos)-kingPos)%8===0){
+    //                     if(rook1Pos>kingPos){
+
+    //                     }
+    //                     else{
+
+    //                     }
+    //                 }
+    //                 let rook2Pos = revPos['br'][1];
+    //             }
+    //             else if(revPos['br'].length===1){
+    //                 let rook1Pos = revPos['br'][0];
+
+    //             }
+    //         }
+    //     }
+    // }
+
+
 
 
     // find all possible moves for white pawn 
@@ -133,6 +189,7 @@ export default function Home(props) {
         glowSquares(possibleMoves);
     }
 
+    
 
     // find all possible squares where black pawn can move 
     const findSqs_4_BPawn = (square_id) => {
@@ -614,6 +671,7 @@ export default function Home(props) {
                 possibleMoves.push(val);
             }
         }
+        castleCheck(allPositions, turn);
         glowSquares(possibleMoves)
     }
 
@@ -643,6 +701,10 @@ export default function Home(props) {
             allPositionsCopy[square_id] = pieceClicked.piece;
             updatePosition(allPositionsCopy);
             updateGlowSqs(initGlowSqs);
+
+            //checking whether 50 moves without pawn move or piece take has happened
+            // moves50Check(allPositionsCopy);
+
             if (turn === 1) {
                 updateTurn(0);
             }
