@@ -139,12 +139,18 @@ const castleCheck = (allPositions, turn) => {
             let kingPawnChecks = [50, 51, 52, 53, 54];
             queenSideCastleFlag = validCastle(allPositions, oppPawnPos, oppKingPos, checkPos, kingPawnChecks, emptySq, checkSq);
         }
+        else {
+            queenSideCastleFlag = 0;
+        }
         //king side castle
         if (allPositions[61] === 'wk' && allPositions[64] === 'wr') {
             let emptySq = [62, 63];
             let checkSq = [61, 62, 63];
             let kingPawnChecks = [52, 53, 54, 55, 56];
             kingSideCastleFlag = validCastle(allPositions, oppPawnPos, oppKingPos, checkPos, kingPawnChecks, emptySq, checkSq);
+        }
+        else {
+            kingSideCastleFlag = 0;
         }
     }
 
@@ -157,12 +163,18 @@ const castleCheck = (allPositions, turn) => {
             let kingPawnChecks = [10, 11, 12, 13, 14];
             queenSideCastleFlag = validCastle(allPositions, oppPawnPos, oppKingPos, checkPos, kingPawnChecks, emptySq, checkSq);
         }
+        else {
+            queenSideCastleFlag = 0;
+        }
         //king side castle
         if (allPositions[5] === 'bk' && allPositions[8] === 'br') {
             let emptySq = [6, 7];
             let checkSq = [5, 6, 7];
             let kingPawnChecks = [12, 13, 14, 15, 16];
             kingSideCastleFlag = validCastle(allPositions, oppPawnPos, oppKingPos, checkPos, kingPawnChecks, emptySq, checkSq);
+        }
+        else {
+            kingSideCastleFlag = 0;
         }
     }
 

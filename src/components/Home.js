@@ -140,19 +140,38 @@ export default function Home() {
                 }
 
             }
+
+            // castling logic implemented here
+            if (pieceClicked.piece === 'wk' && square_id === 59 && allPositions[61]==='wk' && allPositions['57']==='wr') {
+                allPositionsCopy[60] = 'wr';
+                allPositionsCopy[57] = '';
+            }
+            else if (pieceClicked.piece === 'wk' && square_id === 63 && allPositions[61]==='wk' && allPositions['64']==='wr') {
+                allPositionsCopy[62] = 'wr';
+                allPositionsCopy[64] = '';
+            }
+            else if (pieceClicked.piece === 'bk' && square_id === 3 && allPositions[5]==='bk' && allPositions['1']==='br') {
+                allPositionsCopy[4] = 'br';
+                allPositionsCopy[1] = '';
+            }
+            else if (pieceClicked.piece === 'bk' && square_id === 7 && allPositions[5]==='bk' && allPositions['8']==='br') {
+                allPositionsCopy[6] = 'br';
+                allPositionsCopy[8] = '';
+            }
+
             allPositionsCopy[pieceClicked.sq] = "";
             // promotion of pawn checked
             // as of now, all pawns are getting promoted to queen, promotion to other pieces logic to be implemented later
-            if(pieceClicked.piece==='wp' && square_id<=8 && square_id>=1){
+            if (pieceClicked.piece === 'wp' && square_id <= 8 && square_id >= 1) {
                 allPositionsCopy[square_id] = 'wq';
             }
-            else if(pieceClicked.piece==='bp' && square_id<=64 && square_id>=57){
+            else if (pieceClicked.piece === 'bp' && square_id <= 64 && square_id >= 57) {
                 allPositionsCopy[square_id] = 'bq';
             }
-            else{
+            else {
                 allPositionsCopy[square_id] = pieceClicked.piece;
             }
-            
+
             updatePosition(allPositionsCopy);
             updateGlowSqs(initGlowSqs);
 

@@ -61,11 +61,22 @@ const findSqs_4_King = (allPositions, square_id, turn) => {
         }
     }
 
-    let {queenSideCastleFlag, kingSideCastleFlag} = castleCheck(allPositions, turn);
-    // console.log('queen side: ',queenSideCastleFlag);
-    // console.log('king side: ', kingSideCastleFlag);
+    let { queenSideCastleFlag, kingSideCastleFlag } = castleCheck(allPositions, turn);
+    if (turn === 1 && queenSideCastleFlag === 1) {
+        possibleMoves.push(59);
+    }
+    if (turn === 1 && kingSideCastleFlag === 1) {
+        possibleMoves.push(63);
+    }
+    if (turn === 0 && queenSideCastleFlag === 1) {
+        possibleMoves.push(3);
+    }
+    if (turn === 0 && kingSideCastleFlag === 1) {
+        possibleMoves.push(7);
+    }
+
     return possibleMoves;
 }
 
 
-export { findSqs_4_King }; 
+export { findSqs_4_King };
