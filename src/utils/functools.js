@@ -3,7 +3,7 @@ const reversePositionObject = (pos) => {
     let revPos = { 'br': [], 'wr': [], 'bb': [], 'wb': [], 'bq': [], 'wq': [], 'bn': [], 'wn': [], 'bp': [], 'wp': [], 'bk': [], 'wk': [] };
     for (const [key, value] of Object.entries(pos)) {
         if (value !== "") {
-            revPos[value].push(key);
+            revPos[value].push(parseInt(key));
         }
     }
     return revPos;

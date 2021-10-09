@@ -60,9 +60,12 @@ const findSqs_4_King = (allPositions, square_id, turn) => {
             possibleMoves.push(val);
         }
     }
-    castleCheck(allPositions, turn);
+
+    let {queenSideCastleFlag, kingSideCastleFlag} = castleCheck(allPositions, turn);
+    // console.log('queen side: ',queenSideCastleFlag);
+    // console.log('king side: ', kingSideCastleFlag);
     return possibleMoves;
 }
 
 
-export { findSqs_4_King };
+export { findSqs_4_King }; 

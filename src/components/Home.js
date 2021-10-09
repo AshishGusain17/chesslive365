@@ -141,6 +141,8 @@ export default function Home() {
 
             }
             allPositionsCopy[pieceClicked.sq] = "";
+            // promotion of pawn checked
+            // as of now, all pawns are getting promoted to queen, promotion to other pieces logic to be implemented later
             if(pieceClicked.piece==='wp' && square_id<=8 && square_id>=1){
                 allPositionsCopy[square_id] = 'wq';
             }
