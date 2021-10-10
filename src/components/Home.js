@@ -12,6 +12,7 @@ import { findSqs_4_Knight } from '../utils/piecesMove/Knight';
 import { findSqs_4_King } from '../utils/piecesMove/King';
 import { findSqs_4_Rook } from '../utils/piecesMove/Rook';
 import { checkKingSafety } from '../utils/kingSafety';
+import { getUpdatedMoves } from '../utils/functools';
 
 
 
@@ -27,22 +28,6 @@ export default function Home() {
     } = context;
 
 
-    // const getCurrPosition = () => {
-    //     var singleArray = [];
-    //     for (let ind = 1; ind <= 64; ind++) {
-    //         singleArray.push(allPositions[ind]);
-    //     }
-    //     let currPosition = []
-    //     let currRow = []
-    //     for (let ind = 0; ind < 64; ind++) {
-    //         currRow.push(singleArray[ind]);
-    //         if (ind % 8 === 7 && currRow.length !== 0) {
-    //             currPosition.push(currRow);
-    //             currRow = [];
-    //         }
-    //     }
-    //     return currPosition;
-    // }
 
     const glowSquares = (possibleMoves, glow) => {
         // for queen(since it includes moves of bishop and rook) 
@@ -68,61 +53,12 @@ export default function Home() {
 
 
 
-    // const checkKingSafety = (piece, square_id, possibleMoves) => {
-    //     console.log(piece, square_id, possibleMoves);
-    //     let possibleMovesCopy = [...possibleMoves];
-    //     possibleMoves = [];
-    //     for (let ind = 0; ind < possibleMovesCopy.length; ind++) {
-    //         let currMove = possibleMovesCopy[ind];
-    //         let allPositionsCopy = { ...allPositions };
-    //         let checkOrNot = false;
-
-    //         // if it's a pawn and moving diagonally and in a empty square, than enpassant has happened
-    //         if (piece[1] === "p" && Math.abs(currMove - square_id) !== 8 && allPositionsCopy[square_id] === "") {
-    //             if (turn === 1) {
-    //                 allPositionsCopy[square_id + 8] = "";
-    //             }
-    //             else {
-    //                 allPositionsCopy[square_id - 8] = "";
-    //             }
-    //         }
-    //         allPositionsCopy[square_id] = "";
-    //         allPositionsCopy[currMove] = piece;
-
-    //         // finding if in this particular position(allPositionsCopy), whether the king is in check or not
-    //         if (turn === 1) {
-    //             let revPos = reversePositionObject(allPositionsCopy);
-    //             let kingPos = revPos['wk'][0];
-    //             if(revPos['br'].length===2){
-    //                 let rook1Pos = revPos['br'][0];
-    //                 if((Math.abs(rook1Pos)-kingPos)%8===0){
-    //                     if(rook1Pos>kingPos){
-
-    //                     }
-    //                     else{
-
-    //                     }
-    //                 }
-    //                 let rook2Pos = revPos['br'][1];
-    //             }
-    //             else if(revPos['br'].length===1){
-    //                 let rook1Pos = revPos['br'][0];
-
-    //             }
-    //         }
-    //     }
-    // }
-
-
-
-
-
-
-
     const squareClicked = (square_id) => {
         // user wants to make a move as he selects a square that was glowing
         if (glowSqs[square_id] === 1) {
-            let allPositionsCopy = { ...allPositions };
+
+            // update moves in allPositionsCopy variable, which will be updated in state
+            let allPositionsCopy = getUpdatedMoves(allPositions, square_id, turn, pieceClicked)
 
             // checking enpassant to be active or not
             if (Math.abs(pieceClicked.sq - square_id) === 16 && pieceClicked.piece[1] === "p") {
@@ -130,47 +66,6 @@ export default function Home() {
             }
             else {
                 updateEnpassant({ active: 0, sq: -1 });
-            }
-            // if it's a pawn and moving diagonally and in a empty square, than enpassant has happened
-            if (pieceClicked.piece[1] === "p" && Math.abs(pieceClicked.sq - square_id) !== 8 && allPositionsCopy[square_id] === "") {
-                if (turn === 1) {
-                    allPositionsCopy[square_id + 8] = "";
-                }
-                else {
-                    allPositionsCopy[square_id - 8] = "";
-                }
-
-            }
-
-            // castling logic implemented here
-            if (pieceClicked.piece === 'wk' && square_id === 59 && allPositions[61] === 'wk' && allPositions['57'] === 'wr') {
-                allPositionsCopy[60] = 'wr';
-                allPositionsCopy[57] = '';
-            }
-            else if (pieceClicked.piece === 'wk' && square_id === 63 && allPositions[61] === 'wk' && allPositions['64'] === 'wr') {
-                allPositionsCopy[62] = 'wr';
-                allPositionsCopy[64] = '';
-            }
-            else if (pieceClicked.piece === 'bk' && square_id === 3 && allPositions[5] === 'bk' && allPositions['1'] === 'br') {
-                allPositionsCopy[4] = 'br';
-                allPositionsCopy[1] = '';
-            }
-            else if (pieceClicked.piece === 'bk' && square_id === 7 && allPositions[5] === 'bk' && allPositions['8'] === 'br') {
-                allPositionsCopy[6] = 'br';
-                allPositionsCopy[8] = '';
-            }
-
-            allPositionsCopy[pieceClicked.sq] = "";
-            // promotion of pawn checked
-            // as of now, all pawns are getting promoted to queen, promotion to other pieces logic to be implemented later
-            if (pieceClicked.piece === 'wp' && square_id <= 8 && square_id >= 1) {
-                allPositionsCopy[square_id] = 'wq';
-            }
-            else if (pieceClicked.piece === 'bp' && square_id <= 64 && square_id >= 57) {
-                allPositionsCopy[square_id] = 'bq';
-            }
-            else {
-                allPositionsCopy[square_id] = pieceClicked.piece;
             }
 
             updatePosition(allPositionsCopy);
@@ -275,6 +170,7 @@ export default function Home() {
                     possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     glowSquares(possibleMoves);
                 }
+                
                 // code if the piece is black rook
                 piece = 'br';
                 if (allPositions[square_id] === piece) {
@@ -297,7 +193,6 @@ export default function Home() {
                     updateGlowSqs(glow);
                 }
 
-
                 // code if the piece is black king
                 piece = 'bk';
                 if (allPositions[square_id] === piece) {
@@ -307,9 +202,7 @@ export default function Home() {
                     glowSquares(possibleMoves);
                 }
             }
-
         }
-
     }
 
 
