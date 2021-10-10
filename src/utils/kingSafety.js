@@ -1,10 +1,6 @@
 // this file may changes when you change castleCheck.js or when you change squareClicked() function
 
-import { getUpdatedMoves, reversePositionObject } from "./functools";
-import { findSqs_4_Bishop } from "./piecesMove/Bishop";
-import { findSqs_4_King } from "./piecesMove/King";
-import { findSqs_4_Knight } from "./piecesMove/Knight";
-import { findSqs_4_Rook } from "./piecesMove/Rook";
+import { findBishopCheckMoves, findKingCheckMoves, findKnightCheckMoves, findPawnCheckMoves, findQueenCheckMoves, findRookCheckMoves, getUpdatedMoves, reversePositionObject } from "./functools";
 
 
 
@@ -24,7 +20,7 @@ const checkKingSafety = (allPositions, turn, pieceClicked, possibleMovesCopy) =>
         let checkPos = new Set();
         let opponentTurn;
         let oppRookPos, oppBishopPos, oppQueenPos, oppKnightPos, oppKingPos, oppPawnPos;
-        let oppPiecePossibleMoves, ownKingPos;
+        let ownKingPos;
         if (turn === 1) {
             opponentTurn = 0;
             oppRookPos = revPos['br'];
@@ -47,71 +43,13 @@ const checkKingSafety = (allPositions, turn, pieceClicked, possibleMovesCopy) =>
         }
 
 
+        checkPos = findRookCheckMoves(oppRookPos, allPositionsCopy, opponentTurn, checkPos);
+        checkPos = findBishopCheckMoves(oppBishopPos, allPositionsCopy, opponentTurn, checkPos);
+        checkPos = findQueenCheckMoves(oppQueenPos, allPositionsCopy, opponentTurn, checkPos);
+        checkPos = findKnightCheckMoves(oppKnightPos, allPositionsCopy, opponentTurn, checkPos);
+        checkPos = findPawnCheckMoves(oppPawnPos, allPositionsCopy, opponentTurn, checkPos);
+        checkPos = findKingCheckMoves(oppKingPos, allPositionsCopy, opponentTurn, checkPos);
 
-        oppRookPos.forEach(rookPos => {
-            oppPiecePossibleMoves = findSqs_4_Rook(allPositionsCopy, rookPos, opponentTurn);
-            oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) })
-        });
-        // console.log(checkPos);
-
-
-        oppBishopPos.forEach((bishopPos) => {
-            oppPiecePossibleMoves = findSqs_4_Bishop(allPositionsCopy, bishopPos, opponentTurn);
-            oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
-        });
-        // console.log(checkPos);
-
-
-        oppQueenPos.forEach((queenPos) => {
-            oppPiecePossibleMoves = findSqs_4_Rook(allPositionsCopy, queenPos, opponentTurn);
-            oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
-            oppPiecePossibleMoves = findSqs_4_Bishop(allPositionsCopy, queenPos, opponentTurn);
-            oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
-        });
-        // console.log(checkPos);
-
-
-        oppKnightPos.forEach((knightPos) => {
-            oppPiecePossibleMoves = findSqs_4_Knight(allPositionsCopy, knightPos, opponentTurn)
-            oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
-        })
-        // console.log(checkPos);
-
-
-        oppPawnPos.forEach((pawnPos) => {
-            if (opponentTurn === 0) {
-                if ((pawnPos - 1) % 8 === 0) {
-                    checkPos.add(pawnPos + 9);
-                }
-                else if (pawnPos % 8 === 0) {
-                    checkPos.add(pawnPos + 7);
-                }
-                else {
-                    checkPos.add(pawnPos + 9);
-                    checkPos.add(pawnPos + 7);
-                }
-            }
-            else {
-                if ((pawnPos - 1) % 8 === 0) {
-                    checkPos.add(pawnPos - 7);
-                }
-                else if (pawnPos % 8 === 0) {
-                    checkPos.add(pawnPos - 9);
-                }
-                else {
-                    checkPos.add(pawnPos - 9);
-                    checkPos.add(pawnPos - 7);
-                }
-            }
-        });
-        // console.log(checkPos);
-
-
-        oppKingPos.forEach((kingPos) => {
-            oppPiecePossibleMoves = findSqs_4_King(allPositionsCopy, kingPos, opponentTurn);
-            oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
-        });
-        // console.log(checkPos);
 
 
         let flag = 0;

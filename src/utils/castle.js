@@ -1,13 +1,8 @@
 // check whether king and rook have not moved throughout the game.....logic left to implement
 
 
-import { findSqs_4_Bishop } from './piecesMove/Bishop';
-import { findSqs_4_Knight } from './piecesMove/Knight';
-import { findSqs_4_Rook } from './piecesMove/Rook';
-
+import { findBishopCheckMoves, findKnightCheckMoves, findQueenCheckMoves, findRookCheckMoves } from "./functools";
 import { reversePositionObject } from "./functools";
-
-
 
 
 
@@ -70,7 +65,6 @@ const castleCheck = (allPositions, turn) => {
     let kingSideCastleFlag = 1;
     let opponentTurn = -1;
     let oppRookPos, oppBishopPos, oppQueenPos, oppKnightPos, oppKingPos, oppPawnPos;
-    let oppPiecePossibleMoves;
     if (turn === 1) {
         opponentTurn = 0;
         oppRookPos = revPos['br'];
@@ -92,34 +86,12 @@ const castleCheck = (allPositions, turn) => {
 
 
 
-    oppRookPos.forEach(rookPos => {
-        oppPiecePossibleMoves = findSqs_4_Rook(allPositions, rookPos, opponentTurn);
-        oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) })
-    });
-    // console.log(checkPos);
+    
+    checkPos = findRookCheckMoves(oppRookPos, allPositions, opponentTurn, checkPos);
+    checkPos = findBishopCheckMoves(oppBishopPos, allPositions, opponentTurn, checkPos);
+    checkPos = findQueenCheckMoves(oppQueenPos, allPositions, opponentTurn, checkPos);
+    checkPos = findKnightCheckMoves(oppKnightPos, allPositions, opponentTurn, checkPos);
 
-
-    oppBishopPos.forEach((bishopPos) => {
-        oppPiecePossibleMoves = findSqs_4_Bishop(allPositions, bishopPos, opponentTurn);
-        oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
-    });
-    // console.log(checkPos);
-
-
-    oppQueenPos.forEach((queenPos) => {
-        oppPiecePossibleMoves = findSqs_4_Rook(allPositions, queenPos, opponentTurn);
-        oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
-        oppPiecePossibleMoves = findSqs_4_Bishop(allPositions, queenPos, opponentTurn);
-        oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
-    });
-    // console.log(checkPos);
-
-
-    oppKnightPos.forEach((knightPos) => {
-        oppPiecePossibleMoves = findSqs_4_Knight(allPositions, knightPos, opponentTurn)
-        oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
-    })
-    // console.log(checkPos);
 
 
 

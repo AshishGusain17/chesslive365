@@ -1,3 +1,13 @@
+import { findSqs_4_Bishop } from "./piecesMove/Bishop";
+import { findSqs_4_King } from "./piecesMove/King";
+import { findSqs_4_Knight } from "./piecesMove/Knight";
+import { findSqs_4_Rook } from "./piecesMove/Rook";
+
+
+
+
+
+
 // convert allPositions object from (square: piece) ---> (piece: square)
 const reversePositionObject = (pos) => {
     let revPos = { 'br': [], 'wr': [], 'bb': [], 'wb': [], 'bq': [], 'wq': [], 'bn': [], 'wn': [], 'bp': [], 'wp': [], 'bk': [], 'wk': [] };
@@ -29,7 +39,6 @@ const getUpdatedMoves = (allPositions, square_id, turn, pieceClicked) => {
         else {
             allPositionsCopy[square_id - 8] = "";
         }
-
     }
 
     // castling logic implemented here
@@ -66,4 +75,104 @@ const getUpdatedMoves = (allPositions, square_id, turn, pieceClicked) => {
 }
 
 
-export { reversePositionObject, getUpdatedMoves }
+
+
+
+
+
+
+
+
+
+
+const findRookCheckMoves = (oppRookPos, allPositionsCopy, opponentTurn, checkPos) => {
+    let oppPiecePossibleMoves;
+    oppRookPos.forEach(rookPos => {
+        oppPiecePossibleMoves = findSqs_4_Rook(allPositionsCopy, rookPos, opponentTurn);
+        oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) })
+    });
+    // console.log(checkPos);
+    return checkPos;
+}
+
+const findBishopCheckMoves = (oppBishopPos, allPositionsCopy, opponentTurn, checkPos) => {
+    let oppPiecePossibleMoves;
+    oppBishopPos.forEach((bishopPos) => {
+        oppPiecePossibleMoves = findSqs_4_Bishop(allPositionsCopy, bishopPos, opponentTurn);
+        oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
+    });
+    // console.log(checkPos);
+    return checkPos;
+}
+
+const findQueenCheckMoves = (oppQueenPos, allPositionsCopy, opponentTurn, checkPos) => {
+    let oppPiecePossibleMoves;
+    oppQueenPos.forEach((queenPos) => {
+        oppPiecePossibleMoves = findSqs_4_Rook(allPositionsCopy, queenPos, opponentTurn);
+        oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
+        oppPiecePossibleMoves = findSqs_4_Bishop(allPositionsCopy, queenPos, opponentTurn);
+        oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
+    });
+    // console.log(checkPos);
+    return checkPos;
+}
+
+const findKnightCheckMoves = (oppKnightPos, allPositionsCopy, opponentTurn, checkPos) => {
+    let oppPiecePossibleMoves;
+    oppKnightPos.forEach((knightPos) => {
+        oppPiecePossibleMoves = findSqs_4_Knight(allPositionsCopy, knightPos, opponentTurn)
+        oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
+    })
+    // console.log(checkPos);
+    return checkPos;
+}
+
+
+const findPawnCheckMoves = (oppPawnPos, allPositionsCopy, opponentTurn, checkPos) => {
+    oppPawnPos.forEach((pawnPos) => {
+        if (opponentTurn === 0) {
+            if ((pawnPos - 1) % 8 === 0) {
+                checkPos.add(pawnPos + 9);
+            }
+            else if (pawnPos % 8 === 0) {
+                checkPos.add(pawnPos + 7);
+            }
+            else {
+                checkPos.add(pawnPos + 9);
+                checkPos.add(pawnPos + 7);
+            }
+        }
+        else {
+            if ((pawnPos - 1) % 8 === 0) {
+                checkPos.add(pawnPos - 7);
+            }
+            else if (pawnPos % 8 === 0) {
+                checkPos.add(pawnPos - 9);
+            }
+            else {
+                checkPos.add(pawnPos - 9);
+                checkPos.add(pawnPos - 7);
+            }
+        }
+    });
+    // console.log(checkPos);
+    return checkPos;
+}
+
+
+const findKingCheckMoves = (oppKingPos, allPositionsCopy, opponentTurn, checkPos) => {
+    let oppPiecePossibleMoves;
+    oppKingPos.forEach((kingPos) => {
+        oppPiecePossibleMoves = findSqs_4_King(allPositionsCopy, kingPos, opponentTurn);
+        oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
+    });
+    // console.log(checkPos);
+    return checkPos;
+}
+
+
+
+
+
+
+export { reversePositionObject, getUpdatedMoves, findRookCheckMoves, findBishopCheckMoves, findQueenCheckMoves, findKnightCheckMoves, findPawnCheckMoves, findKingCheckMoves }

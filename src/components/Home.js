@@ -71,15 +71,18 @@ export default function Home() {
             updatePosition(allPositionsCopy);
             updateGlowSqs(initGlowSqs);
 
-            //checking whether 50 moves without pawn move or piece take has happened
-            // moves50Check(allPositionsCopy);
-
             if (turn === 1) {
                 updateTurn(0);
             }
             else {
                 updateTurn(1);
             }
+            // funcCheckOrNot();
+            // funcDraw_Stalemate();
+            // funcDraw_50MoveRule();
+            // funcDraw_3FoldRepetition();
+            // funcDraw_NotEnoughMaterial();
+
         }
 
         // user wants to see all possible moves for that piece clicked
@@ -170,7 +173,7 @@ export default function Home() {
                     possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     glowSquares(possibleMoves);
                 }
-                
+
                 // code if the piece is black rook
                 piece = 'br';
                 if (allPositions[square_id] === piece) {
