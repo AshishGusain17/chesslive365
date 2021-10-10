@@ -11,6 +11,7 @@ import { findSqs_4_Bishop } from '../utils/piecesMove/Bishop';
 import { findSqs_4_Knight } from '../utils/piecesMove/Knight';
 import { findSqs_4_King } from '../utils/piecesMove/King';
 import { findSqs_4_Rook } from '../utils/piecesMove/Rook';
+import { checkKingSafety } from '../utils/kingSafety';
 
 
 
@@ -142,19 +143,19 @@ export default function Home() {
             }
 
             // castling logic implemented here
-            if (pieceClicked.piece === 'wk' && square_id === 59 && allPositions[61]==='wk' && allPositions['57']==='wr') {
+            if (pieceClicked.piece === 'wk' && square_id === 59 && allPositions[61] === 'wk' && allPositions['57'] === 'wr') {
                 allPositionsCopy[60] = 'wr';
                 allPositionsCopy[57] = '';
             }
-            else if (pieceClicked.piece === 'wk' && square_id === 63 && allPositions[61]==='wk' && allPositions['64']==='wr') {
+            else if (pieceClicked.piece === 'wk' && square_id === 63 && allPositions[61] === 'wk' && allPositions['64'] === 'wr') {
                 allPositionsCopy[62] = 'wr';
                 allPositionsCopy[64] = '';
             }
-            else if (pieceClicked.piece === 'bk' && square_id === 3 && allPositions[5]==='bk' && allPositions['1']==='br') {
+            else if (pieceClicked.piece === 'bk' && square_id === 3 && allPositions[5] === 'bk' && allPositions['1'] === 'br') {
                 allPositionsCopy[4] = 'br';
                 allPositionsCopy[1] = '';
             }
-            else if (pieceClicked.piece === 'bk' && square_id === 7 && allPositions[5]==='bk' && allPositions['8']==='br') {
+            else if (pieceClicked.piece === 'bk' && square_id === 7 && allPositions[5] === 'bk' && allPositions['8'] === 'br') {
                 allPositionsCopy[6] = 'br';
                 allPositionsCopy[8] = '';
             }
@@ -195,6 +196,7 @@ export default function Home() {
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     let possibleMoves = findSqs_4_WPawn(allPositions, square_id, enpassant);
+                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     glowSquares(possibleMoves);
                 }
 
@@ -203,6 +205,7 @@ export default function Home() {
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     let possibleMoves = findSqs_4_Bishop(allPositions, square_id, turn);
+                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     glowSquares(possibleMoves);
                 }
 
@@ -211,6 +214,7 @@ export default function Home() {
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     let possibleMoves = findSqs_4_Knight(allPositions, square_id, turn);
+                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     glowSquares(possibleMoves);
                 }
 
@@ -219,6 +223,7 @@ export default function Home() {
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     let possibleMoves = findSqs_4_Rook(allPositions, square_id, turn);
+                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     glowSquares(possibleMoves);
                 }
                 // code if the piece is white queen
@@ -226,8 +231,10 @@ export default function Home() {
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     let possibleMoves = findSqs_4_Rook(allPositions, square_id, turn);
+                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     let glow = glowSquares(possibleMoves, initGlowSqs);
                     possibleMoves = findSqs_4_Bishop(allPositions, square_id, turn);
+                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     glow = glowSquares(possibleMoves, glow);
                     updateGlowSqs(glow);
                 }
@@ -237,6 +244,7 @@ export default function Home() {
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     let possibleMoves = findSqs_4_King(allPositions, square_id, turn);
+                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     glowSquares(possibleMoves);
                 }
             }
@@ -246,6 +254,7 @@ export default function Home() {
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     let possibleMoves = findSqs_4_BPawn(allPositions, square_id, enpassant);
+                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     glowSquares(possibleMoves);
                 }
 
@@ -254,6 +263,7 @@ export default function Home() {
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     let possibleMoves = findSqs_4_Bishop(allPositions, square_id, turn);
+                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     glowSquares(possibleMoves);
                 }
 
@@ -262,6 +272,7 @@ export default function Home() {
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     let possibleMoves = findSqs_4_Knight(allPositions, square_id, turn);
+                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     glowSquares(possibleMoves);
                 }
                 // code if the piece is black rook
@@ -269,6 +280,7 @@ export default function Home() {
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     let possibleMoves = findSqs_4_Rook(allPositions, square_id, turn);
+                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     glowSquares(possibleMoves);
                 }
 
@@ -277,8 +289,10 @@ export default function Home() {
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     let possibleMoves = findSqs_4_Rook(allPositions, square_id, turn);
+                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     let glow = glowSquares(possibleMoves, initGlowSqs);
                     possibleMoves = findSqs_4_Bishop(allPositions, square_id, turn);
+                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     glow = glowSquares(possibleMoves, glow);
                     updateGlowSqs(glow);
                 }
@@ -289,6 +303,7 @@ export default function Home() {
                 if (allPositions[square_id] === piece) {
                     updatePieceClicked({ sq: square_id, piece: piece });
                     let possibleMoves = findSqs_4_King(allPositions, square_id, turn);
+                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     glowSquares(possibleMoves);
                 }
             }
