@@ -12,22 +12,22 @@ import Alert from "./components/Alert";
 export default function App() {
 
   const [alertObj, setAlert] = useState(null)
-  // const alertCall = (msg, msgText)=>{
-  //   setAlert({msg: msg, msgText: msgText});
-  //   setTimeout(() => {
-  //     setAlert(null);
-  //   }, 2000);
-  // }
+  const alertCall = (msg, msgText)=>{
+    setAlert({msg: msg, msgText: msgText});
+    setTimeout(() => {
+      setAlert(null);
+    }, 2000);
+  }
 
   return (
     <>
       <PositionState>
         <Router>
 
-          <Alert alertObj={alertObj} />
+          <Alert alertObj={alertObj}  />
           <Switch>
             <Route exact path="/">
-              <Home />
+              <Home alertCall={alertCall}/>
             </Route>
             <Route exact path="/about">
               <About />

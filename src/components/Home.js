@@ -13,12 +13,13 @@ import { findSqs_4_King } from '../utils/piecesMove/King';
 import { findSqs_4_Rook } from '../utils/piecesMove/Rook';
 import { checkKingSafety } from '../utils/kingSafety';
 import { getUpdatedMoves } from '../utils/functools';
+import { funcCheckOrNot } from '../utils/checkAndMate';
 
 
 
 
 
-export default function Home() {
+export default function Home(props) {
     const context = useContext(PositionContext);
     const { allPositions, updatePosition,
         initGlowSqs, glowSqs, updateGlowSqs,
@@ -72,12 +73,21 @@ export default function Home() {
             updateGlowSqs(initGlowSqs);
 
             if (turn === 1) {
+                // sending allPositionsCopy variable as state takes time to update(async)
+                if (funcCheckOrNot(allPositionsCopy, turn) === 1) {
+                    props.alertCall('Check', 'to black');
+                }
                 updateTurn(0);
             }
             else {
+                // sending allPositionsCopy variable as state takes time to update(async)
+                if (funcCheckOrNot(allPositionsCopy, turn) === 1) {
+                    props.alertCall('Check', 'to white');
+                }
                 updateTurn(1);
             }
-            // funcCheckOrNot();
+
+
             // funcDraw_Stalemate();
             // funcDraw_50MoveRule();
             // funcDraw_3FoldRepetition();

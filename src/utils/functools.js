@@ -28,6 +28,13 @@ const reversePositionObject = (pos) => {
 
 
 
+
+
+
+
+
+
+
 const getUpdatedMoves = (allPositions, square_id, turn, pieceClicked) => {
     let allPositionsCopy = { ...allPositions };
 
@@ -73,6 +80,16 @@ const getUpdatedMoves = (allPositions, square_id, turn, pieceClicked) => {
     }
     return allPositionsCopy;
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -169,6 +186,16 @@ const findKingCheckMoves = (oppKingPos, allPositionsCopy, opponentTurn, checkPos
     // console.log(checkPos);
     return checkPos;
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
