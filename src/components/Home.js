@@ -14,6 +14,7 @@ import { findSqs_4_Rook } from '../utils/piecesMove/Rook';
 import { checkKingSafety } from '../utils/kingSafety';
 import { getUpdatedMoves } from '../utils/functools';
 import { funcCheckOrNot } from '../utils/checkAndMate';
+import { funcDraw_Stalemate } from '../utils/draw';
 
 
 
@@ -57,38 +58,71 @@ export default function Home(props) {
     const squareClicked = (square_id) => {
         // user wants to make a move as he selects a square that was glowing
         if (glowSqs[square_id] === 1) {
+            let opponentTurn;
+            if (turn === 1) {
+                opponentTurn = 0;
+            }
+            else {
+                opponentTurn = 1;
+            }
 
             // update moves in allPositionsCopy variable, which will be updated in state
             let allPositionsCopy = getUpdatedMoves(allPositions, square_id, turn, pieceClicked)
 
             // checking enpassant to be active or not
+            let enpassantObj = {}
             if (Math.abs(pieceClicked.sq - square_id) === 16 && pieceClicked.piece[1] === "p") {
-                updateEnpassant({ active: 1, sq: square_id });
+                enpassantObj.active = 1;
+                enpassantObj.sq = square_id;
             }
             else {
-                updateEnpassant({ active: 0, sq: -1 });
+                enpassantObj.active = 0;
+                enpassantObj.sq = -1;
             }
-
+            updateEnpassant(enpassantObj);
             updatePosition(allPositionsCopy);
             updateGlowSqs(initGlowSqs);
 
+
+            // sending allPositionsCopy variable to all below functions as state takes time to update(async)
             if (turn === 1) {
-                // sending allPositionsCopy variable as state takes time to update(async)
-                if (funcCheckOrNot(allPositionsCopy, turn) === 1) {
+                
+                // you find all of your pieces moves, and then check whether opponent king is in any of those squares
+                let checkFlag = funcCheckOrNot(allPositionsCopy, turn);
+
+                // you find all your opponent moves, if he has even one, then there is no stalemate
+                let stalemateFlag = funcDraw_Stalemate(allPositionsCopy, opponentTurn, enpassantObj);
+
+                if (checkFlag === 1 && stalemateFlag === 1) {
+                    props.alertCall('Checkmate', 'White wins');
+                }
+                else if (checkFlag === 1) {
                     props.alertCall('Check', 'to black');
                 }
-                updateTurn(0);
+                else if (stalemateFlag === 1) {
+                    props.alertCall('Stalemate', 'Black has no moves');
+                };
             }
             else {
                 // sending allPositionsCopy variable as state takes time to update(async)
-                if (funcCheckOrNot(allPositionsCopy, turn) === 1) {
+                let checkFlag = funcCheckOrNot(allPositionsCopy, turn);
+                let stalemateFlag = funcDraw_Stalemate(allPositionsCopy, opponentTurn, enpassantObj);
+
+                if (checkFlag === 1 && stalemateFlag === 1) {
+                    props.alertCall('Checkmate', 'Black wins');
+                }
+                else if (checkFlag === 1) {
                     props.alertCall('Check', 'to white');
                 }
-                updateTurn(1);
+                else if (stalemateFlag === 1) {
+                    props.alertCall('Stalemate', 'White has no moves');
+                };
             }
 
+            updateTurn(opponentTurn);
 
-            // funcDraw_Stalemate();
+
+
             // funcDraw_50MoveRule();
             // funcDraw_3FoldRepetition();
             // funcDraw_NotEnoughMaterial();

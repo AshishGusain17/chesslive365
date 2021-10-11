@@ -1,6 +1,7 @@
 import { findSqs_4_Bishop } from "./piecesMove/Bishop";
 import { findSqs_4_King } from "./piecesMove/King";
 import { findSqs_4_Knight } from "./piecesMove/Knight";
+import { findSqs_4_BPawn, findSqs_4_WPawn } from "./piecesMove/Pawn";
 import { findSqs_4_Rook } from "./piecesMove/Rook";
 
 
@@ -145,6 +146,20 @@ const findKnightCheckMoves = (oppKnightPos, allPositionsCopy, opponentTurn, chec
 }
 
 
+
+
+const findKingCheckMoves = (oppKingPos, allPositionsCopy, opponentTurn, checkPos) => {
+    let oppPiecePossibleMoves;
+    oppKingPos.forEach((kingPos) => {
+        oppPiecePossibleMoves = findSqs_4_King(allPositionsCopy, kingPos, opponentTurn);
+        oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
+    });
+    // console.log(checkPos);
+    return checkPos;
+}
+
+
+// function which find all the squares where opponent king can't move with repect to all pawns
 const findPawnCheckMoves = (oppPawnPos, allPositionsCopy, opponentTurn, checkPos) => {
     oppPawnPos.forEach((pawnPos) => {
         if (opponentTurn === 0) {
@@ -177,10 +192,17 @@ const findPawnCheckMoves = (oppPawnPos, allPositionsCopy, opponentTurn, checkPos
 }
 
 
-const findKingCheckMoves = (oppKingPos, allPositionsCopy, opponentTurn, checkPos) => {
+
+// function which finds all the squares where all the pawns can make a move
+const findPawnAllPossibleMoves = (oppPawnPos, allPositionsCopy, opponentTurn, checkPos, enpassant) => {
     let oppPiecePossibleMoves;
-    oppKingPos.forEach((kingPos) => {
-        oppPiecePossibleMoves = findSqs_4_King(allPositionsCopy, kingPos, opponentTurn);
+    oppPawnPos.forEach((pawnPos) => {
+        if(opponentTurn===0){
+            oppPiecePossibleMoves = findSqs_4_BPawn(allPositionsCopy, pawnPos, enpassant);
+        }
+        else{
+            oppPiecePossibleMoves = findSqs_4_WPawn(allPositionsCopy, pawnPos, enpassant);
+        }
         oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
     });
     // console.log(checkPos);
@@ -197,9 +219,14 @@ const findKingCheckMoves = (oppKingPos, allPositionsCopy, opponentTurn, checkPos
 
 
 
-
-
-
-
-
-export { reversePositionObject, getUpdatedMoves, findRookCheckMoves, findBishopCheckMoves, findQueenCheckMoves, findKnightCheckMoves, findPawnCheckMoves, findKingCheckMoves }
+export {
+    reversePositionObject,
+    getUpdatedMoves,
+    findRookCheckMoves,
+    findBishopCheckMoves,
+    findQueenCheckMoves,
+    findKnightCheckMoves,
+    findPawnCheckMoves,
+    findKingCheckMoves,
+    findPawnAllPossibleMoves
+}
