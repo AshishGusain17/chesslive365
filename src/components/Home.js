@@ -13,19 +13,34 @@ import { findSqs_4_Bishop } from '../utils/piecesMove/Bishop';
 import { findSqs_4_Knight } from '../utils/piecesMove/Knight';
 import { findSqs_4_King } from '../utils/piecesMove/King';
 import { findSqs_4_Rook } from '../utils/piecesMove/Rook';
-import Navbar from './Navbar';
-
 
 
 export default function Home(props) {
     const context = useContext(PositionContext);
-    const {  allPositions, updatePosition,
-        initGlowSqs, glowSqs, updateGlowSqs,
-        turn, updateTurn,
-        pieceClicked, updatePieceClicked,
-        enpassant, updateEnpassant,
-        createNewGame
+    // const {
+    //     initPosition, 
+    //     initGlowSqs,
+    //     initTurn,
+    //     initPieceClicked,
+    //     initEnpassant,
+    //     initCurrPGN,
+    // } = context;
+
+    const {  
+        initGlowSqs
     } = context;
+
+
+    const allPositions=props.allPositions;
+    const updatePosition =props.updatePosition
+    const glowSqs=props.glowSqs
+    const updateGlowSqs = props.updateGlowSqs
+    const turn = props.turn
+    const updateTurn = props.updateTurn
+    const pieceClicked = props.pieceClicked
+    const updatePieceClicked = props.updatePieceClicked
+    const enpassant = props.enpassant
+    const updateEnpassant = props.updateEnpassant
 
 
 
@@ -259,8 +274,7 @@ export default function Home(props) {
 
     return (
         <>
-            <Navbar createNewGame={createNewGame}/>
-            <ChessBoard squareClicked={squareClicked} />
+            <ChessBoard home_1_or_live_2 = {props.home_1_or_live_2} squareClicked={squareClicked} />
         </>
     )
 }

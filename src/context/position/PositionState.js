@@ -14,8 +14,6 @@ const PositionState = (props) => {
         49: "wp", 50: "wp", 51: "wp", 52: "wp", 53: "wp", 54: "wp", 55: "wp", 56: "wp",
         57: "wr", 58: "wn", 59: "wb", 60: "wq", 61: "wk", 62: "wb", 63: "wn", 64: "wr"
     };
-    const [allPositions, updatePosition] = useState(initPosition);
-
 
     let initGlowSqs = {
         1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0,
@@ -27,24 +25,40 @@ const PositionState = (props) => {
         49: 0, 50: 0, 51: 0, 52: 0, 53: 0, 54: 0, 55: 0, 56: 0,
         57: 0, 58: 0, 59: 0, 60: 0, 61: 0, 62: 0, 63: 0, 64: 0
     };
-    const [glowSqs, updateGlowSqs] = useState(initGlowSqs)
-
 
     let initTurn = 1;
-    const [turn, updateTurn] = useState(initTurn);
-
-
     let initPieceClicked = { sq: 0, piece: "" };
-    const [pieceClicked, updatePieceClicked] = useState(initPieceClicked);
-
-
     let initEnpassant = { active: 0, sq: -1 };
-    const [enpassant, updateEnpassant] = useState(initEnpassant);
-
-
     let initCurrPGN = "";
-    const [currPGN, updatePGN] = useState();
 
+
+
+
+    const [allPositions1, updatePosition1] = useState(initPosition);
+
+    const [glowSqs1, updateGlowSqs1] = useState(initGlowSqs)
+
+    const [turn1, updateTurn1] = useState(initTurn);
+
+    const [pieceClicked1, updatePieceClicked1] = useState(initPieceClicked);
+
+    const [enpassant1, updateEnpassant1] = useState(initEnpassant);
+
+    const [currPGN1, updatePGN1] = useState();
+
+
+
+    const [allPositions2, updatePosition2] = useState(initPosition);
+
+    const [glowSqs2, updateGlowSqs2] = useState(initGlowSqs)
+
+    const [turn2, updateTurn2] = useState(initTurn);
+
+    const [pieceClicked2, updatePieceClicked2] = useState(initPieceClicked);
+
+    const [enpassant2, updateEnpassant2] = useState(initEnpassant);
+
+    const [currPGN2, updatePGN2] = useState();
 
 
 
@@ -57,11 +71,12 @@ const PositionState = (props) => {
             },
         });
 
-        updatePosition(initPosition);
-        updateGlowSqs(initGlowSqs);
-        updateTurn(initTurn);
-        updatePieceClicked(initPieceClicked);
-        updateEnpassant(initEnpassant);
+        updatePosition2(initPosition);
+        updateGlowSqs2(initGlowSqs);
+        updateTurn2(initTurn);
+        updatePieceClicked2(initPieceClicked);
+        updateEnpassant2(initEnpassant);
+        updatePGN2(initCurrPGN);
 
         // console.log(response)
         const res_json = await response.json();
@@ -72,12 +87,27 @@ const PositionState = (props) => {
 
     return (
         <PositionContext.Provider value={{
-            initPosition, allPositions, updatePosition,
-            initGlowSqs, glowSqs, updateGlowSqs,
-            initTurn, turn, updateTurn,
-            initPieceClicked, pieceClicked, updatePieceClicked,
-            initEnpassant, enpassant, updateEnpassant,
-            initCurrPGN, currPGN, updatePGN,
+            initPosition,
+            initGlowSqs,
+            initTurn,
+            initPieceClicked,
+            initEnpassant,
+            initCurrPGN,
+
+            allPositions1, updatePosition1,
+            glowSqs1, updateGlowSqs1,
+            turn1, updateTurn1,
+            pieceClicked1, updatePieceClicked1,
+            enpassant1, updateEnpassant1,
+            currPGN1, updatePGN1,
+
+            allPositions2, updatePosition2,
+            glowSqs2, updateGlowSqs2,
+            turn2, updateTurn2,
+            pieceClicked2, updatePieceClicked2,
+            enpassant2, updateEnpassant2,
+            currPGN2, updatePGN2,
+
             createNewGame
         }}>
             {props.children}

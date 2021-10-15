@@ -4,88 +4,89 @@ import { Square } from './Square';
 
 export const ChessBoard = (props) => {
     const squareClicked = props.squareClicked;
+    const home_1_or_live_2 = props.home_1_or_live_2;
 
     return (
         < div className="flex-container1">
             <div className={`flex-container2 ${styles.wrappper}`}>
-                <Square ind={1} squareClicked={squareClicked} />
-                <Square ind={2} squareClicked={squareClicked} />
-                <Square ind={3} squareClicked={squareClicked} />
-                <Square ind={4} squareClicked={squareClicked} />
-                <Square ind={5} squareClicked={squareClicked} />
-                <Square ind={6} squareClicked={squareClicked} />
-                <Square ind={7} squareClicked={squareClicked} />
-                <Square ind={8} squareClicked={squareClicked} />
+                <Square ind={1} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={2} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={3} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={4} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={5} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={6} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={7} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={8} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
             </div>
             <div className={`flex-container2 ${styles.wrappper}`}>
-                <Square ind={9} squareClicked={squareClicked} />
-                <Square ind={10} squareClicked={squareClicked} />
-                <Square ind={11} squareClicked={squareClicked} />
-                <Square ind={12} squareClicked={squareClicked} />
-                <Square ind={13} squareClicked={squareClicked} />
-                <Square ind={14} squareClicked={squareClicked} />
-                <Square ind={15} squareClicked={squareClicked} />
-                <Square ind={16} squareClicked={squareClicked} />
+                <Square ind={9} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={10} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={11} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={12} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={13} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={14} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={15} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={16} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
             </div>
             <div className={`flex-container2 ${styles.wrappper}`}>
-                <Square ind={17} squareClicked={squareClicked} />
-                <Square ind={18} squareClicked={squareClicked} />
-                <Square ind={19} squareClicked={squareClicked} />
-                <Square ind={20} squareClicked={squareClicked} />
-                <Square ind={21} squareClicked={squareClicked} />
-                <Square ind={22} squareClicked={squareClicked} />
-                <Square ind={23} squareClicked={squareClicked} />
-                <Square ind={24} squareClicked={squareClicked} />
+                <Square ind={17} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={18} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={19} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={20} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={21} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={22} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={23} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={24} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
             </div>
             <div className={`flex-container2 ${styles.wrappper}`}>
-                <Square ind={25} squareClicked={squareClicked} />
-                <Square ind={26} squareClicked={squareClicked} />
-                <Square ind={27} squareClicked={squareClicked} />
-                <Square ind={28} squareClicked={squareClicked} />
-                <Square ind={29} squareClicked={squareClicked} />
-                <Square ind={30} squareClicked={squareClicked} />
-                <Square ind={31} squareClicked={squareClicked} />
-                <Square ind={32} squareClicked={squareClicked} />
+                <Square ind={25} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={26} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={27} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={28} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={29} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={30} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={31} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={32} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
             </div>
             <div className={`flex-container2 ${styles.wrappper}`}>
-                <Square ind={33} squareClicked={squareClicked} />
-                <Square ind={34} squareClicked={squareClicked} />
-                <Square ind={35} squareClicked={squareClicked} />
-                <Square ind={36} squareClicked={squareClicked} />
-                <Square ind={37} squareClicked={squareClicked} />
-                <Square ind={38} squareClicked={squareClicked} />
-                <Square ind={39} squareClicked={squareClicked} />
-                <Square ind={40} squareClicked={squareClicked} />
+                <Square ind={33} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={34} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={35} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={36} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={37} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={38} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={39} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={40} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
             </div>
             <div className={`flex-container2 ${styles.wrappper}`}>
-                <Square ind={41} squareClicked={squareClicked} />
-                <Square ind={42} squareClicked={squareClicked} />
-                <Square ind={43} squareClicked={squareClicked} />
-                <Square ind={44} squareClicked={squareClicked} />
-                <Square ind={45} squareClicked={squareClicked} />
-                <Square ind={46} squareClicked={squareClicked} />
-                <Square ind={47} squareClicked={squareClicked} />
-                <Square ind={48} squareClicked={squareClicked} />
+                <Square ind={41} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={42} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={43} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={44} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={45} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={46} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={47} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={48} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
             </div>
             <div className={`flex-container2 ${styles.wrappper}`}>
-                <Square ind={49} squareClicked={squareClicked} />
-                <Square ind={50} squareClicked={squareClicked} />
-                <Square ind={51} squareClicked={squareClicked} />
-                <Square ind={52} squareClicked={squareClicked} />
-                <Square ind={53} squareClicked={squareClicked} />
-                <Square ind={54} squareClicked={squareClicked} />
-                <Square ind={55} squareClicked={squareClicked} />
-                <Square ind={56} squareClicked={squareClicked} />
+                <Square ind={49} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={50} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={51} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={52} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={53} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={54} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={55} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={56} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
             </div>
             <div className={`flex-container2 ${styles.wrappper}`}>
-                <Square ind={57} squareClicked={squareClicked} />
-                <Square ind={58} squareClicked={squareClicked} />
-                <Square ind={59} squareClicked={squareClicked} />
-                <Square ind={60} squareClicked={squareClicked} />
-                <Square ind={61} squareClicked={squareClicked} />
-                <Square ind={62} squareClicked={squareClicked} />
-                <Square ind={63} squareClicked={squareClicked} />
-                <Square ind={64} squareClicked={squareClicked} />
+                <Square ind={57} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={58} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={59} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={60} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={61} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={62} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={63} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
+                <Square ind={64} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} />
             </div>
 
         </div>
