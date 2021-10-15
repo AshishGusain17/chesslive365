@@ -30,7 +30,7 @@ export default function Navbar(props) {
                             <Link className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`} to="/about">About</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${location.pathname === '/' ? 'active' : ''}`} to="/" onClick={props.clearState}>New game</Link>
+                            <Link className={`nav-link ${location.pathname === '/live' ? 'active' : ''}`} to="/live" onClick={props.createNewGame}>New game</Link>
                         </li>
                     </ul>
                 </div>

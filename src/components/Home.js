@@ -19,21 +19,15 @@ import Navbar from './Navbar';
 
 export default function Home(props) {
     const context = useContext(PositionContext);
-    const { initPosition, allPositions, updatePosition,
+    const {  allPositions, updatePosition,
         initGlowSqs, glowSqs, updateGlowSqs,
-        initTurn, turn, updateTurn,
-        initPieceClicked, pieceClicked, updatePieceClicked,
-        initEnpassant, enpassant, updateEnpassant
+        turn, updateTurn,
+        pieceClicked, updatePieceClicked,
+        enpassant, updateEnpassant,
+        createNewGame
     } = context;
 
 
-    const clearState =() => {
-        updatePosition(initPosition);
-        updateGlowSqs(initGlowSqs);
-        updateTurn(initTurn);
-        updatePieceClicked(initPieceClicked);
-        updateEnpassant(initEnpassant);
-      };
 
 
     const glowSquares = (possibleMoves, glow) => {
@@ -265,7 +259,7 @@ export default function Home(props) {
 
     return (
         <>
-            <Navbar clearState={clearState}/>
+            <Navbar createNewGame={createNewGame}/>
             <ChessBoard squareClicked={squareClicked} />
         </>
     )

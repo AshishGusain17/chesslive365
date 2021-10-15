@@ -2,7 +2,7 @@ import { useState } from "react";
 import PositionContext from "./PositionContext";
 
 const PositionState = (props) => {
-    // const HOST = process.env.REACT_APP_BACKEND_HOST;
+    const HOST = process.env.REACT_APP_BACKEND_HOST;
 
     let initPosition = {
         1: "br", 2: "bn", 3: "bb", 4: "bq", 5: "bk", 6: "bb", 7: "bn", 8: "br",
@@ -47,6 +47,29 @@ const PositionState = (props) => {
 
 
 
+
+
+    const createNewGame = async () => {
+        const response = await fetch(`${HOST}/api/chess/newgame`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        updatePosition(initPosition);
+        updateGlowSqs(initGlowSqs);
+        updateTurn(initTurn);
+        updatePieceClicked(initPieceClicked);
+        updateEnpassant(initEnpassant);
+
+        // console.log(response)
+        const res_json = await response.json();
+        console.log(res_json);
+        localStorage.setItem('player1', res_json)
+    };
+
+
     return (
         <PositionContext.Provider value={{
             initPosition, allPositions, updatePosition,
@@ -54,7 +77,8 @@ const PositionState = (props) => {
             initTurn, turn, updateTurn,
             initPieceClicked, pieceClicked, updatePieceClicked,
             initEnpassant, enpassant, updateEnpassant,
-            initCurrPGN, currPGN, updatePGN
+            initCurrPGN, currPGN, updatePGN,
+            createNewGame
         }}>
             {props.children}
         </PositionContext.Provider>

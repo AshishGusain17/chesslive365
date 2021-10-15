@@ -1,5 +1,5 @@
 import "./App.css";
-import React, {useState} from "react";
+import React, { useState } from "react";
 // import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 
@@ -12,8 +12,8 @@ import Alert from "./components/Alert";
 export default function App() {
 
   const [alertObj, setAlert] = useState(null)
-  const alertCall = (msg, msgText)=>{
-    setAlert({msg: msg, msgText: msgText});
+  const alertCall = (msg, msgText) => {
+    setAlert({ msg: msg, msgText: msgText });
     setTimeout(() => {
       setAlert(null);
     }, 2000);
@@ -24,13 +24,16 @@ export default function App() {
       <PositionState>
         <Router>
 
-          <Alert alertObj={alertObj}  />
+          <Alert alertObj={alertObj} />
           <Switch>
             <Route exact path="/">
-              <Home alertCall={alertCall}/>
+              <Home alertCall={alertCall} />
             </Route>
             <Route exact path="/about">
               <About />
+            </Route>           
+            <Route exact path="/live">
+              <Home alertCall={alertCall} />
             </Route>
           </Switch>
         </Router>
