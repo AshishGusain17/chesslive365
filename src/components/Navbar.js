@@ -5,7 +5,7 @@ import {
 import { useLocation } from 'react-router-dom';
 // import {useHistory} from 'react-router';
 
-export default function Navbar() {
+export default function Navbar(props) {
     const location = useLocation();
     // const history = useHistory();
 
@@ -24,10 +24,13 @@ export default function Navbar() {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <Link className={`nav-link ${location.pathname === '/home' ? 'active' : ''}`} to="/home">Home</Link>
+                            <Link className={`nav-link ${location.pathname === '/home' ? 'active' : ''}`} to="/">Home</Link>
                         </li>
                         <li className="nav-item">
                             <Link className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`} to="/about">About</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className={`nav-link ${location.pathname === '/' ? 'active' : ''}`} to="/" onClick={props.clearState}>New game</Link>
                         </li>
                     </ul>
                 </div>

@@ -8,11 +8,11 @@ const PositionState = (props) => {
         1: "br", 2: "bn", 3: "bb", 4: "bq", 5: "bk", 6: "bb", 7: "bn", 8: "br",
         9: "bp", 10: "bp", 11: "bp", 12: "bp", 13: "bp", 14: "bp", 15: "bp", 16: "bp",
         17: "", 18: "", 19: "", 20: "", 21: "", 22: "", 23: "", 24: "",
-        25: "", 26: "", 27: "", 28: "", 29: "", 30: "bq", 31: "", 32: "",
-        33: "", 34: "bb", 35: "", 36: "", 37: "", 38: "", 39: "", 40: "",
+        25: "", 26: "", 27: "", 28: "", 29: "", 30: "", 31: "", 32: "",
+        33: "", 34: "", 35: "", 36: "", 37: "", 38: "", 39: "", 40: "",
         41: "", 42: "", 43: "", 44: "", 45: "", 46: "", 47: "", 48: "",
-        49: "", 50: "", 51: "", 52: "", 53: "", 54: "", 55: "", 56: "",
-        57: "", 58: "", 59: "", 60: "", 61: "wk", 62: "", 63: "", 64: ""
+        49: "wp", 50: "wp", 51: "wp", 52: "wp", 53: "wp", 54: "wp", 55: "wp", 56: "wp",
+        57: "wr", 58: "wn", 59: "wb", 60: "wq", 61: "wk", 62: "wb", 63: "wn", 64: "wr"
     };
     const [allPositions, updatePosition] = useState(initPosition);
 
@@ -27,27 +27,34 @@ const PositionState = (props) => {
         49: 0, 50: 0, 51: 0, 52: 0, 53: 0, 54: 0, 55: 0, 56: 0,
         57: 0, 58: 0, 59: 0, 60: 0, 61: 0, 62: 0, 63: 0, 64: 0
     };
-
     const [glowSqs, updateGlowSqs] = useState(initGlowSqs)
 
-    const [turn, updateTurn] = useState(1);
 
-    const [pieceClicked, updatePieceClicked] = useState({ sq: 0, piece: "" });
+    let initTurn = 1;
+    const [turn, updateTurn] = useState(initTurn);
 
-    const [enpassant, updateEnpassant] = useState({ active: 0, sq: -1 })
 
-    const [currPGN, updatePGN] = useState("");
+    let initPieceClicked = { sq: 0, piece: "" };
+    const [pieceClicked, updatePieceClicked] = useState(initPieceClicked);
+
+
+    let initEnpassant = { active: 0, sq: -1 };
+    const [enpassant, updateEnpassant] = useState(initEnpassant);
+
+
+    let initCurrPGN = "";
+    const [currPGN, updatePGN] = useState();
 
 
 
     return (
         <PositionContext.Provider value={{
-            allPositions, updatePosition,
+            initPosition, allPositions, updatePosition,
             initGlowSqs, glowSqs, updateGlowSqs,
-            turn, updateTurn,
-            pieceClicked, updatePieceClicked,
-            enpassant, updateEnpassant,
-            currPGN, updatePGN
+            initTurn, turn, updateTurn,
+            initPieceClicked, pieceClicked, updatePieceClicked,
+            initEnpassant, enpassant, updateEnpassant,
+            initCurrPGN, currPGN, updatePGN
         }}>
             {props.children}
         </PositionContext.Provider>
