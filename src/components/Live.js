@@ -17,29 +17,32 @@ import { findSqs_4_Rook } from '../utils/piecesMove/Rook';
 import { useLocation } from 'react-router';
 
 
-export default function Home(props) {
+export default function Live(props) {
     const context = useContext(PositionContext);
 
     const {
         initGlowSqs,
-        allPositions1, updatePosition1,
-        glowSqs1, updateGlowSqs1,
-        turn1, updateTurn1,
-        pieceClicked1, updatePieceClicked1,
-        enpassant1, updateEnpassant1
+        allPositions2, updatePosition2,
+        glowSqs2, updateGlowSqs2,
+        turn2, updateTurn2,
+        pieceClicked2, updatePieceClicked2,
+        enpassant2, updateEnpassant2,
+
+        createNewGame, getLiveGame
     } = context;
 
 
-    const allPositions = allPositions1;
-    const updatePosition = updatePosition1;
-    const glowSqs = glowSqs1;
-    const updateGlowSqs = updateGlowSqs1;
-    const turn = turn1
-    const updateTurn = updateTurn1
-    const pieceClicked = pieceClicked1
-    const updatePieceClicked = updatePieceClicked1
-    const enpassant = enpassant1
-    const updateEnpassant = updateEnpassant1
+    const allPositions = allPositions2;
+    const updatePosition = updatePosition2;
+    const glowSqs = glowSqs2;
+    const updateGlowSqs = updateGlowSqs2;
+    const turn = turn2;
+    const updateTurn = updateTurn2;
+    const pieceClicked = pieceClicked2;
+    const updatePieceClicked = updatePieceClicked2;
+    const enpassant = enpassant2;
+    const updateEnpassant = updateEnpassant2;
+
 
 
 
@@ -47,7 +50,7 @@ export default function Home(props) {
     useEffect(() => {
         if (location.pathname.length >= 5 && location.pathname.substring(0, 5) === '/live' && localStorage.getItem('game_id')) {
             console.log('both conditions satisfy')
-            props.getLiveGame();
+            getLiveGame();
         }
         // eslint-disable-next-line
     }, [])
@@ -281,10 +284,11 @@ export default function Home(props) {
 
 
 
+
     return (
         <>
-            <Navbar />
-            <ChessBoard home_1_or_live_2={1} squareClicked={squareClicked} />
+            <Navbar createNewGame={createNewGame} />
+            <ChessBoard home_1_or_live_2={2} squareClicked={squareClicked} />
         </>
     )
 }

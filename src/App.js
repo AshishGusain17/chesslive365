@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import About from "./components/About";
 import PositionState from './context/position/PositionState';
 import Alert from "./components/Alert";
-import { InitialFrame } from './components/InitialFrame';
+import Home  from "./components/Home";
+import Live  from './components/Live';
 
 
 export default function App() {
@@ -26,13 +27,13 @@ export default function App() {
           <Alert alertObj={alertObj} />
           <Switch>
             <Route exact path="/">
-              <InitialFrame alertCall={alertCall} />
+              <Home alertCall={alertCall} />
             </Route>
             <Route exact path="/about">
               <About />
-            </Route>           
-            <Route  path="/live">
-              <InitialFrame alertCall={alertCall} />
+            </Route>
+            <Route path="/live">
+              <Live alertCall={alertCall} />
             </Route>
           </Switch>
         </Router>

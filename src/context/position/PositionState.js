@@ -158,6 +158,8 @@ const PositionState = (props) => {
         const res_json = await response.json();
         // console.log(res_json);
         localStorage.setItem('game_id', res_json);
+        localStorage.setItem('col', 1);
+
     };
 
 
