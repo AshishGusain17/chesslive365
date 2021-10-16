@@ -23,7 +23,7 @@ export const InitialFrame = (props) => {
         enpassant2, updateEnpassant2,
         currPGN2, updatePGN2,
 
-        createNewGame
+        createNewGame, getLiveGame
     } = context;
 
 
@@ -45,6 +45,7 @@ export const InitialFrame = (props) => {
                     updateEnpassant={updateEnpassant2}
                     currPGN={currPGN1}
                     updatePGN={updatePGN1}
+                    getLiveGame={getLiveGame}
                 />) :
 
                 (<Home home_1_or_live_2={1}

@@ -31,7 +31,7 @@ export default function App() {
             <Route exact path="/about">
               <About />
             </Route>           
-            <Route exact path="/live">
+            <Route  path="/live">
               <InitialFrame alertCall={alertCall} />
             </Route>
           </Switch>

@@ -44,45 +44,122 @@ const PositionState = (props) => {
 
     const [enpassant1, updateEnpassant1] = useState(initEnpassant);
 
-    const [currPGN1, updatePGN1] = useState();
+    const [currPGN1, updatePGN1] = useState(initCurrPGN);
 
 
 
-    const [allPositions2, updatePosition2] = useState(initPosition);
+    const [allPositions2, updatePosition2_setState] = useState(initPosition);
 
-    const [glowSqs2, updateGlowSqs2] = useState(initGlowSqs)
+    const [glowSqs2, updateGlowSqs2_setState] = useState(initGlowSqs)
 
-    const [turn2, updateTurn2] = useState(initTurn);
+    const [turn2, updateTurn2_setState] = useState(initTurn);
 
-    const [pieceClicked2, updatePieceClicked2] = useState(initPieceClicked);
+    const [pieceClicked2, updatePieceClicked2_setState] = useState(initPieceClicked);
 
-    const [enpassant2, updateEnpassant2] = useState(initEnpassant);
+    const [enpassant2, updateEnpassant2_setState] = useState(initEnpassant);
 
-    const [currPGN2, updatePGN2] = useState();
-
-
+    const [currPGN2, updatePGN2_setState] = useState(initCurrPGN);
 
 
-    const createNewGame = async () => {
-        const response = await fetch(`${HOST}/api/chess/newgame`, {
-            method: 'GET',
+    const updateField = async (fieldName, val) => {
+        const game_id = localStorage.getItem('game_id');
+        let response = await fetch(`${HOST}/api/chess/updategame`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
+            body: JSON.stringify({
+                "game_id": game_id, fieldName: fieldName, val: val
+            })
+        });
+        // below if is just so that I don't get any warning like 'response' is assigned a value but never used
+        if (response) {
+            //pass;
+        }
+        // const res_json = await response.json();
+        // console.log(fieldName, res_json);
+    }
+    const updatePosition2 = async (val) => {
+        await updateField("allPositions2", val)
+        updatePosition2_setState(val);
+    }
+
+    const updateGlowSqs2 = async (val) => {
+        await updateField("glowSqs2", val)
+        updateGlowSqs2_setState(val);
+    }
+
+    const updateTurn2 = async (val) => {
+        await updateField("turn2", val)
+        updateTurn2_setState(val);
+    }
+
+    const updatePieceClicked2 = async (val) => {
+        await updateField("pieceClicked2", val)
+        updatePieceClicked2_setState(val);
+    }
+
+    const updateEnpassant2 = async (val) => {
+        await updateField("enpassant2", val)
+        updateEnpassant2_setState(val);
+    }
+
+    const updatePGN2 = async (val) => {
+        await updateField("currPGN2", val)
+        updatePGN2_setState(val);
+    }
+
+
+    const getLiveGame = async () => {
+        const game_id = localStorage.getItem('game_id');
+        const response = await fetch(`${HOST}/api/chess/getgame`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "game_id": game_id
+            })
         });
 
-        updatePosition2(initPosition);
-        updateGlowSqs2(initGlowSqs);
-        updateTurn2(initTurn);
-        updatePieceClicked2(initPieceClicked);
-        updateEnpassant2(initEnpassant);
-        updatePGN2(initCurrPGN);
-
-        // console.log(response)
         const res_json = await response.json();
-        console.log(res_json);
-        localStorage.setItem('player1', res_json)
+        // console.log(res_json);
+
+        updatePosition2_setState(res_json.allPositions2);
+        updateGlowSqs2_setState(res_json.glowSqs2);
+        updateTurn2_setState(res_json.turn2);
+        updatePieceClicked2_setState(res_json.pieceClicked2);
+        updateEnpassant2_setState(res_json.enpassant2);
+        updatePGN2_setState(res_json.currPGN2);
+    }
+
+
+    const createNewGame = async () => {
+        const game_id = Math.floor((Math.random() * 100000) + 1);
+        const response = await fetch(`${HOST}/api/chess/newgame`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "game_id": game_id, "user_count": 1, "allPositions2": initPosition,
+                "glowSqs2": initGlowSqs, "turn2": initTurn, "pieceClicked2": initPieceClicked,
+                "enpassant2": initEnpassant, "currPGN2": initCurrPGN
+            })
+        });
+
+        updatePosition2_setState(initPosition);
+        updateGlowSqs2_setState(initGlowSqs);
+        updateTurn2_setState(initTurn);
+        updatePieceClicked2_setState(initPieceClicked);
+        updateEnpassant2_setState(initEnpassant);
+        updatePGN2_setState(initCurrPGN);
+
+        const res_json = await response.json();
+        // console.log(res_json);
+        localStorage.setItem('game_id', res_json);
     };
+
 
 
     return (
@@ -108,7 +185,7 @@ const PositionState = (props) => {
             enpassant2, updateEnpassant2,
             currPGN2, updatePGN2,
 
-            createNewGame
+            createNewGame, getLiveGame
         }}>
             {props.children}
         </PositionContext.Provider>

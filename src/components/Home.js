@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PositionContext from '../context/position/PositionContext';
 
 import { checkKingSafety } from '../utils/kingSafety';
@@ -13,6 +13,7 @@ import { findSqs_4_Bishop } from '../utils/piecesMove/Bishop';
 import { findSqs_4_Knight } from '../utils/piecesMove/Knight';
 import { findSqs_4_King } from '../utils/piecesMove/King';
 import { findSqs_4_Rook } from '../utils/piecesMove/Rook';
+import { useLocation } from 'react-router';
 
 
 export default function Home(props) {
@@ -45,7 +46,21 @@ export default function Home(props) {
 
 
 
-    const glowSquares = (possibleMoves, glow) => {
+    let location = useLocation();
+    useEffect(() => {
+        if(location.pathname==='/live' && localStorage.getItem('game_id')){
+            console.log('both conditions satisfy')
+            props.getLiveGame();
+        }
+        // eslint-disable-next-line
+    }, [])
+
+
+
+
+
+
+    const glowSquares = async(possibleMoves, glow) => {
         // for queen(since it includes moves of bishop and rook) 
         // 2 function one by one gets executed for moves of queen, so copyGlow has to be returned
         if (glow) {
@@ -61,7 +76,7 @@ export default function Home(props) {
             for (let ind = 0; ind < possibleMoves.length; ind++) {
                 copyGlowSqs[possibleMoves[ind]] = 1;
             }
-            updateGlowSqs(copyGlowSqs);
+            await updateGlowSqs(copyGlowSqs);
         }
     }
 
@@ -69,7 +84,7 @@ export default function Home(props) {
 
 
 
-    const squareClicked = (square_id) => {
+    const squareClicked = async(square_id) => {
         // user wants to make a move as he selects a square that was glowing
         if (glowSqs[square_id] === 1) {
             let opponentTurn;
@@ -81,7 +96,7 @@ export default function Home(props) {
             }
 
             // update moves in allPositionsCopy variable, which will be updated in state
-            let allPositionsCopy = getUpdatedMoves(allPositions, square_id, turn, pieceClicked)
+            let allPositionsCopy = await getUpdatedMoves(allPositions, square_id, turn, pieceClicked)
 
             // checking enpassant to be active or not
             let enpassantObj = {}
@@ -93,19 +108,19 @@ export default function Home(props) {
                 enpassantObj.active = 0;
                 enpassantObj.sq = -1;
             }
-            updateEnpassant(enpassantObj);
-            updatePosition(allPositionsCopy);
-            updateGlowSqs(initGlowSqs);
+            await updateEnpassant(enpassantObj);
+            await updatePosition(allPositionsCopy);
+            await updateGlowSqs(initGlowSqs);
 
 
             // sending allPositionsCopy variable to all below functions as state takes time to update(async)
             if (turn === 1) {
 
                 // you find all of your pieces moves, and then check whether opponent king is in any of those squares
-                let checkFlag = funcCheckOrNot(allPositionsCopy, turn);
+                let checkFlag = await funcCheckOrNot(allPositionsCopy, turn);
 
                 // you find all your opponent moves, if he has even one, then there is no stalemate
-                let stalemateFlag = funcDraw_Stalemate(allPositionsCopy, opponentTurn, enpassantObj);
+                let stalemateFlag = await funcDraw_Stalemate(allPositionsCopy, opponentTurn, enpassantObj);
 
                 if (checkFlag === 1 && stalemateFlag === 1) {
                     props.alertCall('Checkmate', 'White wins');
@@ -119,8 +134,8 @@ export default function Home(props) {
             }
             else {
                 // sending allPositionsCopy variable as state takes time to update(async)
-                let checkFlag = funcCheckOrNot(allPositionsCopy, turn);
-                let stalemateFlag = funcDraw_Stalemate(allPositionsCopy, opponentTurn, enpassantObj);
+                let checkFlag = await funcCheckOrNot(allPositionsCopy, turn);
+                let stalemateFlag = await funcDraw_Stalemate(allPositionsCopy, opponentTurn, enpassantObj);
 
                 if (checkFlag === 1 && stalemateFlag === 1) {
                     props.alertCall('Checkmate', 'Black wins');
@@ -133,7 +148,7 @@ export default function Home(props) {
                 };
             }
 
-            updateTurn(opponentTurn);
+            await updateTurn(opponentTurn);
 
 
 
@@ -150,117 +165,117 @@ export default function Home(props) {
                 // code if the piece is white pawn
                 let piece = 'wp';
                 if (allPositions[square_id] === piece) {
-                    updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = findSqs_4_WPawn(allPositions, square_id, enpassant);
-                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
-                    glowSquares(possibleMoves);
+                    await updatePieceClicked({ sq: square_id, piece: piece });
+                    let possibleMoves = await findSqs_4_WPawn(allPositions, square_id, enpassant);
+                    possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
+                    await glowSquares(possibleMoves);
                 }
 
                 // code if the piece is white bishop
                 piece = 'wb';
                 if (allPositions[square_id] === piece) {
-                    updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = findSqs_4_Bishop(allPositions, square_id, turn);
-                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
-                    glowSquares(possibleMoves);
+                    await updatePieceClicked({ sq: square_id, piece: piece });
+                    let possibleMoves = await findSqs_4_Bishop(allPositions, square_id, turn);
+                    possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
+                    await glowSquares(possibleMoves);
                 }
 
                 // code if the piece is white knight
                 piece = 'wn';
                 if (allPositions[square_id] === piece) {
-                    updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = findSqs_4_Knight(allPositions, square_id, turn);
-                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
-                    glowSquares(possibleMoves);
+                    await updatePieceClicked({ sq: square_id, piece: piece });
+                    let possibleMoves = await findSqs_4_Knight(allPositions, square_id, turn);
+                    possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
+                    await glowSquares(possibleMoves);
                 }
 
                 // code if the piece is white rook
                 piece = 'wr';
                 if (allPositions[square_id] === piece) {
-                    updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = findSqs_4_Rook(allPositions, square_id, turn);
-                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
-                    glowSquares(possibleMoves);
+                    await updatePieceClicked({ sq: square_id, piece: piece });
+                    let possibleMoves = await findSqs_4_Rook(allPositions, square_id, turn);
+                    possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
+                    await glowSquares(possibleMoves);
                 }
                 // code if the piece is white queen
                 piece = 'wq';
                 if (allPositions[square_id] === piece) {
-                    updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = findSqs_4_Rook(allPositions, square_id, turn);
-                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
-                    let glow = glowSquares(possibleMoves, initGlowSqs);
-                    possibleMoves = findSqs_4_Bishop(allPositions, square_id, turn);
-                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
-                    glow = glowSquares(possibleMoves, glow);
-                    updateGlowSqs(glow);
+                    await updatePieceClicked({ sq: square_id, piece: piece });
+                    let possibleMoves = await findSqs_4_Rook(allPositions, square_id, turn);
+                    possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
+                    let glow = await glowSquares(possibleMoves, initGlowSqs);
+                    possibleMoves = await findSqs_4_Bishop(allPositions, square_id, turn);
+                    possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
+                    glow = await glowSquares(possibleMoves, glow);
+                    await updateGlowSqs(glow);
                 }
 
                 // code if the piece is white king
                 piece = 'wk';
                 if (allPositions[square_id] === piece) {
-                    updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = findSqs_4_King(allPositions, square_id, turn);
-                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
-                    glowSquares(possibleMoves);
+                    await updatePieceClicked({ sq: square_id, piece: piece });
+                    let possibleMoves = await findSqs_4_King(allPositions, square_id, turn);
+                    possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
+                    await glowSquares(possibleMoves);
                 }
             }
             else {
                 // code if the piece is black pawn
                 let piece = 'bp';
                 if (allPositions[square_id] === piece) {
-                    updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = findSqs_4_BPawn(allPositions, square_id, enpassant);
-                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
-                    glowSquares(possibleMoves);
+                    await updatePieceClicked({ sq: square_id, piece: piece });
+                    let possibleMoves = await findSqs_4_BPawn(allPositions, square_id, enpassant);
+                    possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
+                    await glowSquares(possibleMoves);
                 }
 
                 // code if the piece is black bishop
                 piece = 'bb';
                 if (allPositions[square_id] === piece) {
-                    updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = findSqs_4_Bishop(allPositions, square_id, turn);
-                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
-                    glowSquares(possibleMoves);
+                    await updatePieceClicked({ sq: square_id, piece: piece });
+                    let possibleMoves = await findSqs_4_Bishop(allPositions, square_id, turn);
+                    possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
+                    await glowSquares(possibleMoves);
                 }
 
                 // code if the piece is black knight
                 piece = 'bn';
                 if (allPositions[square_id] === piece) {
-                    updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = findSqs_4_Knight(allPositions, square_id, turn);
-                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
-                    glowSquares(possibleMoves);
+                    await updatePieceClicked({ sq: square_id, piece: piece });
+                    let possibleMoves = await findSqs_4_Knight(allPositions, square_id, turn);
+                    possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
+                    await glowSquares(possibleMoves);
                 }
 
                 // code if the piece is black rook
                 piece = 'br';
                 if (allPositions[square_id] === piece) {
-                    updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = findSqs_4_Rook(allPositions, square_id, turn);
-                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
-                    glowSquares(possibleMoves);
+                    await updatePieceClicked({ sq: square_id, piece: piece });
+                    let possibleMoves = await findSqs_4_Rook(allPositions, square_id, turn);
+                    possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
+                    await glowSquares(possibleMoves);
                 }
 
                 // code if the piece is black queen
                 piece = 'bq';
                 if (allPositions[square_id] === piece) {
-                    updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = findSqs_4_Rook(allPositions, square_id, turn);
-                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
-                    let glow = glowSquares(possibleMoves, initGlowSqs);
-                    possibleMoves = findSqs_4_Bishop(allPositions, square_id, turn);
-                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
-                    glow = glowSquares(possibleMoves, glow);
-                    updateGlowSqs(glow);
+                    await updatePieceClicked({ sq: square_id, piece: piece });
+                    let possibleMoves = await findSqs_4_Rook(allPositions, square_id, turn);
+                    possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
+                    let glow = await glowSquares(possibleMoves, initGlowSqs);
+                    possibleMoves = await findSqs_4_Bishop(allPositions, square_id, turn);
+                    possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
+                    glow = await glowSquares(possibleMoves, glow);
+                    await updateGlowSqs(glow);
                 }
 
                 // code if the piece is black king
                 piece = 'bk';
                 if (allPositions[square_id] === piece) {
-                    updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = findSqs_4_King(allPositions, square_id, turn);
-                    possibleMoves = checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
-                    glowSquares(possibleMoves);
+                    await updatePieceClicked({ sq: square_id, piece: piece });
+                    let possibleMoves = await findSqs_4_King(allPositions, square_id, turn);
+                    possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
+                    await glowSquares(possibleMoves);
                 }
             }
         }
