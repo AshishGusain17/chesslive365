@@ -3,17 +3,18 @@ import {
     Link
 } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
-// import {useHistory} from 'react-router';
+import {useHistory} from 'react-router';
 
 export default function Navbar(props) {
     const location = useLocation();
-    // const history = useHistory();
+    const history = useHistory();
 
-    // const handleLogout = ()=>{
-    //     localStorage.removeItem('jwt-token');
-    //     history.push('/login');
-    // };
+    const handleNewGame = async()=>{
+        let game_number = await props.createNewGame();
+        history.push(`/live/${game_number}`);
+    };
 
+    
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -30,7 +31,7 @@ export default function Navbar(props) {
                             <Link className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`} to="/about">About</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${location.pathname === '/live' ? 'active' : ''}`} to="/live" onClick={props.createNewGame}>New game</Link>
+                            <Link className={`nav-link ${location.pathname === '/live' ? 'active' : ''}`} to="/live" onClick={handleNewGame}>New game</Link>
                         </li>
                     </ul>
                 </div>

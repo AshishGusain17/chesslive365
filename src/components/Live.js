@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import PositionContext from '../context/position/PositionContext';
 import Navbar from './Navbar';
 
@@ -284,12 +284,47 @@ export default function Live(props) {
 
 
 
+    function useInterval(callback, delay) {
+        const savedCallback = useRef();
+        // Remember the latest callback.
+        useEffect(() => {
+            savedCallback.current = callback;
+        }, [callback]);
+
+        // Set up the interval.
+        useEffect(() => {
+            function tick() {
+                savedCallback.current();
+            }
+            if (delay !== null) {
+                let id = setInterval(tick, delay);
+                return () => clearInterval(id);
+            }
+        }, [delay]);
+    }
+
+
+
+    const squareClickedColor = (square_id) => {
+        console.log(turn, localStorage.getItem('col'))
+        if (turn === parseInt(localStorage.getItem('col'))) {
+            squareClicked(square_id);
+        }
+    }
+
+
+    let [count, setCount] = useState(0);
+    useInterval(async () => {
+        await getLiveGame();
+        // console.log(count);
+        setCount(count + 1);
+    }, 500);
 
 
     return (
         <>
             <Navbar createNewGame={createNewGame} />
-            <ChessBoard home_1_or_live_2={2} squareClicked={squareClicked} />
+            <ChessBoard home_1_or_live_2={2} squareClicked={squareClickedColor} />
         </>
     )
 }

@@ -160,6 +160,7 @@ const PositionState = (props) => {
         localStorage.setItem('game_id', res_json);
         localStorage.setItem('game_number', game_number);
         localStorage.setItem('col', 1);
+        return game_number;
     };
 
 

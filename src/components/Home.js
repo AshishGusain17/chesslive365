@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import PositionContext from '../context/position/PositionContext';
 import Navbar from './Navbar';
 
@@ -14,7 +14,6 @@ import { findSqs_4_Bishop } from '../utils/piecesMove/Bishop';
 import { findSqs_4_Knight } from '../utils/piecesMove/Knight';
 import { findSqs_4_King } from '../utils/piecesMove/King';
 import { findSqs_4_Rook } from '../utils/piecesMove/Rook';
-import { useLocation } from 'react-router';
 
 
 export default function Home(props) {
@@ -40,18 +39,6 @@ export default function Home(props) {
     const updatePieceClicked = updatePieceClicked1
     const enpassant = enpassant1
     const updateEnpassant = updateEnpassant1
-
-
-
-    let location = useLocation();
-    useEffect(() => {
-        if (location.pathname.length >= 5 && location.pathname.substring(0, 5) === '/live' && localStorage.getItem('game_id')) {
-            console.log('both conditions satisfy')
-            props.getLiveGame();
-        }
-        // eslint-disable-next-line
-    }, [])
-
 
 
 
