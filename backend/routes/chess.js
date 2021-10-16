@@ -64,6 +64,38 @@ router.put('/updategame', async (req, res) => {
 
 
 
+router.put('/get2ndplayer', async (req, res) => {
+    try {
+        const { game_number_by_id, game_number_saved } = req.body;
+
+        // checking if the particular game_number is present or not
+        let liveGameArr = await liveGames.find({ game_number: game_number_by_id });
+        if (liveGameArr.length===0) {
+            res.status(404).json({ "success": 0, "log": "Live game not found" });
+        }
+        else {
+            let liveGame = liveGameArr[0];
+            if (game_number_saved === game_number_by_id) {
+                res.json({ "success": 0, "log": "You are one of the 2 players playing this game." });
+            }
+            else {
+                if (liveGame.user_count === 1) {
+                    liveGame["user_count"] = 2;
+                    // finally updating user_count in database for that particular game
+                    updatedGame = await liveGames.findByIdAndUpdate(liveGame._id, { $set: liveGame }, { new: true });
+                    res.json({ "success": 1, "game_id": liveGame._id, "game_number": game_number_by_id });
+                }
+                else {
+                    res.json({ "success": 0, "log": "2 players are already playing this game. You can only spectate." });
+                }
+            }
+
+        }
+    } catch (err) {
+        console.log(err)
+        res.status(500).json({ "log": "error in /get2ndplayer endpoint" })
+    }
+})
 
 
 module.exports = router;

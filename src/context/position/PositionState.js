@@ -160,9 +160,27 @@ const PositionState = (props) => {
         localStorage.setItem('game_id', res_json);
         localStorage.setItem('game_number', game_number);
         localStorage.setItem('col', 1);
-
     };
 
+
+    const confirm2ndPlayer = async (game_number_by_id, game_number_saved) => {
+        const response = await fetch(`${HOST}/api/chess/get2ndplayer`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "game_number_by_id": game_number_by_id, "game_number_saved": game_number_saved
+            })
+        });
+        const res_json = await response.json();
+        console.log(res_json);
+        if (res_json.success === 1) {
+            localStorage.setItem('game_number', res_json.game_number);
+            localStorage.setItem('game_id', res_json.game_id);
+            localStorage.setItem('col', 0);
+        }
+    }
 
 
     return (
@@ -188,7 +206,7 @@ const PositionState = (props) => {
             enpassant2, updateEnpassant2,
             currPGN2, updatePGN2,
 
-            createNewGame, getLiveGame
+            createNewGame, getLiveGame, confirm2ndPlayer
         }}>
             {props.children}
         </PositionContext.Provider>

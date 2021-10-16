@@ -28,7 +28,7 @@ export default function Live(props) {
         pieceClicked2, updatePieceClicked2,
         enpassant2, updateEnpassant2,
 
-        createNewGame, getLiveGame
+        createNewGame, getLiveGame, confirm2ndPlayer
     } = context;
 
 
@@ -52,6 +52,7 @@ export default function Live(props) {
             console.log('both conditions satisfy')
             getLiveGame();
         }
+        confirm2ndPlayer(location.pathname.substring(6, 20), localStorage.getItem('game_number'));
         // eslint-disable-next-line
     }, [])
 
