@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const liveChessSchema = new Schema({
   datetime: { type: Date, default: Date.now },
-  game_id: { type: Number, required: true },
+  game_number: { type: Number, required: true },
   user_count: { type: Number, required: true },
   allPositions2: {},
   glowSqs2: {},

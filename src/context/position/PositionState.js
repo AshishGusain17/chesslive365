@@ -135,14 +135,14 @@ const PositionState = (props) => {
 
 
     const createNewGame = async () => {
-        const game_id = Math.floor((Math.random() * 100000) + 1);
+        const game_number = Math.floor((Math.random() * 100000) + 1);
         const response = await fetch(`${HOST}/api/chess/newgame`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "game_id": game_id, "user_count": 1, "allPositions2": initPosition,
+                "game_number": game_number, "user_count": 1, "allPositions2": initPosition,
                 "glowSqs2": initGlowSqs, "turn2": initTurn, "pieceClicked2": initPieceClicked,
                 "enpassant2": initEnpassant, "currPGN2": initCurrPGN
             })
@@ -158,6 +158,7 @@ const PositionState = (props) => {
         const res_json = await response.json();
         // console.log(res_json);
         localStorage.setItem('game_id', res_json);
+        localStorage.setItem('game_number', game_number);
         localStorage.setItem('col', 1);
 
     };

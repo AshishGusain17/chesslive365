@@ -17,10 +17,10 @@ router.post('/getgame', async (req, res) => {
 
 router.post('/newgame', async (req, res) => {
     try {
-        const { game_id, user_count, allPositions2, glowSqs2, turn2, pieceClicked2, enpassant2, currPGN2 } = req.body;
+        const { game_number, user_count, allPositions2, glowSqs2, turn2, pieceClicked2, enpassant2, currPGN2 } = req.body;
 
         const game = new liveGames({
-            game_id: game_id,
+            game_number: game_number,
             user_count: user_count,
             allPositions2: allPositions2,
             glowSqs2: glowSqs2,
