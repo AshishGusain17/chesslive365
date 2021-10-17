@@ -3,13 +3,15 @@ import {
     Link
 } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
-import {useHistory} from 'react-router';
+import { useHistory } from 'react-router';
+import reverseStyles from '../css/reverse.module.css';
+
 
 export default function Navbar(props) {
     const location = useLocation();
     const history = useHistory();
 
-    const handleNewGame = async()=>{
+    const handleNewGame = async () => {
         let game_number = await props.createNewGame();
         history.push(`/live/${game_number}`);
     };
@@ -28,15 +30,20 @@ export default function Navbar(props) {
                             <Link className={`nav-link ${location.pathname === '/home' ? 'active' : ''}`} to="/">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className={`nav-link ${location.pathname === '/about' ? 'active' : ''}`} to="/about">About</Link>
-                        </li>
-                        <li className="nav-item">
                             <Link className={`nav-link ${location.pathname === '/live' ? 'active' : ''}`} to="/live" onClick={handleNewGame}>New game</Link>
                         </li>
+                        {/* <li className="nav-item">
+                            <p className='nav-link'>Toggle</p>
+                        </li> */}
+                        <input type="checkbox" id="toggle" className={reverseStyles.toggleCheckbox} />
+                        <label htmlFor="toggle" className={reverseStyles.toggleLabel} onClick={props.reverseState} >
+                            <span className={reverseStyles.toggleLabelBackground}></span>
+                        </label>
+
                     </ul>
                 </div>
 
-                
+
             </div>
         </nav>
     )

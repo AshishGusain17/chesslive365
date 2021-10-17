@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PositionContext from '../context/position/PositionContext';
 import Navbar from './Navbar';
 
@@ -7,6 +7,7 @@ import { getUpdatedMoves } from '../utils/functools';
 import { funcCheckOrNot } from '../utils/checkAndMate';
 import { funcDraw_Stalemate } from '../utils/draw';
 import { ChessBoard } from './ChessBoard';
+import { ChessBoardReverse } from './ChessBoardReverse';
 
 
 import { findSqs_4_BPawn, findSqs_4_WPawn } from '../utils/piecesMove/Pawn';
@@ -25,7 +26,9 @@ export default function Home(props) {
         glowSqs1, updateGlowSqs1,
         turn1, updateTurn1,
         pieceClicked1, updatePieceClicked1,
-        enpassant1, updateEnpassant1
+        enpassant1, updateEnpassant1,
+
+        createNewGame
     } = context;
 
 
@@ -266,12 +269,23 @@ export default function Home(props) {
     }
 
 
+    let initReverse1 = 1;
+    const [reverse1, updateReverse1] = useState(initReverse1);
+    const reverseState = () => {
+        if (reverse1 === 1) {
+            updateReverse1(0);
+        }
+        else {
+            updateReverse1(1);
+        }
+    }
 
 
     return (
         <>
-            <Navbar />
-            <ChessBoard home_1_or_live_2={1} squareClicked={squareClicked} />
+            <Navbar createNewGame={createNewGame} reverseState={reverseState} />
+            {reverse1 ? (<ChessBoard home_1_or_live_2={1} squareClicked={squareClicked} />) :
+                        <ChessBoardReverse home_1_or_live_2={1} squareClicked={squareClicked} />}
         </>
     )
 }

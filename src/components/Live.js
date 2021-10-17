@@ -15,6 +15,7 @@ import { findSqs_4_Knight } from '../utils/piecesMove/Knight';
 import { findSqs_4_King } from '../utils/piecesMove/King';
 import { findSqs_4_Rook } from '../utils/piecesMove/Rook';
 import { useHistory, useLocation } from 'react-router';
+import { ChessBoardReverse } from './ChessBoardReverse';
 
 
 export default function Live(props) {
@@ -53,13 +54,13 @@ export default function Live(props) {
             history.push('/');
         }
         else if (location.pathname.length > 5 && location.pathname.substring(0, 6) === '/live/' && localStorage.getItem('game_id')) {
-            console.log('both conditions satisfy');
+            console.log('all conditions satisfy');
             getLiveGame();
+            confirm2ndPlayer(location.pathname.substring(6, 20), localStorage.getItem('game_number'));  
         }
         else{
             history.push('/');
         }
-        confirm2ndPlayer(location.pathname.substring(6, 20), localStorage.getItem('game_number'));
         // eslint-disable-next-line
     }, [])
 
@@ -329,10 +330,23 @@ export default function Live(props) {
         setCount(count + 1);
     }, 500);
 
+
+    const [reverse2, updateReverse2] = useState(1);
+    const reverseState = () => {
+        if (reverse2 === 1) {
+            updateReverse2(0);
+        }
+        else {
+            updateReverse2(1);
+        }
+    }
+
     return (
         <>
-            <Navbar createNewGame={createNewGame} />
-            <ChessBoard home_1_or_live_2={2} squareClicked={squareClickedColor} />
+            <Navbar createNewGame={createNewGame} reverseState={reverseState} />
+            {reverse2 ? (<ChessBoard home_1_or_live_2={2} squareClicked={squareClickedColor} />) :
+                        <ChessBoardReverse home_1_or_live_2={2} squareClicked={squareClickedColor} />}
         </>
     )
+
 }
