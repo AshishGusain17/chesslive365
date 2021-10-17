@@ -46,7 +46,7 @@ router.put('/updategame', async (req, res) => {
         // checking if live game is present or not
         let liveGame = await liveGames.findById(game_id);
         if (!liveGame) {
-            res.status(404).json({ "log": "live game not found" });
+            res.json({ "log": "live game not found" });
         }
 
         // making changes in object to be updated
@@ -71,7 +71,7 @@ router.put('/get2ndplayer', async (req, res) => {
         // checking if the particular game_number is present or not
         let liveGameArr = await liveGames.find({ game_number: game_number_by_id });
         if (liveGameArr.length===0) {
-            res.status(404).json({ "success": 0, "log": "Live game not found" });
+            res.json({ "success": 0, "log": "Live game not found" });
         }
         else {
             let liveGame = liveGameArr[0];

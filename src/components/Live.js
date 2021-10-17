@@ -14,11 +14,12 @@ import { findSqs_4_Bishop } from '../utils/piecesMove/Bishop';
 import { findSqs_4_Knight } from '../utils/piecesMove/Knight';
 import { findSqs_4_King } from '../utils/piecesMove/King';
 import { findSqs_4_Rook } from '../utils/piecesMove/Rook';
-import { useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 
 
 export default function Live(props) {
     const context = useContext(PositionContext);
+    const history = useHistory();
 
     const {
         initGlowSqs,
@@ -48,9 +49,15 @@ export default function Live(props) {
 
     let location = useLocation();
     useEffect(() => {
-        if (location.pathname.length >= 5 && location.pathname.substring(0, 5) === '/live' && localStorage.getItem('game_id')) {
-            console.log('both conditions satisfy')
+        if(location.pathname === '/live'){
+            history.push('/');
+        }
+        else if (location.pathname.length > 5 && location.pathname.substring(0, 6) === '/live/' && localStorage.getItem('game_id')) {
+            console.log('both conditions satisfy');
             getLiveGame();
+        }
+        else{
+            history.push('/');
         }
         confirm2ndPlayer(location.pathname.substring(6, 20), localStorage.getItem('game_number'));
         // eslint-disable-next-line
@@ -306,12 +313,14 @@ export default function Live(props) {
 
 
     const squareClickedColor = (square_id) => {
-        console.log(turn, localStorage.getItem('col'))
+        console.log("Move: ", turn)
+        console.log("You: ", localStorage.getItem('col'))
         if (turn === parseInt(localStorage.getItem('col'))) {
             squareClicked(square_id);
         }
     }
 
+    
 
     let [count, setCount] = useState(0);
     useInterval(async () => {
@@ -319,7 +328,6 @@ export default function Live(props) {
         // console.log(count);
         setCount(count + 1);
     }, 500);
-
 
     return (
         <>
