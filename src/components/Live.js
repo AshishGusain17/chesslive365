@@ -30,7 +30,7 @@ export default function Live(props) {
         pieceClicked2, updatePieceClicked2,
         enpassant2, updateEnpassant2,
 
-        createNewGame, getLiveGame, confirm2ndPlayer
+        createNewGame, getLiveGame, confirm2ndPlayer,updateGlowSqs2_setState
     } = context;
 
 
@@ -50,17 +50,36 @@ export default function Live(props) {
 
     let location = useLocation();
     useEffect(() => {
-        if(location.pathname === '/live'){
-            history.push('/');
+        async function performLiveCall() {
+            if (location.pathname === '/live') {
+                history.push('/');
+            }
+            else if (location.pathname.length > 5 && location.pathname.substring(0, 6) === '/live/') {
+                let flag = await getLiveGame(location.pathname.substring(6, 20));
+                // if the url game_number provided does not exists in the database.....means there is no such live game
+                if (!flag) {
+                    history.push('/');
+                }
+                else {
+                    if (localStorage.getItem('curr')) {
+                        const game_number_by_id = parseInt(location.pathname.substring(6, 20).trim());
+                        const game_number_saved = JSON.parse(localStorage.getItem('curr')).game_number;
+                        await confirm2ndPlayer(game_number_by_id, game_number_saved);
+                    }
+                    else {
+                        // IF WE ARE FIRST TIME VISITING SITE, AND STORAGE IS CLEAN:
+                        // since it is checked at the backend and confirmed whether you are the creator of this game,
+                        // so to prove that wrong, we are passing a random data
+                        let random_number = 121212121221212121212;
+                        await confirm2ndPlayer(location.pathname.substring(6, 20), random_number);
+                    }
+                }
+            }
+            else {
+                history.push('/');
+            }
         }
-        else if (location.pathname.length > 5 && location.pathname.substring(0, 6) === '/live/' && localStorage.getItem('game_id')) {
-            console.log('all conditions satisfy');
-            getLiveGame();
-            confirm2ndPlayer(location.pathname.substring(6, 20), localStorage.getItem('game_number'));  
-        }
-        else{
-            history.push('/');
-        }
+        performLiveCall();
         // eslint-disable-next-line
     }, [])
 
@@ -314,18 +333,30 @@ export default function Live(props) {
 
 
     const squareClickedColor = (square_id) => {
-        console.log("Move: ", turn)
-        console.log("You: ", localStorage.getItem('col'))
-        if (turn === parseInt(localStorage.getItem('col'))) {
-            squareClicked(square_id);
+        let flagMatch = 0;
+        if (localStorage.getItem('curr')) {
+            const game_number_by_id = parseInt(location.pathname.substring(6, 20).trim());
+            const game_number_saved = JSON.parse(localStorage.getItem('curr')).game_number;
+            if (game_number_by_id === game_number_saved) {
+                flagMatch = 1;
+            }
+            // console.log("flagMatch: ",flagMatch);
+            console.log("Move: ", turn);
+            console.log("You: ", JSON.parse(localStorage.getItem('curr')).col);
+            if (turn === parseInt(JSON.parse(localStorage.getItem('curr')).col) && flagMatch === 1) {
+                squareClicked(square_id);
+            }
         }
     }
 
-    
+
 
     let [count, setCount] = useState(0);
     useInterval(async () => {
-        await getLiveGame();
+        let flag = await getLiveGame(location.pathname.substring(6, 20));
+        if (!flag) {
+            history.push('/');
+        }
         // console.log(count);
         setCount(count + 1);
     }, 500);
@@ -345,7 +376,7 @@ export default function Live(props) {
         <>
             <Navbar createNewGame={createNewGame} reverseState={reverseState} />
             {reverse2 ? (<ChessBoard home_1_or_live_2={2} squareClicked={squareClickedColor} />) :
-                        <ChessBoardReverse home_1_or_live_2={2} squareClicked={squareClickedColor} />}
+                <ChessBoardReverse home_1_or_live_2={2} squareClicked={squareClickedColor} />}
         </>
     )
 

@@ -62,7 +62,7 @@ const PositionState = (props) => {
 
 
     const updateField = async (fieldName, val) => {
-        const game_id = localStorage.getItem('game_id');
+        const game_id = JSON.parse(localStorage.getItem('curr')).game_id;
         let response = await fetch(`${HOST}/api/chess/updategame`, {
             method: 'PUT',
             headers: {
@@ -110,32 +110,40 @@ const PositionState = (props) => {
     }
 
 
-    const getLiveGame = async () => {
-        const game_id = localStorage.getItem('game_id');
+
+    // game_number_by_id: from URL
+    // game_number_saved: saved in local storage  
+    const getLiveGame = async (game_number_by_id) => {
         const response = await fetch(`${HOST}/api/chess/getgame`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "game_id": game_id
+                "game_number": game_number_by_id
             })
         });
 
-        const res_json = await response.json();
-        // console.log(res_json);
-
-        updatePosition2_setState(res_json.allPositions2);
-        updateGlowSqs2_setState(res_json.glowSqs2);
-        updateTurn2_setState(res_json.turn2);
-        updatePieceClicked2_setState(res_json.pieceClicked2);
-        updateEnpassant2_setState(res_json.enpassant2);
-        updatePGN2_setState(res_json.currPGN2);
+        let res_json = await response.json();
+        if (res_json.success) {
+            res_json = res_json.liveGame;
+            updatePosition2_setState(res_json.allPositions2);
+            updateGlowSqs2_setState(res_json.glowSqs2);
+            updateTurn2_setState(res_json.turn2);
+            updatePieceClicked2_setState(res_json.pieceClicked2);
+            updateEnpassant2_setState(res_json.enpassant2);
+            updatePGN2_setState(res_json.currPGN2);
+            return 1;
+        }
+        else {
+            return 0;
+        }
     }
 
 
+
     const createNewGame = async () => {
-        const game_number = Math.floor((Math.random() * 100000) + 1);
+        const game_number = Math.floor((Math.random() * 10000000) + 1);
         const response = await fetch(`${HOST}/api/chess/newgame`, {
             method: 'POST',
             headers: {
@@ -157,14 +165,21 @@ const PositionState = (props) => {
 
         const res_json = await response.json();
         // console.log(res_json);
-        localStorage.setItem('game_id', res_json);
-        localStorage.setItem('game_number', game_number);
-        localStorage.setItem('col', 1);
+        const currObj = {
+            'game_id': res_json,
+            'game_number': game_number,
+            'col': 1
+        }
+        localStorage.setItem('curr', JSON.stringify(currObj));
         return game_number;
     };
 
 
+
+    // game_number_by_id: from URL
+    // game_number_saved: saved in local storage  
     const confirm2ndPlayer = async (game_number_by_id, game_number_saved) => {
+        // console.log(game_number_by_id, game_number_saved)
         const response = await fetch(`${HOST}/api/chess/get2ndplayer`, {
             method: 'PUT',
             headers: {
@@ -177,9 +192,12 @@ const PositionState = (props) => {
         const res_json = await response.json();
         console.log(res_json);
         if (res_json.success === 1) {
-            localStorage.setItem('game_number', res_json.game_number);
-            localStorage.setItem('game_id', res_json.game_id);
-            localStorage.setItem('col', 0);
+            const currObj = {
+                'game_id': res_json.game_id,
+                'game_number': parseInt(res_json.game_number),
+                'col': 0
+            }
+            localStorage.setItem('curr', JSON.stringify(currObj));
         }
     }
 
@@ -207,7 +225,7 @@ const PositionState = (props) => {
             enpassant2, updateEnpassant2,
             currPGN2, updatePGN2,
 
-            createNewGame, getLiveGame, confirm2ndPlayer
+            createNewGame, getLiveGame, confirm2ndPlayer, updateGlowSqs2_setState
         }}>
             {props.children}
         </PositionContext.Provider>

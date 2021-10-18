@@ -1,18 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const liveGames = require('../models/liveGames');
+const gameNumber = require('../models/gameNumber');
 
 
-router.post('/getgame', async (req, res) => {
-    try {
-        liveGame = await liveGames.findById(req.body.game_id);
-        res.send(liveGame);
-    }
-    catch (err) {
-        console.log(err)
-        res.status(500).json({ "log": "error in /getgame endpoint" })
-    }
-})
+// router.get('/aa', async(req,res)=>{
+//     const gg = await liveGames.find().sort('-datetime');
+//     res.json(gg[0])
+// })
 
 
 router.post('/newgame', async (req, res) => {
@@ -34,9 +29,43 @@ router.post('/newgame', async (req, res) => {
 
     } catch (err) {
         console.log(err)
-        res.status(500).json({ "log": "error in /newgame endpoint" })
+        res.status(500).json({ "success":0,"log": "error in /newgame endpoint" })
     }
 })
+
+// router.post('/getgame', async (req, res) => {
+//     try {
+//         liveGame = await liveGames.findById(req.body.game_id);
+//         if(liveGame){
+//             res.send({"success":1,"liveGame":liveGame});
+//         }
+//         else{
+//             res.send({"success":0,"log": "no such game in database"});
+//         }
+       
+//     }
+//     catch (err) {
+//         console.log(err)
+//         res.status(500).json({ "log": "error in /getgame endpoint" })
+//     }
+// })
+
+router.post('/getgame', async (req, res) => {
+    try {
+        let liveGameArr = await liveGames.find({ game_number: req.body.game_number }).sort('-datetime');
+        if (liveGameArr.length === 0) {
+            res.json({ "success": 0, "log": "no such game in database" });
+        }
+        else{
+            res.send({"success":1,"liveGame":liveGameArr[0]});
+        }
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).json({ "success":0,"log": "error in /getgame endpoint" })
+    }
+})
+
 
 
 router.put('/updategame', async (req, res) => {
@@ -57,7 +86,7 @@ router.put('/updategame', async (req, res) => {
         res.send(updatedGame);
     } catch (err) {
         console.log(err)
-        res.status(500).json({ "log": "error in /updategame endpoint" })
+        res.status(500).json({ "success":0,"log": "error in /updategame endpoint" })
     }
 
 })
@@ -69,8 +98,8 @@ router.put('/get2ndplayer', async (req, res) => {
         const { game_number_by_id, game_number_saved } = req.body;
 
         // checking if the particular game_number is present or not
-        let liveGameArr = await liveGames.find({ game_number: game_number_by_id });
-        if (liveGameArr.length===0) {
+        let liveGameArr = await liveGames.find({ game_number: game_number_by_id }).sort('-datetime');;
+        if (liveGameArr.length === 0) {
             res.json({ "success": 0, "log": "Live game not found" });
         }
         else {
@@ -93,7 +122,7 @@ router.put('/get2ndplayer', async (req, res) => {
         }
     } catch (err) {
         console.log(err)
-        res.status(500).json({ "log": "error in /get2ndplayer endpoint" })
+        res.status(500).json({ "success":0,"log": "error in /get2ndplayer endpoint" })
     }
 })
 
