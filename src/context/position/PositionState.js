@@ -85,7 +85,7 @@ const PositionState = (props) => {
     }
 
     const updateGlowSqs2 = async (val) => {
-        await updateField("glowSqs2", val)
+        // await updateField("glowSqs2", val)
         updateGlowSqs2_setState(val);
     }
 
@@ -128,7 +128,6 @@ const PositionState = (props) => {
         if (res_json.success) {
             res_json = res_json.liveGame;
             updatePosition2_setState(res_json.allPositions2);
-            updateGlowSqs2_setState(res_json.glowSqs2);
             updateTurn2_setState(res_json.turn2);
             updatePieceClicked2_setState(res_json.pieceClicked2);
             updateEnpassant2_setState(res_json.enpassant2);
@@ -225,7 +224,7 @@ const PositionState = (props) => {
             enpassant2, updateEnpassant2,
             currPGN2, updatePGN2,
 
-            createNewGame, getLiveGame, confirm2ndPlayer, updateGlowSqs2_setState
+            createNewGame, getLiveGame, confirm2ndPlayer
         }}>
             {props.children}
         </PositionContext.Provider>

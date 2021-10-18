@@ -30,7 +30,7 @@ export default function Live(props) {
         pieceClicked2, updatePieceClicked2,
         enpassant2, updateEnpassant2,
 
-        createNewGame, getLiveGame, confirm2ndPlayer,updateGlowSqs2_setState
+        createNewGame, getLiveGame, confirm2ndPlayer
     } = context;
 
 
