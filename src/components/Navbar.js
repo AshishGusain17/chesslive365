@@ -5,6 +5,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import reverseStyles from '../css/reverse.module.css';
+import stylesChessSet from '../css/chessSet.module.css';
 
 
 export default function Navbar(props) {
@@ -32,14 +33,17 @@ export default function Navbar(props) {
                         <li className="nav-item">
                             <Link className={`nav-link ${location.pathname === '/live' ? 'active' : ''}`} to="/live" onClick={handleNewGame}>New game</Link>
                         </li>
-                        {/* <li className="nav-item">
-                            <p className='nav-link'>Toggle</p>
-                        </li> */}
+
                         <input type="checkbox" id="toggle" className={reverseStyles.toggleCheckbox} />
                         <label htmlFor="toggle" className={reverseStyles.toggleLabel} onClick={props.reverseState} >
                             <span className={reverseStyles.toggleLabelBackground}></span>
                         </label>
 
+                        <input type="checkbox" id="toggle2" className={stylesChessSet.toggleCheckbox2} />
+                        <label htmlFor="toggle2" className={stylesChessSet.toggleLabel2} onClick={props.updateChessSet} >
+                            <span className={stylesChessSet.toggleLabelBackground2}></span>
+                        </label>
+                        
                     </ul>
                 </div>
 

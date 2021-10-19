@@ -372,11 +372,24 @@ export default function Live(props) {
         }
     }
 
+    let initChessSet2 = 1;
+    const [chessSet2, setchessSet2] = useState(initChessSet2);
+    const updateChessSet = () => {
+        switch (chessSet2) {
+            case 1: return setchessSet2(2);
+            case 2: return setchessSet2(3);
+            case 3: return setchessSet2(4);
+            case 4: return setchessSet2(5);
+            case 5: return setchessSet2(1);
+            default: return;
+        }
+    }
+
     return (
         <>
-            <Navbar createNewGame={createNewGame} reverseState={reverseState} />
-            {reverse2 ? (<ChessBoard home_1_or_live_2={2} squareClicked={squareClickedColor} />) :
-                <ChessBoardReverse home_1_or_live_2={2} squareClicked={squareClickedColor} />}
+            <Navbar createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet} />
+            {reverse2 ? (<ChessBoard home_1_or_live_2={2} squareClicked={squareClickedColor} chessSet={chessSet2} />) :
+                <ChessBoardReverse home_1_or_live_2={2} squareClicked={squareClickedColor} chessSet={chessSet2} />}
         </>
     )
 

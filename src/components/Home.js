@@ -269,6 +269,8 @@ export default function Home(props) {
     }
 
 
+
+
     let initReverse1 = 1;
     const [reverse1, updateReverse1] = useState(initReverse1);
     const reverseState = () => {
@@ -280,12 +282,24 @@ export default function Home(props) {
         }
     }
 
+    let initChessSet1 = 1;
+    const [chessSet1, setchessSet1] = useState(initChessSet1);
+    const updateChessSet  =()=>{
+        switch (chessSet1) {
+            case 1: return setchessSet1(2);
+            case 2: return setchessSet1(3);
+            case 3: return setchessSet1(4);
+            case 4: return setchessSet1(5);
+            case 5: return setchessSet1(1);
+            default: return;
+        }
+    }
 
     return (
         <>
-            <Navbar createNewGame={createNewGame} reverseState={reverseState} />
-            {reverse1 ? (<ChessBoard home_1_or_live_2={1} squareClicked={squareClicked} />) :
-                        <ChessBoardReverse home_1_or_live_2={1} squareClicked={squareClicked} />}
+            <Navbar createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet}/>
+            {reverse1 ? (<ChessBoard home_1_or_live_2={1} squareClicked={squareClicked} chessSet={chessSet1}/>) :
+                        <ChessBoardReverse home_1_or_live_2={1} squareClicked={squareClicked} chessSet={chessSet1}/>}
         </>
     )
 }
