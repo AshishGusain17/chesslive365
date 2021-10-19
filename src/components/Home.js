@@ -15,6 +15,7 @@ import { findSqs_4_Bishop } from '../utils/piecesMove/Bishop';
 import { findSqs_4_Knight } from '../utils/piecesMove/Knight';
 import { findSqs_4_King } from '../utils/piecesMove/King';
 import { findSqs_4_Rook } from '../utils/piecesMove/Rook';
+import { Buttons } from './Buttons';
 
 
 export default function Home(props) {
@@ -282,24 +283,26 @@ export default function Home(props) {
         }
     }
 
-    let initChessSet1 = 1;
+    let initChessSet1 = { ind: 1, name: 'Gothic' };
     const [chessSet1, setchessSet1] = useState(initChessSet1);
-    const updateChessSet  =()=>{
-        switch (chessSet1) {
-            case 1: return setchessSet1(2);
-            case 2: return setchessSet1(3);
-            case 3: return setchessSet1(4);
-            case 4: return setchessSet1(5);
-            case 5: return setchessSet1(1);
+    const updateChessSet = () => {
+        switch (chessSet1.ind) {
+            case 1: return setchessSet1({ ind: 2, name: 'Graffiti' });
+            case 2: return setchessSet1({ ind: 3, name: 'Marble' });
+            case 3: return setchessSet1({ ind: 4, name: 'Metal' });
+            case 4: return setchessSet1({ ind: 5, name: 'Neo' });
+            case 5: return setchessSet1(initChessSet1);
             default: return;
         }
     }
 
     return (
         <>
-            <Navbar createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet}/>
-            {reverse1 ? (<ChessBoard home_1_or_live_2={1} squareClicked={squareClicked} chessSet={chessSet1}/>) :
-                        <ChessBoardReverse home_1_or_live_2={1} squareClicked={squareClicked} chessSet={chessSet1}/>}
+            <Navbar createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet} chessSet={chessSet1} />
+            {reverse1 ? (<ChessBoard home_1_or_live_2={1} squareClicked={squareClicked} chessSet={chessSet1} />) :
+                <ChessBoardReverse home_1_or_live_2={1} squareClicked={squareClicked} chessSet={chessSet1} />}
+
+            <Buttons createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet} chessSet={chessSet1} />
         </>
     )
 }

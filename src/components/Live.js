@@ -16,6 +16,7 @@ import { findSqs_4_King } from '../utils/piecesMove/King';
 import { findSqs_4_Rook } from '../utils/piecesMove/Rook';
 import { useHistory, useLocation } from 'react-router';
 import { ChessBoardReverse } from './ChessBoardReverse';
+import { Buttons } from './Buttons';
 
 
 export default function Live(props) {
@@ -372,24 +373,27 @@ export default function Live(props) {
         }
     }
 
-    let initChessSet2 = 1;
+
+    let initChessSet2 = { ind: 1, name: 'Gothic' };
     const [chessSet2, setchessSet2] = useState(initChessSet2);
     const updateChessSet = () => {
-        switch (chessSet2) {
-            case 1: return setchessSet2(2);
-            case 2: return setchessSet2(3);
-            case 3: return setchessSet2(4);
-            case 4: return setchessSet2(5);
-            case 5: return setchessSet2(1);
+        switch (chessSet2.ind) {
+            case 1: return setchessSet2({ ind: 2, name: 'Graffiti' });
+            case 2: return setchessSet2({ ind: 3, name: 'Marble' });
+            case 3: return setchessSet2({ ind: 4, name: 'Metal' });
+            case 4: return setchessSet2({ ind: 5, name: 'Neo' });
+            case 5: return setchessSet2(initChessSet2);
             default: return;
         }
     }
 
+
     return (
         <>
-            <Navbar createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet} />
+            <Navbar createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet} chessSet={chessSet2} />
             {reverse2 ? (<ChessBoard home_1_or_live_2={2} squareClicked={squareClickedColor} chessSet={chessSet2} />) :
                 <ChessBoardReverse home_1_or_live_2={2} squareClicked={squareClickedColor} chessSet={chessSet2} />}
+            <Buttons createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet}  chessSet={chessSet2} />
         </>
     )
 

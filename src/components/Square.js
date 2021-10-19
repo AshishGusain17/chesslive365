@@ -89,7 +89,7 @@ export const Square = (props) => {
     const pieceStyle = { maxHeight: '100%', maxWidth: '100%', };
 
     const renderSwitch = (param) => {
-        if (props.chessSet === 1) {
+        if (props.chessSet.ind === 1) {
             switch (param) {
                 case 'br': return br1;
                 case 'bn': return bn1;
@@ -106,7 +106,7 @@ export const Square = (props) => {
                 default: return;
             }
         }
-        else if (props.chessSet === 2) {
+        else if (props.chessSet.ind === 2) {
             switch (param) {
                 case 'br': return br2;
                 case 'bn': return bn2;
@@ -123,7 +123,7 @@ export const Square = (props) => {
                 default: return;
             }
         }
-        else if (props.chessSet === 3) {
+        else if (props.chessSet.ind === 3) {
             switch (param) {
                 case 'br': return br3;
                 case 'bn': return bn3;
@@ -140,7 +140,7 @@ export const Square = (props) => {
                 default: return;
             }
         }
-                else if (props.chessSet === 4) {
+        else if (props.chessSet.ind === 4) {
             switch (param) {
                 case 'br': return br4;
                 case 'bn': return bn4;
@@ -157,7 +157,7 @@ export const Square = (props) => {
                 default: return;
             }
         }
-                else if (props.chessSet === 5) {
+        else if (props.chessSet.ind === 5) {
             switch (param) {
                 case 'br': return br5;
                 case 'bn': return bn5;

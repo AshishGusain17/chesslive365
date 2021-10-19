@@ -12,8 +12,8 @@
   --gray-border: #e8e8ea;
   --gray-dots: #e8e8ea;
   /** general **/
-  --white: #fff;
-
+  --white: rgb(43, 40, 40);
+  margin-top:3%;
 }
 
 
