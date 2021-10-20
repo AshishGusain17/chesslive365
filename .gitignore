@@ -3,3 +3,4 @@ Credentials_Save.py
 Credentials_Save.json
 build
 .env.local
+.env

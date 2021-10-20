@@ -1,10 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const creds = require('./Credentials_Save.json');
-
+// const creds = require('./Credentials_Save.json');
+require('dotenv').config();
 
 const connectToMongoose = () =>{
-    mongoose.connect(creds.MONGO_URL, ()=>{
+    mongoose.connect(process.env.MONGO_URL, ()=>{
         console.log('mongoose connected');
     })    
 }
