@@ -45,32 +45,39 @@ export const Buttons = (props) => {
 
     return (
         <div className={styles2.outerDiv}>
-
-            <button className={styles2.button2} onClick={handleHome}>
-                Home
-            </button>
-
-            <button className={styles2.button2} onClick={handleNewGame}>
-                New Game
-            </button>
-
-            <button className={styles2.button2} onClick={props.reverseState}>
-                Reverse
-            </button>
-
-            <button className={styles2.button2} onClick={props.updateChessSet}>
-                {props.chessSet.name} Piece
-            </button>
-
-            <button className={styles2.button2} onClick={props.updateSqcol}>
-                Change Color
-            </button>
-
             {location.pathname === '/' ?
-                (<button className={styles2.button2} onClick={handleReset}>
-                    Reset Board
-                </button>)
-                : null}
+                <>
+                    <button className={styles2.button2} onClick={handleNewGame}>
+                        New Game
+                    </button>
+                    <button className={styles2.button2} onClick={props.reverseState}>
+                        Reverse
+                    </button>
+                    <button className={styles2.button2} onClick={props.updateChessSet}>
+                        {props.chessSet.name} Piece
+                    </button>
+                    <button className={styles2.button2} onClick={props.updateSqcol}>
+                        Change Color
+                    </button>
+                    <button className={styles2.button2} onClick={handleReset}>
+                        Reset Board
+                    </button>
+                </>
+                : <>
+                    <button className={styles2.button2} onClick={handleHome}>
+                        Home
+                    </button>
+                    <button className={styles2.button2} onClick={props.reverseState}>
+                        Reverse
+                    </button>
+                    <button className={styles2.button2} onClick={props.updateChessSet}>
+                        {props.chessSet.name} Piece
+                    </button>
+                    <button className={styles2.button2} onClick={props.updateSqcol}>
+                        Change Color
+                    </button>
+                </>
+            }
         </div>
     )
 }

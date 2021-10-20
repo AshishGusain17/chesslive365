@@ -21,7 +21,7 @@ export default function App() {
     else {
       setTimeout(() => {
         setAlert(null);
-      }, 2000);
+      }, 5000);
     }
   }
 
