@@ -283,7 +283,7 @@ export default function Home(props) {
         }
     }
 
-    let initChessSet1 = { ind: 1, name: 'Gothic' };
+    let initChessSet1 = { ind: 3, name: 'Marble' };
     const [chessSet1, setchessSet1] = useState(initChessSet1);
     const updateChessSet = () => {
         switch (chessSet1.ind) {
@@ -291,7 +291,7 @@ export default function Home(props) {
             case 2: return setchessSet1({ ind: 3, name: 'Marble' });
             case 3: return setchessSet1({ ind: 4, name: 'Metal' });
             case 4: return setchessSet1({ ind: 5, name: 'Neo' });
-            case 5: return setchessSet1(initChessSet1);
+            case 5: return setchessSet1({ ind: 1, name: 'Gothic' });
             default: return;
         }
     }
@@ -312,7 +312,7 @@ export default function Home(props) {
     return (
         <>
             <Navbar createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet} chessSet={chessSet1} />
-            
+
             {reverse1 ? (<ChessBoard home_1_or_live_2={1} squareClicked={squareClicked} chessSet={chessSet1} sqCol={sqCol1} />) :
                 <ChessBoardReverse home_1_or_live_2={1} squareClicked={squareClicked} chessSet={chessSet1} sqCol={sqCol1} />}
 

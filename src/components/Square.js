@@ -175,7 +175,7 @@ export const Square = (props) => {
             }
         }
     }
-    
+
     let col = 1;
     switch (props.sqCol) {
         case 1: col = styles.col1; break;
@@ -186,11 +186,30 @@ export const Square = (props) => {
         default: col = styles.col1; break;
     }
 
-    return (
-        <div className={glowSqs[props.ind] ? `${styles.maindiv} ${styles.eachDiv} ${col}` : `${styles.eachDiv} ${col}`}
-            onClick={() => { props.squareClicked(props.ind) }}>
-            <img style={pieceStyle} src={renderSwitch(allPositions[props.ind])} alt={allPositions[props.ind]} />
-            <div className={styles.centered}>{props.ind}</div>
-        </div>
-    )
+    let sqIndex = props.ind;
+    if (sqIndex === 1 || sqIndex === 3 || sqIndex === 5 || sqIndex === 7 ||
+        sqIndex === 10 || sqIndex === 12 || sqIndex === 14 || sqIndex === 16 ||
+        sqIndex === 17 || sqIndex === 19 || sqIndex === 21 || sqIndex === 23 ||
+        sqIndex === 26 || sqIndex === 28 || sqIndex === 30 || sqIndex === 32 ||
+        sqIndex === 33 || sqIndex === 35 || sqIndex === 37 || sqIndex === 39 ||
+        sqIndex === 42 || sqIndex === 44 || sqIndex === 46 || sqIndex === 48 ||
+        sqIndex === 49 || sqIndex === 51 || sqIndex === 53 || sqIndex === 55 ||
+        sqIndex === 58 || sqIndex === 60 || sqIndex === 62 || sqIndex === 64) {
+        return (
+            <div className={glowSqs[props.ind] ? `${styles.maindiv} ${styles.eachDiv} ${styles.colWhite}` : `${styles.eachDiv} ${styles.colWhite}`}
+                onClick={() => { props.squareClicked(props.ind) }}>
+                <img style={pieceStyle} src={renderSwitch(allPositions[props.ind])} alt={allPositions[props.ind]} />
+                {/* <div className={styles.centered}>{props.ind}</div> */}
+            </div>
+        )
+    }
+    else {
+        return (
+            <div className={glowSqs[props.ind] ? `${styles.maindiv} ${styles.eachDiv} ${col}` : `${styles.eachDiv} ${col}`}
+                onClick={() => { props.squareClicked(props.ind) }}>
+                <img style={pieceStyle} src={renderSwitch(allPositions[props.ind])} alt={allPositions[props.ind]} />
+                {/* <div className={styles.centered}>{props.ind}</div> */}
+            </div>
+        )
+    }
 }
