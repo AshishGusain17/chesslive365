@@ -387,13 +387,28 @@ export default function Live(props) {
         }
     }
 
-
+    let initSqCol2 = 1;
+    const [sqCol2, setSqCol2] = useState(initSqCol2);
+    const updateSqcol = () => {
+        switch (sqCol2) {
+            case 1: return setSqCol2(2);
+            case 2: return setSqCol2(3);
+            case 3: return setSqCol2(4);
+            case 4: return setSqCol2(5);
+            case 5: return setSqCol2(1);
+            default: return;
+        }
+    }
     return (
         <>
             <Navbar createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet} chessSet={chessSet2} />
-            {reverse2 ? (<ChessBoard home_1_or_live_2={2} squareClicked={squareClickedColor} chessSet={chessSet2} />) :
-                <ChessBoardReverse home_1_or_live_2={2} squareClicked={squareClickedColor} chessSet={chessSet2} />}
-            <Buttons createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet}  chessSet={chessSet2} />
+            
+            {reverse2 ? (<ChessBoard home_1_or_live_2={2} squareClicked={squareClickedColor} chessSet={chessSet2} sqCol={sqCol2} />) :
+                <ChessBoardReverse home_1_or_live_2={2} squareClicked={squareClickedColor} chessSet={chessSet2} sqCol={sqCol2} />}
+
+            <Buttons createNewGame={createNewGame} reverseState={reverseState}
+                updateChessSet={updateChessSet} chessSet={chessSet2}
+                updateSqcol={updateSqcol} />
         </>
     )
 

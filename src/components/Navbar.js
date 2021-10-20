@@ -35,7 +35,7 @@ export default function Navbar(props) {
                         </li>
 
                         <li className="nav-item nav-link" onClick={props.updateChessSet}>
-                            {props.chessSet.name} Board
+                            {props.chessSet.name} Pieces
                         </li>
 
                         <input type="checkbox" id="toggle" className={reverseStyles.toggleCheckbox} />

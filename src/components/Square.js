@@ -175,9 +175,19 @@ export const Square = (props) => {
             }
         }
     }
+    
+    let col = 1;
+    switch (props.sqCol) {
+        case 1: col = styles.col1; break;
+        case 2: col = styles.col2; break;
+        case 3: col = styles.col3; break;
+        case 4: col = styles.col4; break;
+        case 5: col = styles.col5; break;
+        default: col = styles.col1; break;
+    }
 
     return (
-        <div className={glowSqs[props.ind] ? `${styles.maindiv} ${styles.maindiv2}  ${styles.eachDiv}` : styles.eachDiv}
+        <div className={glowSqs[props.ind] ? `${styles.maindiv} ${styles.eachDiv} ${col}` : `${styles.eachDiv} ${col}`}
             onClick={() => { props.squareClicked(props.ind) }}>
             <img style={pieceStyle} src={renderSwitch(allPositions[props.ind])} alt={allPositions[props.ind]} />
             <div className={styles.centered}>{props.ind}</div>

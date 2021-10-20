@@ -31,7 +31,11 @@ export const Buttons = (props) => {
             </button>
 
             <button className={styles2.button2} onClick={props.updateChessSet}>
-                {props.chessSet.name} Board
+                {props.chessSet.name} Piece
+            </button>
+
+            <button className={styles2.button2} onClick={props.updateSqcol}>
+                Change Color
             </button>
 
         </div>
