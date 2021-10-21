@@ -19,6 +19,19 @@
   align-items: center;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* div for each squares */
 .eachDiv {
   position: relative;
@@ -38,6 +51,45 @@
   border-width: 1px;
 }
 
+@media screen and (max-width: 700px) and (min-width: 600px) {
+  .eachDiv {
+    width: 58px;
+    height: 58px;
+  }}
+@media screen and (max-width: 600px) and (min-width: 500px) {
+  .eachDiv {
+    width: 50px;
+    height: 50px;
+  }}
+@media screen and (max-width: 500px) and (min-width: 400px) {
+  .eachDiv {
+    width: 45px;
+    height: 45px;
+  }}
+@media screen and (max-width: 400px) and (min-width: 300px) {
+  .eachDiv {
+    width: 37px;
+    height: 37px;
+  }}
+@media screen and (max-width: 300px) {
+  .eachDiv {
+    width: 34px;
+    height: 34px;
+  }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* div for each glowing squares */
 .glowDiv {
   z-index: 10;
@@ -51,7 +103,6 @@
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
 }
-
 
 .col1 {
   background-color: #c6d9e5;
@@ -71,4 +122,3 @@
 .colWhite {
   background-color: #ffffff;
 }
-

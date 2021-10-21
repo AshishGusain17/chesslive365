@@ -44,7 +44,7 @@ export const Buttons = (props) => {
 
 
     return (
-        <div className={styles2.outerDiv}>
+        <div className={`${styles2.outerDiv} text-center`}>
             {location.pathname === '/' ?
                 <>
                     <button className={styles2.button2} onClick={handleNewGame}>
