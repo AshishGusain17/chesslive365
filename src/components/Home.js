@@ -75,6 +75,8 @@ export default function Home(props) {
     const squareClicked = async (square_id) => {
         // user wants to make a move as he selects a square that was glowing
         if (glowSqs[square_id] === 1) {
+            await updateGlowSqs(initGlowSqs);
+            
             let opponentTurn;
             if (turn === 1) {
                 opponentTurn = 0;
@@ -98,7 +100,7 @@ export default function Home(props) {
             }
             await updateEnpassant(enpassantObj);
             await updatePosition(allPositionsCopy);
-            await updateGlowSqs(initGlowSqs);
+            
 
 
             // sending allPositionsCopy variable to all below functions as state takes time to update(async)

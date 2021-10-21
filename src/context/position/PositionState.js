@@ -2,8 +2,8 @@ import { useState } from "react";
 import PositionContext from "./PositionContext";
 
 const PositionState = (props) => {
-    const HOST = process.env.REACT_APP_BACKEND_LOCALHOST;
-    // const HOST = process.env.REACT_APP_BACKEND_HOST;
+    // const HOST = process.env.REACT_APP_BACKEND_LOCALHOST;
+    const HOST = process.env.REACT_APP_BACKEND_HOST;
 
     let initPosition = {
         1: "br", 2: "bn", 3: "bb", 4: "bq", 5: "bk", 6: "bb", 7: "bn", 8: "br",

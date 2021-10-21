@@ -1,5 +1,6 @@
-import React from 'react'
-import styles from '../css/squares.module.css';
+import React from 'react';
+import boardStyles from '../css/board.module.css';
+import sqStyles from '../css/squares.module.css';
 import { Square } from './Square';
 
 export const ChessBoardReverse = (props) => {
@@ -8,8 +9,8 @@ export const ChessBoardReverse = (props) => {
     const sqCol = props.sqCol;
 
     return (
-        < div className="flex-container1">
-            <div className={`flex-container2 ${styles.wrappper}`}>
+        < div className={boardStyles.flex_container1}>
+            <div className={`${boardStyles.flex_container2} ${sqStyles.wrappper}`}>
                 <Square ind={64} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={63} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={62} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
@@ -19,7 +20,7 @@ export const ChessBoardReverse = (props) => {
                 <Square ind={58} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={57} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
             </div>
-            <div className={`flex-container2 ${styles.wrappper}`}>
+            <div className={`${boardStyles.flex_container2} ${sqStyles.wrappper}`}>
                 <Square ind={56} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={55} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={54} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
@@ -29,7 +30,7 @@ export const ChessBoardReverse = (props) => {
                 <Square ind={50} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={49} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
             </div>
-            <div className={`flex-container2 ${styles.wrappper}`}>
+            <div className={`${boardStyles.flex_container2} ${sqStyles.wrappper}`}>
                 <Square ind={48} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={47} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={46} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
@@ -39,7 +40,7 @@ export const ChessBoardReverse = (props) => {
                 <Square ind={42} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={41} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
             </div>
-            <div className={`flex-container2 ${styles.wrappper}`}>
+            <div className={`${boardStyles.flex_container2} ${sqStyles.wrappper}`}>
                 <Square ind={40} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={39} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={38} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
@@ -49,7 +50,7 @@ export const ChessBoardReverse = (props) => {
                 <Square ind={34} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={33} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
             </div>
-            <div className={`flex-container2 ${styles.wrappper}`}>
+            <div className={`${boardStyles.flex_container2} ${sqStyles.wrappper}`}>
                 <Square ind={32} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={31} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={30} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
@@ -59,7 +60,7 @@ export const ChessBoardReverse = (props) => {
                 <Square ind={26} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={25} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
             </div>
-            <div className={`flex-container2 ${styles.wrappper}`}>
+            <div className={`${boardStyles.flex_container2} ${sqStyles.wrappper}`}>
                 <Square ind={24} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={23} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={22} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
@@ -69,7 +70,7 @@ export const ChessBoardReverse = (props) => {
                 <Square ind={18} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={17} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
             </div>
-            <div className={`flex-container2 ${styles.wrappper}`}>
+            <div className={`${boardStyles.flex_container2} ${sqStyles.wrappper}`}>
                 <Square ind={16} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={15} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={14} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
@@ -79,7 +80,7 @@ export const ChessBoardReverse = (props) => {
                 <Square ind={10} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={9} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
             </div>
-            <div className={`flex-container2 ${styles.wrappper}`}>
+            <div className={`${boardStyles.flex_container2} ${sqStyles.wrappper}`}>
                 <Square ind={8} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={7} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />
                 <Square ind={6} home_1_or_live_2={home_1_or_live_2} squareClicked={squareClicked} chessSet={props.chessSet} sqCol={sqCol} />

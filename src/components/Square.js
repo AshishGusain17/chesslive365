@@ -196,7 +196,7 @@ export const Square = (props) => {
         sqIndex === 49 || sqIndex === 51 || sqIndex === 53 || sqIndex === 55 ||
         sqIndex === 58 || sqIndex === 60 || sqIndex === 62 || sqIndex === 64) {
         return (
-            <div className={glowSqs[props.ind] ? `${styles.maindiv} ${styles.eachDiv} ${styles.colWhite}` : `${styles.eachDiv} ${styles.colWhite}`}
+            <div className={glowSqs[props.ind] ? `${styles.glowDiv} ${styles.eachDiv} ${styles.colWhite}` : `${styles.eachDiv} ${styles.colWhite}`}
                 onClick={() => { props.squareClicked(props.ind) }}>
                 <img style={pieceStyle} src={renderSwitch(allPositions[props.ind])} alt={allPositions[props.ind]} />
                 {/* <div className={styles.centered}>{props.ind}</div> */}
@@ -205,7 +205,7 @@ export const Square = (props) => {
     }
     else {
         return (
-            <div className={glowSqs[props.ind] ? `${styles.maindiv} ${styles.eachDiv} ${col}` : `${styles.eachDiv} ${col}`}
+            <div className={glowSqs[props.ind] ? `${styles.glowDiv} ${styles.eachDiv} ${col}` : `${styles.eachDiv} ${col}`}
                 onClick={() => { props.squareClicked(props.ind) }}>
                 <img style={pieceStyle} src={renderSwitch(allPositions[props.ind])} alt={allPositions[props.ind]} />
                 {/* <div className={styles.centered}>{props.ind}</div> */}
