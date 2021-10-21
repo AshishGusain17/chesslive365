@@ -96,7 +96,7 @@ const PositionState = (props) => {
     }
 
     const updatePieceClicked2 = async (val) => {
-        await updateField("pieceClicked2", val)
+        // await updateField("pieceClicked2", val)
         updatePieceClicked2_setState(val);
     }
 
@@ -130,7 +130,7 @@ const PositionState = (props) => {
             res_json = res_json.liveGame;
             updatePosition2_setState(res_json.allPositions2);
             updateTurn2_setState(res_json.turn2);
-            updatePieceClicked2_setState(res_json.pieceClicked2);
+            // updatePieceClicked2_setState(res_json.pieceClicked2);
             updateEnpassant2_setState(res_json.enpassant2);
             updatePGN2_setState(res_json.currPGN2);
             return 1;

@@ -361,7 +361,7 @@ export default function Live(props) {
         }
         // console.log(count);
         setCount(count + 1);
-    }, 500);
+    }, 300);
 
 
     const [reverse2, updateReverse2] = useState(1);
