@@ -1,7 +1,7 @@
 .flex_container1 {
     display: flex;
     flex-direction: column;
-    position: absolute;
+    /* position: absolute; */
     /* width:60%;  */
     /* height:480px;  */
     border-color: black;
@@ -19,4 +19,14 @@
 }
 
 
+@media screen and (min-width: 700px)  {
+    .flex_container1{
+        position:absolute;
+    }
+  }
 
+  @media screen and (max-width: 700px)  {
+    .flex_container1{
+        align-items: center;
+    }
+  }
