@@ -7,6 +7,7 @@ import PositionState from './context/position/PositionState';
 import Alert from "./components/Alerts/Alert";
 import Home from "./components/Home";
 import Live from './components/Live';
+import { Heart } from "./components/Followups/Heart";
 
 export default function App() {
 
@@ -25,7 +26,7 @@ export default function App() {
     }
   }
 
-  const  nullifyAlert = ()=>{
+  const nullifyAlert = () => {
     setAlert(null);
   }
 
@@ -36,8 +37,8 @@ export default function App() {
     <>
       <PositionState>
         <Router>
-        <Alert alertObj={alertObj} nullifyAlert={nullifyAlert}/>
-          
+          <Alert alertObj={alertObj} nullifyAlert={nullifyAlert} />
+
           <Switch>
             <Route exact path="/">
               <Home alertCall={alertCall} />
@@ -48,8 +49,9 @@ export default function App() {
             <Route path="/live">
               <Live alertCall={alertCall} />
             </Route>
-
           </Switch>
+          <Heart />
+
         </Router>
       </PositionState>
     </>

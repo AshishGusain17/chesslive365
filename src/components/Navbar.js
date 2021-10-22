@@ -5,6 +5,7 @@ import {
 import { useLocation } from 'react-router-dom';
 import { useHistory } from 'react-router';
 import reverseStyles from '../css/reverse.module.css';
+import { Connect } from './Followups/Connect';
 
 
 export default function Navbar(props) {
@@ -34,7 +35,7 @@ export default function Navbar(props) {
                                 <Link className={`nav-link ${location.pathname === '/home' ? 'active' : ''}`} to="/">Home</Link>
                             </li>
                         }
-                        
+
                         <li className="nav-item nav-link" onClick={props.updateChessSet}>
                             {props.chessSet.name} Pieces
                         </li>
@@ -43,6 +44,11 @@ export default function Navbar(props) {
                         <label htmlFor="toggle" className={reverseStyles.toggleLabel} onClick={props.reverseState} >
                             <span className={reverseStyles.toggleLabelBackground}></span>
                         </label>
+
+                        <li className="navbar-nav me-auto mb-2 mb-lg-0" >
+                            <Connect />
+                        </li>
+
                     </ul>
                 </div>
 
