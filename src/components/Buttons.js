@@ -30,6 +30,10 @@ export const Buttons = (props) => {
         gameEnd2, updateGameEnd2, drawOffer2, updateDrawOffer2
     } = context;
 
+    const clearAlert = () => {
+        props.nullifyAlert();
+    }
+
     const handleReset = () => {
         updatePosition1(initPosition);
         updateGlowSqs1(initGlowSqs);
@@ -38,15 +42,18 @@ export const Buttons = (props) => {
         updateEnpassant1(initEnpassant);
         updatePGN1(initCurrPGN);
         updateCastlePossible1(initCastlePossible);
+        clearAlert();
     }
 
     const handleHome = () => {
         history.push('/');
+        clearAlert();
     }
 
     const handleNewGame = async () => {
         let game_number = await props.createNewGame();
         history.push(`/live/${game_number}`);
+        clearAlert();
     };
 
     const handleDrawOffer = () => {
@@ -63,20 +70,25 @@ export const Buttons = (props) => {
         }
     }
 
+
     // gameEnd = 0   ------>   game is going on
     // gameEnd = 1   ------>   checkmate, white wins
     // gameEnd = 2   ------>   checkmate, black wins
     // gameEnd = 3   ------>   stalemate, white has no moves
     // gameEnd = 4   ------>   stalemate, black has no moves
-    // gameEnd = 5   ------>   draw
+    // gameEnd = 5   ------>   offer a draw accepted
     // gameEnd = 6   ------>   white resigns
     // gameEnd = 7   ------>   black resigns
+    // gameEnd = 11  ------>   check to white    
+    // gameEnd = 12  ------>   check to black
+    // gameEnd = 13  ------>   draw offer rejected by white
+    // gameEnd = 14  ------>   draw offer rejected by black
     const handleResign = () => {
         let ourColor = JSON.parse(localStorage.getItem('curr')).col;
         if (ourColor === 1) {
             updateGameEnd2(6);
         }
-        else{
+        else {
             updateGameEnd2(7);
         }
     }
@@ -115,7 +127,7 @@ export const Buttons = (props) => {
                     <button className={styles2.button2} onClick={props.updateSqcol}>
                         Change Color
                     </button>
-                    {gameEnd2 === 0 ?
+                    {gameEnd2 === 0 || gameEnd2 === 11 || gameEnd2 === 12 || gameEnd2 === 13 || gameEnd2 === 14 ?
                         (<>
                             <button className={styles2.button2} onClick={handleDrawOffer}>
                                 Offer a draw

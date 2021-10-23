@@ -48,7 +48,7 @@ export default function Home(props) {
     const updateCastlePossible = updateCastlePossible1;
 
 
-    
+
 
 
 
@@ -79,8 +79,9 @@ export default function Home(props) {
     const squareClicked = async (square_id) => {
         // user wants to make a move as he selects a square that was glowing
         if (glowSqs[square_id] === 1) {
+            props.nullifyAlert();
             await updateGlowSqs(initGlowSqs);
-            
+
             let opponentTurn;
             if (turn === 1) {
                 opponentTurn = 0;
@@ -104,39 +105,39 @@ export default function Home(props) {
             }
 
             // checking castling possibility for all 4 cases(king side castle & queen side castle for both colours)
-            if(pieceClicked.piece === "wk"){
-                let tempCastle = {...castlePossible};
+            if (pieceClicked.piece === "wk") {
+                let tempCastle = { ...castlePossible };
                 tempCastle.wkside = 0;
                 tempCastle.wqside = 0;
                 await updateCastlePossible(tempCastle);
             }
-            else if(pieceClicked.piece === "bk"){
-                let tempCastle = {...castlePossible};
+            else if (pieceClicked.piece === "bk") {
+                let tempCastle = { ...castlePossible };
                 tempCastle.bkside = 0;
                 tempCastle.bqside = 0;
                 await updateCastlePossible(tempCastle);
             }
-            else if(pieceClicked.piece === "wr" && pieceClicked.sq===57){
-                let tempCastle = {...castlePossible};
+            else if (pieceClicked.piece === "wr" && pieceClicked.sq === 57) {
+                let tempCastle = { ...castlePossible };
                 tempCastle.wqside = 0;
                 await updateCastlePossible(tempCastle);
             }
-            else if(pieceClicked.piece === "wr" && pieceClicked.sq===64){
-                let tempCastle = {...castlePossible};
+            else if (pieceClicked.piece === "wr" && pieceClicked.sq === 64) {
+                let tempCastle = { ...castlePossible };
                 tempCastle.wkside = 0;
                 await updateCastlePossible(tempCastle);
             }
-            else if(pieceClicked.piece === "br" && pieceClicked.sq===1){
-                let tempCastle = {...castlePossible};
+            else if (pieceClicked.piece === "br" && pieceClicked.sq === 1) {
+                let tempCastle = { ...castlePossible };
                 tempCastle.bqside = 0;
                 await updateCastlePossible(tempCastle);
             }
-            else if(pieceClicked.piece === "br" && pieceClicked.sq===8){
-                let tempCastle = {...castlePossible};
+            else if (pieceClicked.piece === "br" && pieceClicked.sq === 8) {
+                let tempCastle = { ...castlePossible };
                 tempCastle.bkside = 0;
                 await updateCastlePossible(tempCastle);
             }
-            
+
 
             await updateEnpassant(enpassantObj);
             await updatePosition(allPositionsCopy);
@@ -361,7 +362,7 @@ export default function Home(props) {
                 <ChessBoardReverse home_1_or_live_2={1} squareClicked={squareClicked} chessSet={chessSet1} sqCol={sqCol1} />}
 
             <Buttons createNewGame={createNewGame} reverseState={reverseState}
-                updateChessSet={updateChessSet} chessSet={chessSet1}
+                updateChessSet={updateChessSet} chessSet={chessSet1} nullifyAlert={props.nullifyAlert}
                 updateSqcol={updateSqcol} />
         </>
     )

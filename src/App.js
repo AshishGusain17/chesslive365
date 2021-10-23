@@ -34,13 +34,13 @@ export default function App() {
 
           <Switch>
             <Route exact path="/">
-              <Home alertCall={alertCall} />
+              <Home alertCall={alertCall} nullifyAlert={nullifyAlert} />
             </Route>
             <Route exact path="/about">
               <About />
             </Route>
             <Route path="/live">
-              <Live alertCall={alertCall} />
+              <Live alertCall={alertCall} nullifyAlert={nullifyAlert} />
             </Route>
           </Switch>
           <Heart />

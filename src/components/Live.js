@@ -126,6 +126,7 @@ export default function Live(props) {
     const squareClicked = async (square_id) => {
         // user wants to make a move as he selects a square that was glowing
         if (glowSqs[square_id] === 1) {
+            props.nullifyAlert();
             await updateGlowSqs(initGlowSqs);
 
             let opponentTurn;
@@ -204,6 +205,7 @@ export default function Live(props) {
                 }
                 else if (checkFlag === 1) {
                     props.alertCall('Check', 'to black', 5000);
+                    await updateGameEnd(12);
                 }
                 else if (stalemateFlag === 1) {
                     props.alertCall('Stalemate', 'Black has no moves', 60000);
@@ -221,6 +223,7 @@ export default function Live(props) {
                 }
                 else if (checkFlag === 1) {
                     props.alertCall('Check', 'to white', 5000);
+                    await updateGameEnd(11);
                 }
                 else if (stalemateFlag === 1) {
                     props.alertCall('Stalemate', 'White has no moves', 60000);
@@ -415,6 +418,7 @@ export default function Live(props) {
 
     let [count, setCount] = useState(0);
     useInterval(async () => {
+        // console.log(gameEnd)
         let flag = await getLiveGame(location.pathname.substring(6, 20));
         if (!flag) {
             history.push('/');
@@ -424,9 +428,13 @@ export default function Live(props) {
         // gameEnd = 2   ------>   checkmate, black wins
         // gameEnd = 3   ------>   stalemate, white has no moves
         // gameEnd = 4   ------>   stalemate, black has no moves
-        // gameEnd = 5   ------>   draw
+        // gameEnd = 5   ------>   offer a draw accepted
         // gameEnd = 6   ------>   white resigns
         // gameEnd = 7   ------>   black resigns
+        // gameEnd = 11  ------>   check to white    
+        // gameEnd = 12  ------>   check to black
+        // gameEnd = 13  ------>   draw offer rejected by white
+        // gameEnd = 14  ------>   draw offer rejected by black
         if (gameEnd === 0) {
             // pass
         }
@@ -450,13 +458,29 @@ export default function Live(props) {
             props.alertCall('Game Over', 'Draw accepted', 60000);
             liveToHome();
         }
-        else if(gameEnd === 6){
+        else if (gameEnd === 6) {
             props.alertCall('Game Over', 'White resigns', 60000);
             liveToHome();
         }
-        else if(gameEnd === 7){
+        else if (gameEnd === 7) {
             props.alertCall('Game Over', 'Black resigns', 60000);
             liveToHome();
+        }
+        else if (gameEnd === 11) {
+            props.alertCall('Check', 'to white', 5000);
+            setTimeout(() => { updateGameEnd(0) }, 500);
+        }
+        else if (gameEnd === 12) {
+            props.alertCall('Check', 'to black', 5000);
+            setTimeout(() => { updateGameEnd(0) }, 500);
+        }
+        else if (gameEnd === 13) {
+            props.alertCall('Draw Offer', 'rejected by white', 5000);
+            setTimeout(() => { updateGameEnd(0) }, 500);
+        }
+        else if (gameEnd === 14) {
+            props.alertCall('Draw Offer', 'rejected by black', 5000);
+            setTimeout(() => { updateGameEnd(0) }, 500);
         }
 
         // console.log(count);
@@ -508,7 +532,15 @@ export default function Live(props) {
         await updateGameEnd(5);
     }
     const disAgreeDraw = async () => {
-        props.alertCall('Draw Offer ', 'Rejected', 5000);
+        let ourColor = JSON.parse(localStorage.getItem('curr')).col;
+        if (ourColor === 1) {
+            console.log('Draw offer rejected by white');
+            await updateGameEnd(13);
+        }
+        else {
+            console.log('Draw offer rejected by black');
+            await updateGameEnd(14);
+        }
         await updateDrawOffer({ white: 0, black: 0 });
     }
 
@@ -520,7 +552,7 @@ export default function Live(props) {
                 <ChessBoardReverse home_1_or_live_2={2} squareClicked={squareClickedColor} chessSet={chessSet2} sqCol={sqCol2} />}
 
             <Buttons createNewGame={createNewGame} reverseState={reverseState}
-                updateChessSet={updateChessSet} chessSet={chessSet2}
+                updateChessSet={updateChessSet} chessSet={chessSet2} nullifyAlert={props.nullifyAlert}
                 updateSqcol={updateSqcol} />
 
             <DrawOffer drawOffer={drawOffer} agreeDraw={agreeDraw} disAgreeDraw={disAgreeDraw} />
