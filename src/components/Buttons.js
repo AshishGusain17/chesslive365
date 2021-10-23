@@ -27,7 +27,7 @@ export const Buttons = (props) => {
         updatePGN1,
         updateCastlePossible1,
 
-        drawOffer2, updateDrawOffer2
+        gameEnd2, drawOffer2, updateDrawOffer2
     } = context;
 
     const handleReset = () => {
@@ -50,7 +50,7 @@ export const Buttons = (props) => {
     };
 
     const handleDrawOffer = () => {
-        let ourColor =  JSON.parse(localStorage.getItem('curr')).col;
+        let ourColor = JSON.parse(localStorage.getItem('curr')).col;
         if (ourColor === 1) {
             let drOff = { ...drawOffer2 };
             drOff.white = 1;
@@ -97,9 +97,12 @@ export const Buttons = (props) => {
                     <button className={styles2.button2} onClick={props.updateSqcol}>
                         Change Color
                     </button>
-                    <button className={styles2.button2} onClick={handleDrawOffer}>
-                        Offer a draw
-                    </button>
+                    {gameEnd2 === 0 ?
+                        (<button className={styles2.button2} onClick={handleDrawOffer}>
+                            Offer a draw
+                        </button>)
+                        : null}
+
                 </>
             }
         </div>

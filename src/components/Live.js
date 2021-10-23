@@ -33,6 +33,7 @@ export default function Live(props) {
         enpassant2, updateEnpassant2,
         castlePossible2, updateCastlePossible2,
         drawOffer2, updateDrawOffer2,
+        gameEnd2, updateGameEnd2,
 
         createNewGame, getLiveGame, confirm2ndPlayer
     } = context;
@@ -52,6 +53,8 @@ export default function Live(props) {
     const updateCastlePossible = updateCastlePossible2;
     const drawOffer = drawOffer2;
     const updateDrawOffer = updateDrawOffer2;
+    const gameEnd = gameEnd2;
+    const updateGameEnd = updateGameEnd2;
 
 
 
@@ -196,13 +199,15 @@ export default function Live(props) {
                 let stalemateFlag = await funcDraw_Stalemate(allPositionsCopy, opponentTurn, enpassantObj);
 
                 if (checkFlag === 1 && stalemateFlag === 1) {
-                    props.alertCall('Checkmate', 'White wins', 20000);
+                    props.alertCall('Checkmate', 'White wins', 60000);
+                    await updateGameEnd(1);
                 }
                 else if (checkFlag === 1) {
                     props.alertCall('Check', 'to black', 5000);
                 }
                 else if (stalemateFlag === 1) {
-                    props.alertCall('Stalemate', 'Black has no moves', 20000);
+                    props.alertCall('Stalemate', 'Black has no moves', 60000);
+                    await updateGameEnd(4);
                 };
             }
             else {
@@ -211,13 +216,15 @@ export default function Live(props) {
                 let stalemateFlag = await funcDraw_Stalemate(allPositionsCopy, opponentTurn, enpassantObj);
 
                 if (checkFlag === 1 && stalemateFlag === 1) {
-                    props.alertCall('Checkmate', 'Black wins', 20000);
+                    props.alertCall('Checkmate', 'Black wins', 60000);
+                    await updateGameEnd(2);
                 }
                 else if (checkFlag === 1) {
                     props.alertCall('Check', 'to white', 5000);
                 }
                 else if (stalemateFlag === 1) {
-                    props.alertCall('Stalemate', 'White has no moves', 20000);
+                    props.alertCall('Stalemate', 'White has no moves', 60000);
+                    await updateGameEnd(3);
                 };
             }
 
@@ -395,6 +402,16 @@ export default function Live(props) {
     }
 
 
+    const liveToHome = () => {
+        context.updatePosition1(allPositions2);
+        context.updateGlowSqs1(glowSqs2);
+        context.updateTurn1(turn2);
+        context.updatePieceClicked1(pieceClicked2);
+        context.updateEnpassant1(enpassant2);
+        context.updatePGN1(context.currPGN2);
+        context.updateCastlePossible1(castlePossible2);
+        history.push('/');
+    }
 
     let [count, setCount] = useState(0);
     useInterval(async () => {
@@ -402,6 +419,36 @@ export default function Live(props) {
         if (!flag) {
             history.push('/');
         }
+        // gameEnd = 0   ------>   game is going on
+        // gameEnd = 1   ------>   checkmate, white wins
+        // gameEnd = 2   ------>   checkmate, black wins
+        // gameEnd = 3   ------>   stalemate, white has no moves
+        // gameEnd = 4   ------>   stalemate, black has no moves
+        // gameEnd = 5   ------>   draw
+        if (gameEnd === 0) {
+            // pass
+        }
+        else if (gameEnd === 1) {
+            props.alertCall('Checkmate', 'White wins', 60000);
+            liveToHome();
+        }
+        else if (gameEnd === 2) {
+            props.alertCall('Checkmate', 'Black wins', 60000);
+            liveToHome();
+        }
+        else if (gameEnd === 3) {
+            props.alertCall('Stalemate', 'White has no moves', 60000);
+            liveToHome();
+        }
+        else if (gameEnd === 4) {
+            props.alertCall('Stalemate', 'Black has no moves', 60000);
+            liveToHome();
+        }
+        else if (gameEnd === 5) {
+            props.alertCall('Game Over', 'Draw accepted', 60000);
+            liveToHome();
+        }
+
         // console.log(count);
         setCount(count + 1);
     }, 300);
@@ -445,17 +492,15 @@ export default function Live(props) {
     }
 
 
-    // const drawCall = () => {
-    //     setDraw(1);
-    // }
-    const agreeDraw = () => {
-        props.alertCall('Game Over', 'Draw accepted', 5000);
-        updateDrawOffer({ white: 0, black: 0 });
+    const agreeDraw = async () => {
+        props.alertCall('Game Over', 'Draw accepted', 60000);
+        await updateDrawOffer({ white: 0, black: 0 });
+        await updateGameEnd(5);
     }
-    const disAgreeDraw = () => {
+    const disAgreeDraw = async () => {
         props.alertCall('Draw Offer ', 'Rejected', 5000);
-        updateDrawOffer({ white: 0, black: 0 });
-    } 
+        await updateDrawOffer({ white: 0, black: 0 });
+    }
 
     return (
         <>
@@ -469,7 +514,6 @@ export default function Live(props) {
                 updateSqcol={updateSqcol} />
 
             <DrawOffer drawOffer={drawOffer} agreeDraw={agreeDraw} disAgreeDraw={disAgreeDraw} />
-            {/* <button style={{ width: "100px", height: "100px", "color": "yellow", zIndex: 1000, float: "right" }} onClick={drawCall}></button> */}
         </>
     )
 

@@ -33,6 +33,7 @@ const PositionState = (props) => {
     let initCurrPGN = "";
     let initCastlePossible = { wkside: 1, wqside: 1, bkside: 1, bqside: 1 };
     let initDrawOffer = { white: 0, black: 0 };
+    let initGameEnd = 0;
 
 
 
@@ -67,6 +68,14 @@ const PositionState = (props) => {
     const [castlePossible2, updateCastlePossible2_setState] = useState(initCastlePossible);
 
     const [drawOffer2, updateDrawOffer2_setState] = useState(initDrawOffer);
+
+    // gameEnd = 0   ------>   game is going on
+    // gameEnd = 1   ------>   checkmate, white wins
+    // gameEnd = 2   ------>   checkmate, black wins
+    // gameEnd = 3   ------>   stalemate, white has no moves
+    // gameEnd = 4   ------>   stalemate, black has no moves
+    // gameEnd = 5   ------>   draw
+    const [gameEnd2, updateGameEnd2_setState] = useState(initGameEnd);
 
 
 
@@ -129,7 +138,12 @@ const PositionState = (props) => {
         await updateField("drawOffer2", val)
         updateDrawOffer2_setState(val);
     }
-    
+
+    const updateGameEnd2 = async (val) => {
+        await updateField("gameEnd2", val)
+        updateGameEnd2_setState(val);
+    }
+
 
 
     // game_number_by_id: from URL
@@ -156,6 +170,7 @@ const PositionState = (props) => {
             updatePGN2_setState(res_json.currPGN2);
             updateCastlePossible2_setState(res_json.castlePossible2);
             updateDrawOffer2_setState(res_json.drawOffer2);
+            updateGameEnd2_setState(res_json.gameEnd2)
             return 1;
         }
         else {
@@ -176,7 +191,7 @@ const PositionState = (props) => {
                 "game_number": game_number, "user_count": 1, "allPositions2": initPosition,
                 "glowSqs2": initGlowSqs, "turn2": initTurn, "pieceClicked2": initPieceClicked,
                 "enpassant2": initEnpassant, "currPGN2": initCurrPGN, "castlePossible2": initCastlePossible,
-                "drawOffer2": initDrawOffer
+                "drawOffer2": initDrawOffer, "gameEnd2": initGameEnd
             })
         });
 
@@ -188,6 +203,7 @@ const PositionState = (props) => {
         updatePGN2_setState(initCurrPGN);
         updateCastlePossible2_setState(initCastlePossible);
         updateDrawOffer2_setState(initDrawOffer);
+        updateGameEnd2_setState(initGameEnd);
 
         const res_json = await response.json();
         // console.log(res_json);
@@ -254,6 +270,7 @@ const PositionState = (props) => {
             currPGN2, updatePGN2,
             castlePossible2, updateCastlePossible2,
             drawOffer2, updateDrawOffer2,
+            gameEnd2, updateGameEnd2,
 
             createNewGame, getLiveGame, confirm2ndPlayer
         }}>
