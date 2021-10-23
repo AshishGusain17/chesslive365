@@ -17,6 +17,7 @@ import { findSqs_4_Rook } from '../utils/piecesMove/Rook';
 import { useHistory, useLocation } from 'react-router';
 import { ChessBoardReverse } from './ChessBoardReverse';
 import { Buttons } from './Buttons';
+import DrawOffer from './Alerts/DrawOffer';
 
 
 export default function Live(props) {
@@ -31,6 +32,7 @@ export default function Live(props) {
         pieceClicked2, updatePieceClicked2,
         enpassant2, updateEnpassant2,
         castlePossible2, updateCastlePossible2,
+        drawOffer2, updateDrawOffer2,
 
         createNewGame, getLiveGame, confirm2ndPlayer
     } = context;
@@ -48,6 +50,8 @@ export default function Live(props) {
     const updateEnpassant = updateEnpassant2;
     const castlePossible = castlePossible2;
     const updateCastlePossible = updateCastlePossible2;
+    const drawOffer = drawOffer2;
+    const updateDrawOffer = updateDrawOffer2;
 
 
 
@@ -439,6 +443,20 @@ export default function Live(props) {
             default: return;
         }
     }
+
+
+    // const drawCall = () => {
+    //     setDraw(1);
+    // }
+    const agreeDraw = () => {
+        props.alertCall('Game Over', 'Draw accepted', 5000);
+        updateDrawOffer({ white: 0, black: 0 });
+    }
+    const disAgreeDraw = () => {
+        props.alertCall('Draw Offer ', 'Rejected', 5000);
+        updateDrawOffer({ white: 0, black: 0 });
+    } 
+
     return (
         <>
             <Navbar createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet} chessSet={chessSet2} />
@@ -449,6 +467,9 @@ export default function Live(props) {
             <Buttons createNewGame={createNewGame} reverseState={reverseState}
                 updateChessSet={updateChessSet} chessSet={chessSet2}
                 updateSqcol={updateSqcol} />
+
+            <DrawOffer drawOffer={drawOffer} agreeDraw={agreeDraw} disAgreeDraw={disAgreeDraw} />
+            {/* <button style={{ width: "100px", height: "100px", "color": "yellow", zIndex: 1000, float: "right" }} onClick={drawCall}></button> */}
         </>
     )
 

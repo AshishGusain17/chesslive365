@@ -17,14 +17,19 @@ export const Buttons = (props) => {
         initEnpassant,
         initCurrPGN,
         initCastlePossible,
+
+
         updatePosition1,
         updateGlowSqs1,
         updateTurn1,
         updatePieceClicked1,
         updateEnpassant1,
         updatePGN1,
-        updateCastlePossible1
+        updateCastlePossible1,
+
+        drawOffer2, updateDrawOffer2
     } = context;
+
     const handleReset = () => {
         updatePosition1(initPosition);
         updateGlowSqs1(initGlowSqs);
@@ -44,6 +49,19 @@ export const Buttons = (props) => {
         history.push(`/live/${game_number}`);
     };
 
+    const handleDrawOffer = () => {
+        let ourColor =  JSON.parse(localStorage.getItem('curr')).col;
+        if (ourColor === 1) {
+            let drOff = { ...drawOffer2 };
+            drOff.white = 1;
+            updateDrawOffer2(drOff);
+        }
+        else {
+            let drOff = { ...drawOffer2 };
+            drOff.black = 1;
+            updateDrawOffer2(drOff);
+        }
+    }
 
 
     return (
@@ -78,6 +96,9 @@ export const Buttons = (props) => {
                     </button>
                     <button className={styles2.button2} onClick={props.updateSqcol}>
                         Change Color
+                    </button>
+                    <button className={styles2.button2} onClick={handleDrawOffer}>
+                        Offer a draw
                     </button>
                 </>
             }

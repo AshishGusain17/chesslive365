@@ -8,7 +8,7 @@ const gameNumber = require('../models/gameNumber');
 
 router.post('/newgame', async (req, res) => {
     try {
-        const { game_number, user_count, allPositions2, glowSqs2, turn2, pieceClicked2, enpassant2, currPGN2, castlePossible2 } = req.body;
+        const { game_number, user_count, allPositions2, glowSqs2, turn2, pieceClicked2, enpassant2, currPGN2, castlePossible2, drawOffer2 } = req.body;
 
         const game = new liveGames({
             game_number: game_number,
@@ -19,7 +19,8 @@ router.post('/newgame', async (req, res) => {
             pieceClicked2: pieceClicked2,
             enpassant2: enpassant2,
             currPGN2: currPGN2,
-            castlePossible2: castlePossible2
+            castlePossible2: castlePossible2,
+            drawOffer2: drawOffer2
         })
         const liveGame = await game.save();
         res.send(liveGame._id);

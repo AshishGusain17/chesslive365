@@ -2,8 +2,8 @@ import { useState } from "react";
 import PositionContext from "./PositionContext";
 
 const PositionState = (props) => {
-    const HOST = process.env.REACT_APP_BACKEND_LOCALHOST;
-    // const HOST = process.env.REACT_APP_BACKEND_HOST;
+    // const HOST = process.env.REACT_APP_BACKEND_LOCALHOST;
+    const HOST = process.env.REACT_APP_BACKEND_HOST;
 
     let initPosition = {
         1: "br", 2: "bn", 3: "bb", 4: "bq", 5: "bk", 6: "bb", 7: "bn", 8: "br",
@@ -32,7 +32,7 @@ const PositionState = (props) => {
     let initEnpassant = { active: 0, sq: -1 };
     let initCurrPGN = "";
     let initCastlePossible = { wkside: 1, wqside: 1, bkside: 1, bqside: 1 };
-
+    let initDrawOffer = { white: 0, black: 0 };
 
 
 
@@ -66,6 +66,8 @@ const PositionState = (props) => {
 
     const [castlePossible2, updateCastlePossible2_setState] = useState(initCastlePossible);
 
+    const [drawOffer2, updateDrawOffer2_setState] = useState(initDrawOffer);
+
 
 
     const updateField = async (fieldName, val) => {
@@ -87,6 +89,8 @@ const PositionState = (props) => {
         // console.log(fieldName, res_json);
     }
     const updatePosition2 = async (val) => {
+        await updateField("drawOffer2", initDrawOffer)
+        updateDrawOffer2_setState(initDrawOffer);
         await updateField("allPositions2", val)
         updatePosition2_setState(val);
     }
@@ -121,6 +125,12 @@ const PositionState = (props) => {
         updateCastlePossible2_setState(val);
     }
 
+    const updateDrawOffer2 = async (val) => {
+        await updateField("drawOffer2", val)
+        updateDrawOffer2_setState(val);
+    }
+    
+
 
     // game_number_by_id: from URL
     // game_number_saved: saved in local storage  
@@ -145,6 +155,7 @@ const PositionState = (props) => {
             updateEnpassant2_setState(res_json.enpassant2);
             updatePGN2_setState(res_json.currPGN2);
             updateCastlePossible2_setState(res_json.castlePossible2);
+            updateDrawOffer2_setState(res_json.drawOffer2);
             return 1;
         }
         else {
@@ -164,7 +175,8 @@ const PositionState = (props) => {
             body: JSON.stringify({
                 "game_number": game_number, "user_count": 1, "allPositions2": initPosition,
                 "glowSqs2": initGlowSqs, "turn2": initTurn, "pieceClicked2": initPieceClicked,
-                "enpassant2": initEnpassant, "currPGN2": initCurrPGN, "castlePossible2": initCastlePossible
+                "enpassant2": initEnpassant, "currPGN2": initCurrPGN, "castlePossible2": initCastlePossible,
+                "drawOffer2": initDrawOffer
             })
         });
 
@@ -175,6 +187,7 @@ const PositionState = (props) => {
         updateEnpassant2_setState(initEnpassant);
         updatePGN2_setState(initCurrPGN);
         updateCastlePossible2_setState(initCastlePossible);
+        updateDrawOffer2_setState(initDrawOffer);
 
         const res_json = await response.json();
         // console.log(res_json);
@@ -240,6 +253,7 @@ const PositionState = (props) => {
             enpassant2, updateEnpassant2,
             currPGN2, updatePGN2,
             castlePossible2, updateCastlePossible2,
+            drawOffer2, updateDrawOffer2,
 
             createNewGame, getLiveGame, confirm2ndPlayer
         }}>
