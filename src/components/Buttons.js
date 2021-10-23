@@ -27,7 +27,7 @@ export const Buttons = (props) => {
         updatePGN1,
         updateCastlePossible1,
 
-        gameEnd2, drawOffer2, updateDrawOffer2
+        gameEnd2, updateGameEnd2, drawOffer2, updateDrawOffer2
     } = context;
 
     const handleReset = () => {
@@ -60,6 +60,24 @@ export const Buttons = (props) => {
             let drOff = { ...drawOffer2 };
             drOff.black = 1;
             updateDrawOffer2(drOff);
+        }
+    }
+
+    // gameEnd = 0   ------>   game is going on
+    // gameEnd = 1   ------>   checkmate, white wins
+    // gameEnd = 2   ------>   checkmate, black wins
+    // gameEnd = 3   ------>   stalemate, white has no moves
+    // gameEnd = 4   ------>   stalemate, black has no moves
+    // gameEnd = 5   ------>   draw
+    // gameEnd = 6   ------>   white resigns
+    // gameEnd = 7   ------>   black resigns
+    const handleResign = () => {
+        let ourColor = JSON.parse(localStorage.getItem('curr')).col;
+        if (ourColor === 1) {
+            updateGameEnd2(6);
+        }
+        else{
+            updateGameEnd2(7);
         }
     }
 
@@ -98,9 +116,14 @@ export const Buttons = (props) => {
                         Change Color
                     </button>
                     {gameEnd2 === 0 ?
-                        (<button className={styles2.button2} onClick={handleDrawOffer}>
-                            Offer a draw
-                        </button>)
+                        (<>
+                            <button className={styles2.button2} onClick={handleDrawOffer}>
+                                Offer a draw
+                            </button>
+                            <button className={styles2.button2} onClick={handleResign}>
+                                Resign
+                            </button>
+                        </>)
                         : null}
 
                 </>

@@ -75,6 +75,8 @@ const PositionState = (props) => {
     // gameEnd = 3   ------>   stalemate, white has no moves
     // gameEnd = 4   ------>   stalemate, black has no moves
     // gameEnd = 5   ------>   draw
+    // gameEnd = 6   ------>   white resigns
+    // gameEnd = 7   ------>   black resigns
     const [gameEnd2, updateGameEnd2_setState] = useState(initGameEnd);
 
 

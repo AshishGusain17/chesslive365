@@ -425,6 +425,8 @@ export default function Live(props) {
         // gameEnd = 3   ------>   stalemate, white has no moves
         // gameEnd = 4   ------>   stalemate, black has no moves
         // gameEnd = 5   ------>   draw
+        // gameEnd = 6   ------>   white resigns
+        // gameEnd = 7   ------>   black resigns
         if (gameEnd === 0) {
             // pass
         }
@@ -446,6 +448,14 @@ export default function Live(props) {
         }
         else if (gameEnd === 5) {
             props.alertCall('Game Over', 'Draw accepted', 60000);
+            liveToHome();
+        }
+        else if(gameEnd === 6){
+            props.alertCall('Game Over', 'White resigns', 60000);
+            liveToHome();
+        }
+        else if(gameEnd === 7){
+            props.alertCall('Game Over', 'Black resigns', 60000);
             liveToHome();
         }
 

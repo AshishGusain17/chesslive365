@@ -14,7 +14,7 @@ export const AlertBase = (props) => {
         alignItems: 'center',
         boxShadow: '0px 2px 2px 2px rgba(0, 0, 0, 0.03)',
         fontFamily: 'Arial',
-        width: '300px',
+        width: '400px',
         height:'57px',
         boxSizing: 'border-box',
         margin: '0 auto',
