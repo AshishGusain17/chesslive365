@@ -12,18 +12,11 @@ import { Heart } from "./components/Followups/Heart";
 export default function App() {
 
   const [alertObj, setAlert] = useState(null)
-  const alertCall = (msg, msgText) => {
+  const alertCall = (msg, msgText, timeLimit) => {
     setAlert({ msg: msg, msgText: msgText });
-    if (msg === 'Checkmate' || msg === 'Stalemate') {
       setTimeout(() => {
         setAlert(null);
-      }, 20000);
-    }
-    else {
-      setTimeout(() => {
-        setAlert(null);
-      }, 5000);
-    }
+      }, timeLimit);
   }
 
   const nullifyAlert = () => {

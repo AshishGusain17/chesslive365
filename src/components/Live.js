@@ -192,13 +192,13 @@ export default function Live(props) {
                 let stalemateFlag = await funcDraw_Stalemate(allPositionsCopy, opponentTurn, enpassantObj);
 
                 if (checkFlag === 1 && stalemateFlag === 1) {
-                    props.alertCall('Checkmate', 'White wins');
+                    props.alertCall('Checkmate', 'White wins', 20000);
                 }
                 else if (checkFlag === 1) {
-                    props.alertCall('Check', 'to black');
+                    props.alertCall('Check', 'to black', 5000);
                 }
                 else if (stalemateFlag === 1) {
-                    props.alertCall('Stalemate', 'Black has no moves');
+                    props.alertCall('Stalemate', 'Black has no moves', 20000);
                 };
             }
             else {
@@ -207,13 +207,13 @@ export default function Live(props) {
                 let stalemateFlag = await funcDraw_Stalemate(allPositionsCopy, opponentTurn, enpassantObj);
 
                 if (checkFlag === 1 && stalemateFlag === 1) {
-                    props.alertCall('Checkmate', 'Black wins');
+                    props.alertCall('Checkmate', 'Black wins', 20000);
                 }
                 else if (checkFlag === 1) {
-                    props.alertCall('Check', 'to white');
+                    props.alertCall('Check', 'to white', 5000);
                 }
                 else if (stalemateFlag === 1) {
-                    props.alertCall('Stalemate', 'White has no moves');
+                    props.alertCall('Stalemate', 'White has no moves', 20000);
                 };
             }
 

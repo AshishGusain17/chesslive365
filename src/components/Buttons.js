@@ -51,7 +51,7 @@ export const Buttons = (props) => {
             {location.pathname === '/' ?
                 <>
                     <button className={styles2.button2} onClick={handleNewGame}>
-                        New Game
+                        Challenge A Friend
                     </button>
                     <button className={styles2.button2} onClick={props.reverseState}>
                         Reverse
