@@ -16,12 +16,14 @@ export const Buttons = (props) => {
         initPieceClicked,
         initEnpassant,
         initCurrPGN,
+        initCastlePossible,
         updatePosition1,
         updateGlowSqs1,
         updateTurn1,
         updatePieceClicked1,
         updateEnpassant1,
         updatePGN1,
+        updateCastlePossible1
     } = context;
     const handleReset = () => {
         updatePosition1(initPosition);
@@ -30,6 +32,7 @@ export const Buttons = (props) => {
         updatePieceClicked1(initPieceClicked);
         updateEnpassant1(initEnpassant);
         updatePGN1(initCurrPGN);
+        updateCastlePossible1(initCastlePossible);
     }
 
     const handleHome = () => {

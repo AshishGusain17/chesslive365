@@ -31,6 +31,7 @@ const PositionState = (props) => {
     let initPieceClicked = { sq: 0, piece: "" };
     let initEnpassant = { active: 0, sq: -1 };
     let initCurrPGN = "";
+    let initCastlePossible = { wkside: 1, wqside: 1, bkside: 1, bqside: 1 };
 
 
 
@@ -47,6 +48,8 @@ const PositionState = (props) => {
 
     const [currPGN1, updatePGN1] = useState(initCurrPGN);
 
+    const [castlePossible1, updateCastlePossible1] = useState(initCastlePossible);
+
 
 
     const [allPositions2, updatePosition2_setState] = useState(initPosition);
@@ -60,6 +63,9 @@ const PositionState = (props) => {
     const [enpassant2, updateEnpassant2_setState] = useState(initEnpassant);
 
     const [currPGN2, updatePGN2_setState] = useState(initCurrPGN);
+
+    const [castlePossible2, updateCastlePossible2_setState] = useState(initCastlePossible);
+
 
 
     const updateField = async (fieldName, val) => {
@@ -110,6 +116,10 @@ const PositionState = (props) => {
         updatePGN2_setState(val);
     }
 
+    const updateCastlePossible2 = async (val) => {
+        await updateField("castlePossible2", val)
+        updateCastlePossible2_setState(val);
+    }
 
 
     // game_number_by_id: from URL
@@ -129,10 +139,12 @@ const PositionState = (props) => {
         if (res_json.success) {
             res_json = res_json.liveGame;
             updatePosition2_setState(res_json.allPositions2);
+            // updateGlowSqs2_setState(res_json.glowSqs2);
             updateTurn2_setState(res_json.turn2);
             // updatePieceClicked2_setState(res_json.pieceClicked2);
             updateEnpassant2_setState(res_json.enpassant2);
             updatePGN2_setState(res_json.currPGN2);
+            updateCastlePossible2_setState(res_json.castlePossible2);
             return 1;
         }
         else {
@@ -152,7 +164,7 @@ const PositionState = (props) => {
             body: JSON.stringify({
                 "game_number": game_number, "user_count": 1, "allPositions2": initPosition,
                 "glowSqs2": initGlowSqs, "turn2": initTurn, "pieceClicked2": initPieceClicked,
-                "enpassant2": initEnpassant, "currPGN2": initCurrPGN
+                "enpassant2": initEnpassant, "currPGN2": initCurrPGN, "castlePossible2": initCastlePossible
             })
         });
 
@@ -162,6 +174,7 @@ const PositionState = (props) => {
         updatePieceClicked2_setState(initPieceClicked);
         updateEnpassant2_setState(initEnpassant);
         updatePGN2_setState(initCurrPGN);
+        updateCastlePossible2_setState(initCastlePossible);
 
         const res_json = await response.json();
         // console.log(res_json);
@@ -190,7 +203,7 @@ const PositionState = (props) => {
             })
         });
         const res_json = await response.json();
-        console.log(res_json);
+        // console.log(res_json);
         if (res_json.success === 1) {
             const currObj = {
                 'game_id': res_json.game_id,
@@ -210,6 +223,7 @@ const PositionState = (props) => {
             initPieceClicked,
             initEnpassant,
             initCurrPGN,
+            initCastlePossible,
 
             allPositions1, updatePosition1,
             glowSqs1, updateGlowSqs1,
@@ -217,6 +231,7 @@ const PositionState = (props) => {
             pieceClicked1, updatePieceClicked1,
             enpassant1, updateEnpassant1,
             currPGN1, updatePGN1,
+            castlePossible1, updateCastlePossible1,
 
             allPositions2, updatePosition2,
             glowSqs2, updateGlowSqs2,
@@ -224,6 +239,7 @@ const PositionState = (props) => {
             pieceClicked2, updatePieceClicked2,
             enpassant2, updateEnpassant2,
             currPGN2, updatePGN2,
+            castlePossible2, updateCastlePossible2,
 
             createNewGame, getLiveGame, confirm2ndPlayer
         }}>

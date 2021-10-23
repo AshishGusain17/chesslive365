@@ -1,7 +1,7 @@
 import { castleCheck } from '../castle';
 
 //find all possible moves for king
-const findSqs_4_King = (allPositions, square_id, turn) => {
+const findSqs_4_King = (allPositions, square_id, turn, castlePossible) => {
     let opponentColor = "";
     if (turn === 1) {
         opponentColor = "b";
@@ -62,16 +62,16 @@ const findSqs_4_King = (allPositions, square_id, turn) => {
     }
 
     let { queenSideCastleFlag, kingSideCastleFlag } = castleCheck(allPositions, turn);
-    if (turn === 1 && queenSideCastleFlag === 1) {
+    if (turn === 1 && queenSideCastleFlag === 1 && castlePossible.wqside===1) {
         possibleMoves.push(59);
     }
-    if (turn === 1 && kingSideCastleFlag === 1) {
+    if (turn === 1 && kingSideCastleFlag === 1 && castlePossible.wkside===1) {
         possibleMoves.push(63);
     }
-    if (turn === 0 && queenSideCastleFlag === 1) {
+    if (turn === 0 && queenSideCastleFlag === 1 && castlePossible.bqside===1) {
         possibleMoves.push(3);
     }
-    if (turn === 0 && kingSideCastleFlag === 1) {
+    if (turn === 0 && kingSideCastleFlag === 1 && castlePossible.bkside===1) {
         possibleMoves.push(7);
     }
 

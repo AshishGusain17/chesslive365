@@ -28,6 +28,7 @@ export default function Home(props) {
         turn1, updateTurn1,
         pieceClicked1, updatePieceClicked1,
         enpassant1, updateEnpassant1,
+        castlePossible1, updateCastlePossible1,
 
         createNewGame
     } = context;
@@ -37,14 +38,17 @@ export default function Home(props) {
     const updatePosition = updatePosition1;
     const glowSqs = glowSqs1;
     const updateGlowSqs = updateGlowSqs1;
-    const turn = turn1
-    const updateTurn = updateTurn1
-    const pieceClicked = pieceClicked1
-    const updatePieceClicked = updatePieceClicked1
-    const enpassant = enpassant1
-    const updateEnpassant = updateEnpassant1
+    const turn = turn1;
+    const updateTurn = updateTurn1;
+    const pieceClicked = pieceClicked1;
+    const updatePieceClicked = updatePieceClicked1;
+    const enpassant = enpassant1;
+    const updateEnpassant = updateEnpassant1;
+    const castlePossible = castlePossible1;
+    const updateCastlePossible = updateCastlePossible1;
 
 
+    
 
 
 
@@ -98,9 +102,47 @@ export default function Home(props) {
                 enpassantObj.active = 0;
                 enpassantObj.sq = -1;
             }
+
+            // checking castling possibility for all 4 cases(king side castle & queen side castle for both colours)
+            if(pieceClicked.piece === "wk"){
+                let tempCastle = {...castlePossible};
+                tempCastle.wkside = 0;
+                tempCastle.wqside = 0;
+                await updateCastlePossible(tempCastle);
+            }
+            else if(pieceClicked.piece === "bk"){
+                let tempCastle = {...castlePossible};
+                tempCastle.bkside = 0;
+                tempCastle.bqside = 0;
+                await updateCastlePossible(tempCastle);
+            }
+            else if(pieceClicked.piece === "wr" && pieceClicked.sq===57){
+                let tempCastle = {...castlePossible};
+                tempCastle.wqside = 0;
+                await updateCastlePossible(tempCastle);
+            }
+            else if(pieceClicked.piece === "wr" && pieceClicked.sq===64){
+                let tempCastle = {...castlePossible};
+                tempCastle.wkside = 0;
+                await updateCastlePossible(tempCastle);
+            }
+            else if(pieceClicked.piece === "br" && pieceClicked.sq===1){
+                let tempCastle = {...castlePossible};
+                tempCastle.bqside = 0;
+                await updateCastlePossible(tempCastle);
+            }
+            else if(pieceClicked.piece === "br" && pieceClicked.sq===8){
+                let tempCastle = {...castlePossible};
+                tempCastle.bkside = 0;
+                await updateCastlePossible(tempCastle);
+            }
+            
+
             await updateEnpassant(enpassantObj);
             await updatePosition(allPositionsCopy);
-            
+
+
+
 
 
             // sending allPositionsCopy variable to all below functions as state takes time to update(async)
@@ -204,7 +246,7 @@ export default function Home(props) {
                 piece = 'wk';
                 if (allPositions[square_id] === piece) {
                     await updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = await findSqs_4_King(allPositions, square_id, turn);
+                    let possibleMoves = await findSqs_4_King(allPositions, square_id, turn, castlePossible);
                     possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     await glowSquares(possibleMoves);
                 }
@@ -263,7 +305,7 @@ export default function Home(props) {
                 piece = 'bk';
                 if (allPositions[square_id] === piece) {
                     await updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = await findSqs_4_King(allPositions, square_id, turn);
+                    let possibleMoves = await findSqs_4_King(allPositions, square_id, turn, castlePossible);
                     possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     await glowSquares(possibleMoves);
                 }

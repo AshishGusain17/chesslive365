@@ -4,15 +4,11 @@ const liveGames = require('../models/liveGames');
 const gameNumber = require('../models/gameNumber');
 
 
-// router.get('/aa', async(req,res)=>{
-//     const gg = await liveGames.find().sort('-datetime');
-//     res.json(gg[0])
-// })
 
 
 router.post('/newgame', async (req, res) => {
     try {
-        const { game_number, user_count, allPositions2, glowSqs2, turn2, pieceClicked2, enpassant2, currPGN2 } = req.body;
+        const { game_number, user_count, allPositions2, glowSqs2, turn2, pieceClicked2, enpassant2, currPGN2, castlePossible2 } = req.body;
 
         const game = new liveGames({
             game_number: game_number,
@@ -22,33 +18,21 @@ router.post('/newgame', async (req, res) => {
             turn2: turn2,
             pieceClicked2: pieceClicked2,
             enpassant2: enpassant2,
-            currPGN2: currPGN2
+            currPGN2: currPGN2,
+            castlePossible2: castlePossible2
         })
         const liveGame = await game.save();
         res.send(liveGame._id);
 
     } catch (err) {
         console.log(err)
-        res.status(500).json({ "success":0,"log": "error in /newgame endpoint" })
+        res.status(500).json({ "success": 0, "log": "error in /newgame endpoint" })
     }
 })
 
-// router.post('/getgame', async (req, res) => {
-//     try {
-//         liveGame = await liveGames.findById(req.body.game_id);
-//         if(liveGame){
-//             res.send({"success":1,"liveGame":liveGame});
-//         }
-//         else{
-//             res.send({"success":0,"log": "no such game in database"});
-//         }
-       
-//     }
-//     catch (err) {
-//         console.log(err)
-//         res.status(500).json({ "log": "error in /getgame endpoint" })
-//     }
-// })
+
+
+
 
 router.post('/getgame', async (req, res) => {
     try {
@@ -56,13 +40,13 @@ router.post('/getgame', async (req, res) => {
         if (liveGameArr.length === 0) {
             res.json({ "success": 0, "log": "no such game in database" });
         }
-        else{
-            res.send({"success":1,"liveGame":liveGameArr[0]});
+        else {
+            res.send({ "success": 1, "liveGame": liveGameArr[0] });
         }
     }
     catch (err) {
         console.log(err)
-        res.status(500).json({ "success":0,"log": "error in /getgame endpoint" })
+        res.status(500).json({ "success": 0, "log": "error in /getgame endpoint" })
     }
 })
 
@@ -86,7 +70,7 @@ router.put('/updategame', async (req, res) => {
         res.send(updatedGame);
     } catch (err) {
         console.log(err)
-        res.status(500).json({ "success":0,"log": "error in /updategame endpoint" })
+        res.status(500).json({ "success": 0, "log": "error in /updategame endpoint" })
     }
 
 })
@@ -122,7 +106,7 @@ router.put('/get2ndplayer', async (req, res) => {
         }
     } catch (err) {
         console.log(err)
-        res.status(500).json({ "success":0,"log": "error in /get2ndplayer endpoint" })
+        res.status(500).json({ "success": 0, "log": "error in /get2ndplayer endpoint" })
     }
 })
 

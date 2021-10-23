@@ -151,7 +151,7 @@ const findKnightCheckMoves = (oppKnightPos, allPositionsCopy, opponentTurn, chec
 const findKingCheckMoves = (oppKingPos, allPositionsCopy, opponentTurn, checkPos) => {
     let oppPiecePossibleMoves;
     oppKingPos.forEach((kingPos) => {
-        oppPiecePossibleMoves = findSqs_4_King(allPositionsCopy, kingPos, opponentTurn);
+        oppPiecePossibleMoves = findSqs_4_King(allPositionsCopy, kingPos, opponentTurn, { wkside: 0, wqside: 0, bkside: 0, bqside: 0 });
         oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });
     });
     // console.log(checkPos);
@@ -197,10 +197,10 @@ const findPawnCheckMoves = (oppPawnPos, allPositionsCopy, opponentTurn, checkPos
 const findPawnAllPossibleMoves = (oppPawnPos, allPositionsCopy, opponentTurn, checkPos, enpassant) => {
     let oppPiecePossibleMoves;
     oppPawnPos.forEach((pawnPos) => {
-        if(opponentTurn===0){
+        if (opponentTurn === 0) {
             oppPiecePossibleMoves = findSqs_4_BPawn(allPositionsCopy, pawnPos, enpassant);
         }
-        else{
+        else {
             oppPiecePossibleMoves = findSqs_4_WPawn(allPositionsCopy, pawnPos, enpassant);
         }
         oppPiecePossibleMoves.forEach((ele) => { checkPos.add(ele) });

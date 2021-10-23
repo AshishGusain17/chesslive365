@@ -94,7 +94,7 @@ const funcDraw_Stalemate = (allPositions, opponentTurn, enpassant) => {
     else { piece = 'bk' }
     for (let ind = 0; ind < oppKingPos.length; ind++) {
         let kingPos = oppKingPos[ind];
-        possibleMoves = findSqs_4_King(allPositions, kingPos, opponentTurn);
+        possibleMoves = findSqs_4_King(allPositions, kingPos, opponentTurn,{ wkside: 0, wqside: 0, bkside: 0, bqside: 0});
         possibleMoves = checkKingSafety(allPositions, opponentTurn, { sq: kingPos, piece: piece }, possibleMoves);
         if (possibleMoves.length > 0) {
             stalemateFlag = 0;

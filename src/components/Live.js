@@ -30,6 +30,7 @@ export default function Live(props) {
         turn2, updateTurn2,
         pieceClicked2, updatePieceClicked2,
         enpassant2, updateEnpassant2,
+        castlePossible2, updateCastlePossible2,
 
         createNewGame, getLiveGame, confirm2ndPlayer
     } = context;
@@ -45,6 +46,8 @@ export default function Live(props) {
     const updatePieceClicked = updatePieceClicked2;
     const enpassant = enpassant2;
     const updateEnpassant = updateEnpassant2;
+    const castlePossible = castlePossible2;
+    const updateCastlePossible = updateCastlePossible2;
 
 
 
@@ -139,6 +142,42 @@ export default function Live(props) {
                 enpassantObj.active = 0;
                 enpassantObj.sq = -1;
             }
+
+            // checking castling possibility for all 4 cases(king side castle & queen side castle for both colours)
+            if (pieceClicked.piece === "wk") {
+                let tempCastle = { ...castlePossible };
+                tempCastle.wkside = 0;
+                tempCastle.wqside = 0;
+                await updateCastlePossible(tempCastle);
+            }
+            else if (pieceClicked.piece === "bk") {
+                let tempCastle = { ...castlePossible };
+                tempCastle.bkside = 0;
+                tempCastle.bqside = 0;
+                await updateCastlePossible(tempCastle);
+            }
+            else if (pieceClicked.piece === "wr" && pieceClicked.sq === 57) {
+                let tempCastle = { ...castlePossible };
+                tempCastle.wqside = 0;
+                await updateCastlePossible(tempCastle);
+            }
+            else if (pieceClicked.piece === "wr" && pieceClicked.sq === 64) {
+                let tempCastle = { ...castlePossible };
+                tempCastle.wkside = 0;
+                await updateCastlePossible(tempCastle);
+            }
+            else if (pieceClicked.piece === "br" && pieceClicked.sq === 1) {
+                let tempCastle = { ...castlePossible };
+                tempCastle.bqside = 0;
+                await updateCastlePossible(tempCastle);
+            }
+            else if (pieceClicked.piece === "br" && pieceClicked.sq === 8) {
+                let tempCastle = { ...castlePossible };
+                tempCastle.bkside = 0;
+                await updateCastlePossible(tempCastle);
+            }
+
+
             await updateEnpassant(enpassantObj);
             await updatePosition(allPositionsCopy);
 
@@ -244,7 +283,7 @@ export default function Live(props) {
                 piece = 'wk';
                 if (allPositions[square_id] === piece) {
                     await updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = await findSqs_4_King(allPositions, square_id, turn);
+                    let possibleMoves = await findSqs_4_King(allPositions, square_id, turn, castlePossible);
                     possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     await glowSquares(possibleMoves);
                 }
@@ -303,7 +342,7 @@ export default function Live(props) {
                 piece = 'bk';
                 if (allPositions[square_id] === piece) {
                     await updatePieceClicked({ sq: square_id, piece: piece });
-                    let possibleMoves = await findSqs_4_King(allPositions, square_id, turn);
+                    let possibleMoves = await findSqs_4_King(allPositions, square_id, turn, castlePossible);
                     possibleMoves = await checkKingSafety(allPositions, turn, { sq: square_id, piece: piece }, possibleMoves);
                     await glowSquares(possibleMoves);
                 }
