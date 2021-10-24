@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PositionContext from '../../context/position/PositionContext';
+import drawStyles from '../../css/drawOffer.module.css';
 
 export default function DrawOffer(props) {
     const context = useContext(PositionContext);
@@ -8,44 +9,15 @@ export default function DrawOffer(props) {
     } = context;
     let drawOffer = drawOffer2;
 
-
-    const alertStyle = {
-        backgroundColor: '#198754',
-        color: 'white',
-        textTransform: 'uppercase',
-        borderRadius: '3px',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        boxShadow: '0px 2px 2px 2px rgba(0, 0, 0, 0.03)',
-        fontFamily: 'Arial',
-        width: '300px',
-        height: '57px',
-        boxSizing: 'border-box',
-        margin: '0 auto',
-        position: 'fixed',
-        left: '0',
-        right: '0',
-    }
-    const buttonStyle = {
-        cursor: 'pointer',
-        color: '#FFFFFF',
-        paddingTop: "2px"
-    }
-    const spanStyle = {
-        fontWeight: "900px",
-        color: "#fff700",
-        fontSize: "15px"
-    }
-
+    
     let ourColor = JSON.parse(localStorage.getItem('curr')).col;
     if ((ourColor === 1 && drawOffer.black === 1)
         || (ourColor === 0 && drawOffer.white === 1)) {
         return (
             <>
-                <div style={{ ...alertStyle }}>
-                    <span style={{ ...spanStyle }}>Opponent offered a draw</span>
-                    <button onClick={props.disAgreeDraw} style={buttonStyle}>
+                <div className={drawStyles.alertStyle}>
+                    <span className={drawStyles.spanStyle}>Opponent offered a draw</span>
+                    <button className={drawStyles.buttonStyle} onClick={props.disAgreeDraw} >
                         <svg
                             xmlns='http://www.w3.org/2000/svg'
                             width='37'
@@ -63,7 +35,7 @@ export default function DrawOffer(props) {
                         </svg>
                     </button>
 
-                    <button style={buttonStyle} onClick={props.agreeDraw} >
+                    <button className={drawStyles.buttonStyle} onClick={props.agreeDraw} >
                         <svg
                             xmlns='http://www.w3.org/2000/svg'
                             width='32'
@@ -80,7 +52,7 @@ export default function DrawOffer(props) {
                             <polyline points='22 4 12 14.01 9 11.01' />
                         </svg>
                     </button>
-                </div>)
+                </div>
             </>
         )
     }

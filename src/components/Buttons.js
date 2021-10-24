@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import PositionContext from '../context/position/PositionContext';
 import styles2 from '../css/button2.module.css';
+import DrawOffer from './Alerts/DrawOffer';
 
 
 export const Buttons = (props) => {
@@ -29,6 +30,8 @@ export const Buttons = (props) => {
 
         gameEnd2, updateGameEnd2, drawOffer2, updateDrawOffer2
     } = context;
+
+
 
     const clearAlert = () => {
         props.nullifyAlert();
@@ -94,10 +97,30 @@ export const Buttons = (props) => {
     }
 
 
+
+
+    const agreeDraw = async () => {
+        props.alertCall('Game Over', 'Draw accepted', 60000);
+        await updateDrawOffer2({ white: 0, black: 0 });
+        await updateGameEnd2(5);
+    }
+    const disAgreeDraw = async () => {
+        let ourColor = JSON.parse(localStorage.getItem('curr')).col;
+        if (ourColor === 1) {
+            console.log('Draw offer rejected by white');
+            await updateGameEnd2(13);
+        }
+        else {
+            console.log('Draw offer rejected by black');
+            await updateGameEnd2(14);
+        }
+        await updateDrawOffer2({ white: 0, black: 0 });
+    }
+
     return (
-        <div className={`${styles2.outerDiv} text-center`}>
+        <>
             {location.pathname === '/' ?
-                <>
+                <div className={`${styles2.outerDiv} text-center`}>
                     <button className={styles2.button2} onClick={handleNewGame}>
                         Challenge A Friend
                     </button>
@@ -113,33 +136,38 @@ export const Buttons = (props) => {
                     <button className={styles2.button2} onClick={handleReset}>
                         Reset Board
                     </button>
-                </>
-                : <>
-                    <button className={styles2.button2} onClick={handleHome}>
-                        Home
-                    </button>
-                    <button className={styles2.button2} onClick={props.reverseState}>
-                        Reverse
-                    </button>
-                    <button className={styles2.button2} onClick={props.updateChessSet}>
-                        {props.chessSet.name} Piece
-                    </button>
-                    <button className={styles2.button2} onClick={props.updateSqcol}>
-                        Change Color
-                    </button>
-                    {gameEnd2 === 0 || gameEnd2 === 11 || gameEnd2 === 12 || gameEnd2 === 13 || gameEnd2 === 14 ?
-                        (<>
-                            <button className={styles2.button2} onClick={handleDrawOffer}>
-                                Offer a draw
-                            </button>
-                            <button className={styles2.button2} onClick={handleResign}>
-                                Resign
-                            </button>
-                        </>)
-                        : null}
+                </div>
+                :
+                <div >
+                    <div className={`${styles2.outerDiv} text-center`}>
+                        <button className={styles2.button2} onClick={handleHome}>
+                            Home
+                        </button>
+                        <button className={styles2.button2} onClick={props.reverseState}>
+                            Reverse
+                        </button>
+                        <button className={styles2.button2} onClick={props.updateChessSet}>
+                            {props.chessSet.name} Piece
+                        </button>
+                        <button className={styles2.button2} onClick={props.updateSqcol}>
+                            Change Color
+                        </button>
+                        {gameEnd2 === 0 || gameEnd2 === 11 || gameEnd2 === 12 || gameEnd2 === 13 || gameEnd2 === 14 ?
+                            (<>
+                                <button className={styles2.button2} onClick={handleDrawOffer}>
+                                    Offer a draw
+                                </button>
+                                <button className={styles2.button2} onClick={handleResign}>
+                                    Resign
+                                </button>
+                            </>)
+                            : null}
+                    </div>
+                    <DrawOffer agreeDraw={agreeDraw} disAgreeDraw={disAgreeDraw} />
+                </div>
 
-                </>
             }
-        </div>
+        </>
+
     )
 }

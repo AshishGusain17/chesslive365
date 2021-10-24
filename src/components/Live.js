@@ -17,7 +17,6 @@ import { findSqs_4_Rook } from '../utils/piecesMove/Rook';
 import { useHistory, useLocation } from 'react-router';
 import { ChessBoardReverse } from './ChessBoardReverse';
 import { Buttons } from './Buttons';
-import DrawOffer from './Alerts/DrawOffer';
 
 
 export default function Live(props) {
@@ -32,7 +31,7 @@ export default function Live(props) {
         pieceClicked2, updatePieceClicked2,
         enpassant2, updateEnpassant2,
         castlePossible2, updateCastlePossible2,
-        drawOffer2, updateDrawOffer2,
+        // drawOffer2, updateDrawOffer2,
         gameEnd2, updateGameEnd2,
 
         createNewGame, getLiveGame, confirm2ndPlayer
@@ -51,8 +50,7 @@ export default function Live(props) {
     const updateEnpassant = updateEnpassant2;
     const castlePossible = castlePossible2;
     const updateCastlePossible = updateCastlePossible2;
-    const drawOffer = drawOffer2;
-    const updateDrawOffer = updateDrawOffer2;
+
     const gameEnd = gameEnd2;
     const updateGameEnd = updateGameEnd2;
 
@@ -126,8 +124,9 @@ export default function Live(props) {
     const squareClicked = async (square_id) => {
         // user wants to make a move as he selects a square that was glowing
         if (glowSqs[square_id] === 1) {
-            props.nullifyAlert();
             await updateGlowSqs(initGlowSqs);
+            props.nullifyAlert();
+            await updateGameEnd(0);
 
             let opponentTurn;
             if (turn === 1) {
@@ -184,7 +183,6 @@ export default function Live(props) {
                 tempCastle.bkside = 0;
                 await updateCastlePossible(tempCastle);
             }
-
 
             await updateEnpassant(enpassantObj);
             await updatePosition(allPositionsCopy);
@@ -418,7 +416,7 @@ export default function Live(props) {
 
     let [count, setCount] = useState(0);
     useInterval(async () => {
-        // console.log(gameEnd)
+        // console.log(gameEnd);
         let flag = await getLiveGame(location.pathname.substring(6, 20));
         if (!flag) {
             history.push('/');
@@ -468,19 +466,19 @@ export default function Live(props) {
         }
         else if (gameEnd === 11) {
             props.alertCall('Check', 'to white', 5000);
-            setTimeout(() => { updateGameEnd(0) }, 500);
+            setTimeout(async () => { await updateGameEnd(0) }, 500);
         }
         else if (gameEnd === 12) {
             props.alertCall('Check', 'to black', 5000);
-            setTimeout(() => { updateGameEnd(0) }, 500);
+            setTimeout(async () => { await updateGameEnd(0) }, 500);
         }
         else if (gameEnd === 13) {
             props.alertCall('Draw Offer', 'rejected by white', 5000);
-            setTimeout(() => { updateGameEnd(0) }, 500);
+            setTimeout(async () => { await updateGameEnd(0) }, 500);
         }
         else if (gameEnd === 14) {
             props.alertCall('Draw Offer', 'rejected by black', 5000);
-            setTimeout(() => { updateGameEnd(0) }, 500);
+            setTimeout(async () => { await updateGameEnd(0) }, 500);
         }
 
         // console.log(count);
@@ -489,12 +487,12 @@ export default function Live(props) {
 
 
     const [reverse2, updateReverse2] = useState(1);
-    const reverseState = () => {
+    const reverseState = async () => {
         if (reverse2 === 1) {
-            updateReverse2(0);
+            await updateReverse2(0);
         }
         else {
-            updateReverse2(1);
+            await updateReverse2(1);
         }
     }
 
@@ -526,23 +524,7 @@ export default function Live(props) {
     }
 
 
-    const agreeDraw = async () => {
-        props.alertCall('Game Over', 'Draw accepted', 60000);
-        await updateDrawOffer({ white: 0, black: 0 });
-        await updateGameEnd(5);
-    }
-    const disAgreeDraw = async () => {
-        let ourColor = JSON.parse(localStorage.getItem('curr')).col;
-        if (ourColor === 1) {
-            console.log('Draw offer rejected by white');
-            await updateGameEnd(13);
-        }
-        else {
-            console.log('Draw offer rejected by black');
-            await updateGameEnd(14);
-        }
-        await updateDrawOffer({ white: 0, black: 0 });
-    }
+
 
     return (
         <>
@@ -555,7 +537,6 @@ export default function Live(props) {
                 updateChessSet={updateChessSet} chessSet={chessSet2} nullifyAlert={props.nullifyAlert}
                 updateSqcol={updateSqcol} />
 
-            <DrawOffer drawOffer={drawOffer} agreeDraw={agreeDraw} disAgreeDraw={disAgreeDraw} />
         </>
     )
 
