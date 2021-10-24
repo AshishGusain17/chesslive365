@@ -356,7 +356,7 @@ export default function Home(props) {
 
     return (
         <>
-            <Navbar createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet} chessSet={chessSet1} />
+            <Navbar createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet} chessSet={chessSet1} turn={turn}/>
 
             {reverse1 ? (<ChessBoard home_1_or_live_2={1} squareClicked={squareClicked} chessSet={chessSet1} sqCol={sqCol1} />) :
                 <ChessBoardReverse home_1_or_live_2={1} squareClicked={squareClicked} chessSet={chessSet1} sqCol={sqCol1} />}

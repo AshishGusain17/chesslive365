@@ -40,6 +40,10 @@ export default function Navbar(props) {
                             {props.chessSet.name} Pieces
                         </li>
 
+                        <li className="nav-item nav-link" >
+                            {props.turn===1?"White":"Black"} to Move
+                        </li>
+
                         <input type="checkbox" id="toggle" className={reverseStyles.toggleCheckbox} />
                         <label htmlFor="toggle" className={reverseStyles.toggleLabel} onClick={props.reverseState} >
                             <span className={reverseStyles.toggleLabelBackground}></span>

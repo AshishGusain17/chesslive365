@@ -528,13 +528,13 @@ export default function Live(props) {
 
     return (
         <>
-            <Navbar createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet} chessSet={chessSet2} />
+            <Navbar createNewGame={createNewGame} reverseState={reverseState} updateChessSet={updateChessSet} chessSet={chessSet2} turn={turn} />
 
             {reverse2 ? (<ChessBoard home_1_or_live_2={2} squareClicked={squareClickedColor} chessSet={chessSet2} sqCol={sqCol2} />) :
                 <ChessBoardReverse home_1_or_live_2={2} squareClicked={squareClickedColor} chessSet={chessSet2} sqCol={sqCol2} />}
 
             <Buttons createNewGame={createNewGame} reverseState={reverseState}
-                updateChessSet={updateChessSet} chessSet={chessSet2} nullifyAlert={props.nullifyAlert}
+                updateChessSet={updateChessSet} chessSet={chessSet2} nullifyAlert={props.nullifyAlert} alertCall={props.alertCall}
                 updateSqcol={updateSqcol} />
 
         </>

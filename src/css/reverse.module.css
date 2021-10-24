@@ -13,7 +13,7 @@
   --gray-dots: #e8e8ea;
   /** general **/
   --white: rgb(43, 40, 40);
-  margin-top:4.5%;
+  margin-top:2.5%;
   left: 5%;
 }
 @media screen and (max-width: 991px) {

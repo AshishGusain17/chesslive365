@@ -51,6 +51,7 @@ export const Buttons = (props) => {
     const handleHome = () => {
         history.push('/');
         clearAlert();
+        handleReset();
     }
 
     const handleNewGame = async () => {
@@ -125,7 +126,7 @@ export const Buttons = (props) => {
                         Challenge A Friend
                     </button>
                     <button className={styles2.button2} onClick={props.reverseState}>
-                        Reverse
+                        Reverse Board
                     </button>
                     <button className={styles2.button2} onClick={props.updateChessSet}>
                         {props.chessSet.name} Piece
