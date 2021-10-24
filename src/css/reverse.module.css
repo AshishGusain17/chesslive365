@@ -16,7 +16,7 @@
   margin-top:4.5%;
   left: 5%;
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 991px) {
   .toggleLabel {
     margin-top:2%;
     left: 0%;
