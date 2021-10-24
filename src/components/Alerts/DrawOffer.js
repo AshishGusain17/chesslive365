@@ -13,6 +13,8 @@ export default function DrawOffer(props) {
     let ourColor = JSON.parse(localStorage.getItem('curr')).col;
     if ((ourColor === 1 && drawOffer.black === 1)
         || (ourColor === 0 && drawOffer.white === 1)) {
+        // if ((ourColor === 1)
+        // || (ourColor === 0 )) {
         return (
             <>
                 <div className={drawStyles.alertStyle}>

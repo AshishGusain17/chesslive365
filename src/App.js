@@ -30,7 +30,6 @@ export default function App() {
     <>
       <PositionState>
         <Router>
-          <Alert alertObj={alertObj} nullifyAlert={nullifyAlert} />
 
           <Switch>
             <Route exact path="/">
@@ -44,6 +43,7 @@ export default function App() {
             </Route>
           </Switch>
           <Heart />
+          <Alert alertObj={alertObj} nullifyAlert={nullifyAlert} />
 
         </Router>
       </PositionState>
