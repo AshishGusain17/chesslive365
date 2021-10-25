@@ -56,7 +56,9 @@ router.post('/getgame', async (req, res) => {
 
 router.put('/updategame', async (req, res) => {
     try {
-        const { game_id, fieldName, val } = req.body;
+        let game_id = req.body.game_id;
+        let numFieldsToUpdate = req.body.numFieldsToUpdate;
+        let fieldName, val, fieldName1, val1, fieldName2, val2, fieldName3, val3;
 
         // checking if live game is present or not
         let liveGame = await liveGames.findById(game_id);
@@ -64,8 +66,24 @@ router.put('/updategame', async (req, res) => {
             res.json({ "log": "live game not found" });
         }
 
-        // making changes in object to be updated
-        liveGame[fieldName] = val;
+        if (numFieldsToUpdate === 3) {
+            fieldName1 = req.body.fieldName1;
+            val1 = req.body.val1;
+            fieldName2 = req.body.fieldName2;
+            val2 = req.body.val2;
+            fieldName3 = req.body.fieldName3;
+            val3 = req.body.val3;
+
+            // making changes in object to be updated
+            liveGame[fieldName1] = val1;
+            liveGame[fieldName2] = val2;
+            liveGame[fieldName3] = val3;
+        }
+        else if (numFieldsToUpdate === 1) {
+            fieldName = req.body.fieldName;
+            val = req.body.val;
+            liveGame[fieldName] = val;
+        }
 
         // finally updating changes in database
         updatedGame = await liveGames.findByIdAndUpdate(game_id, { $set: liveGame }, { new: true });

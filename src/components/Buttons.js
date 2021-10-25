@@ -49,9 +49,9 @@ export const Buttons = (props) => {
     }
 
     const handleHome = () => {
-        history.push('/');
         clearAlert();
         handleReset();
+        history.push('/');
     }
 
     const handleNewGame = async () => {

@@ -53,6 +53,12 @@ const PositionState = (props) => {
 
 
 
+    // AP: allPositions2
+    // T: turn2
+    // EP: enpassant2
+    // CP: castlePossible2
+    // DO: drawOffer2
+    // GE: gameEnd
     const [allPositions2, updatePosition2_setState] = useState(initPosition);
 
     const [glowSqs2, updateGlowSqs2_setState] = useState(initGlowSqs)
@@ -69,6 +75,7 @@ const PositionState = (props) => {
 
     const [drawOffer2, updateDrawOffer2_setState] = useState(initDrawOffer);
 
+    const [gameEnd2, updateGameEnd2_setState] = useState(initGameEnd);
     // gameEnd = 0   ------>   game is going on
     // gameEnd = 1   ------>   checkmate, white wins
     // gameEnd = 2   ------>   checkmate, black wins
@@ -81,7 +88,6 @@ const PositionState = (props) => {
     // gameEnd = 12  ------>   check to black
     // gameEnd = 13  ------>   draw offer rejected by white
     // gameEnd = 14  ------>   draw offer rejected by black
-    const [gameEnd2, updateGameEnd2_setState] = useState(initGameEnd);
 
 
 
@@ -93,7 +99,7 @@ const PositionState = (props) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "game_id": game_id, fieldName: fieldName, val: val
+                "game_id": game_id, fieldName: fieldName, val: val, numFieldsToUpdate: 1
             })
         });
         // below if is just so that I don't get any warning like 'response' is assigned a value but never used
@@ -103,6 +109,41 @@ const PositionState = (props) => {
         // const res_json = await response.json();
         // console.log(fieldName, res_json);
     }
+
+
+    // updating enpassant and all positions
+    // draw is actually updated after each move to initialDrawOffer
+    const update_EP_DO_AP = async (enpassantObj, allPositionsCopy) => {
+        // await updateField("enpassant2", val)
+        // await updateField("drawOffer2", initDrawOffer)
+        // await updateField("allPositions2", val)
+        updateEnpassant2_setState(enpassantObj);
+        updateDrawOffer2_setState(initDrawOffer);
+        updatePosition2_setState(allPositionsCopy);
+
+        const game_id = JSON.parse(localStorage.getItem('curr')).game_id;
+        let response = await fetch(`${HOST}/api/chess/updategame`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "game_id": game_id,
+                fieldName1: "enpassant2", val1: enpassantObj,
+                fieldName2: "drawOffer2", val2: initDrawOffer,
+                fieldName3: "allPositions2", val3: allPositionsCopy,
+                numFieldsToUpdate: 3
+            })
+        });
+        // below if is just so that I don't get any warning like 'response' is assigned a value but never used
+        if (response) {
+            //pass;
+        }
+        // const res_json = await response.json();
+        // console.log(fieldName, res_json);
+    }
+
+
     const updatePosition2 = async (val) => {
         await updateField("drawOffer2", initDrawOffer)
         updateDrawOffer2_setState(initDrawOffer);
@@ -278,7 +319,9 @@ const PositionState = (props) => {
             drawOffer2, updateDrawOffer2,
             gameEnd2, updateGameEnd2,
 
-            createNewGame, getLiveGame, confirm2ndPlayer
+            createNewGame, getLiveGame, confirm2ndPlayer,
+
+            update_EP_DO_AP
         }}>
             {props.children}
         </PositionContext.Provider>

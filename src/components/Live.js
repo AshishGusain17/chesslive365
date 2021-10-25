@@ -31,15 +31,16 @@ export default function Live(props) {
         pieceClicked2, updatePieceClicked2,
         enpassant2, updateEnpassant2,
         castlePossible2, updateCastlePossible2,
-        // drawOffer2, updateDrawOffer2,
         gameEnd2, updateGameEnd2,
 
-        createNewGame, getLiveGame, confirm2ndPlayer
-    } = context;
+        createNewGame, getLiveGame, confirm2ndPlayer,
+
+        update_EP_DO_AP
+    } = context; 
 
 
     const allPositions = allPositions2;
-    const updatePosition = updatePosition2;
+    // const updatePosition = updatePosition2;
     const glowSqs = glowSqs2;
     const updateGlowSqs = updateGlowSqs2;
     const turn = turn2;
@@ -47,7 +48,7 @@ export default function Live(props) {
     const pieceClicked = pieceClicked2;
     const updatePieceClicked = updatePieceClicked2;
     const enpassant = enpassant2;
-    const updateEnpassant = updateEnpassant2;
+    // const updateEnpassant = updateEnpassant2;
     const castlePossible = castlePossible2;
     const updateCastlePossible = updateCastlePossible2;
 
@@ -184,8 +185,10 @@ export default function Live(props) {
                 await updateCastlePossible(tempCastle);
             }
 
-            await updateEnpassant(enpassantObj);
-            await updatePosition(allPositionsCopy);
+            // await updateEnpassant(enpassantObj);
+            // await updatePosition(allPositionsCopy);
+            // combined above 2 updates together below
+            await update_EP_DO_AP(enpassantObj, allPositionsCopy)
 
 
             // sending allPositionsCopy variable to all below functions as state takes time to update(async)
@@ -417,6 +420,9 @@ export default function Live(props) {
     let [count, setCount] = useState(0);
     useInterval(async () => {
         // console.log(gameEnd);
+        if (turn !== JSON.parse(localStorage.getItem('curr')).col) {
+            await updateGlowSqs(initGlowSqs);
+        }
         let flag = await getLiveGame(location.pathname.substring(6, 20));
         if (!flag) {
             history.push('/');
