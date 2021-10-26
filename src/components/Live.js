@@ -22,6 +22,7 @@ import { Buttons } from './Buttons';
 export default function Live(props) {
     const context = useContext(PositionContext);
     const history = useHistory();
+    let location = useLocation();
 
     const {
         initGlowSqs,
@@ -30,7 +31,7 @@ export default function Live(props) {
         glowSqs2, updateGlowSqs2,
         turn2, updateTurn2,
         pieceClicked2, updatePieceClicked2,
-        enpassant2, 
+        enpassant2,
         // updateEnpassant2,
         castlePossible2, updateCastlePossible2,
         gameEnd2, updateGameEnd2,
@@ -38,7 +39,7 @@ export default function Live(props) {
         createNewGame, getLiveGame, confirm2ndPlayer,
 
         update_EP_DO_AP
-    } = context; 
+    } = context;
 
 
     const allPositions = allPositions2;
@@ -59,8 +60,17 @@ export default function Live(props) {
 
 
 
+    // thirdPerson === 1....means you are watching live
+    // thirdPerson === 0....you are 1 among the two opponents
+    let thirdPerson = 1;
+    if (localStorage.getItem('curr')) {
+        const game_number_by_id = parseInt(location.pathname.substring(6, 20).trim());
+        const game_number_saved = JSON.parse(localStorage.getItem('curr')).game_number;
+        if (game_number_by_id === game_number_saved) {
+            thirdPerson = 0;
+        }
+    }
 
-    let location = useLocation();
     useEffect(() => {
         async function performLiveCall() {
             if (location.pathname === '/live') {
@@ -391,18 +401,16 @@ export default function Live(props) {
 
 
     const squareClickedColor = (square_id) => {
-        let flagMatch = 0;
-        if (localStorage.getItem('curr')) {
-            const game_number_by_id = parseInt(location.pathname.substring(6, 20).trim());
-            const game_number_saved = JSON.parse(localStorage.getItem('curr')).game_number;
-            if (game_number_by_id === game_number_saved) {
-                flagMatch = 1;
-            }
-            // console.log("flagMatch: ",flagMatch);
-            console.log("Move: ", turn);
-            console.log("You: ", JSON.parse(localStorage.getItem('curr')).col);
-            if (turn === parseInt(JSON.parse(localStorage.getItem('curr')).col) && flagMatch === 1) {
-                squareClicked(square_id);
+        if (thirdPerson === 1) {
+            console.log('You are watching live');
+        }
+        else {
+            if (localStorage.getItem('curr')) {
+                console.log("Move: ", turn);
+                console.log("You: ", JSON.parse(localStorage.getItem('curr')).col);
+                if (turn === parseInt(JSON.parse(localStorage.getItem('curr')).col)) {
+                    squareClicked(square_id);
+                }
             }
         }
     }
@@ -422,9 +430,15 @@ export default function Live(props) {
     let [count, setCount] = useState(0);
     useInterval(async () => {
         // console.log(gameEnd);
-        if (turn !== JSON.parse(localStorage.getItem('curr')).col) {
+        if (localStorage.getItem('curr')) {
+            if (turn !== JSON.parse(localStorage.getItem('curr')).col) {
+                await updateGlowSqs(initGlowSqs);
+            }
+        }
+        else {
             await updateGlowSqs(initGlowSqs);
         }
+
         let flag = await getLiveGame(location.pathname.substring(6, 20));
         if (!flag) {
             history.push('/');
@@ -474,19 +488,35 @@ export default function Live(props) {
         }
         else if (gameEnd === 11) {
             props.alertCall('Check', 'to white', 5000);
-            setTimeout(async () => { await updateGameEnd(0) }, 500);
+            setTimeout(async () => {
+                if (thirdPerson === 0) {
+                    await updateGameEnd(0)
+                }
+            }, 500);
         }
         else if (gameEnd === 12) {
             props.alertCall('Check', 'to black', 5000);
-            setTimeout(async () => { await updateGameEnd(0) }, 500);
+            setTimeout(async () => {
+                if (thirdPerson === 0) {
+                    await updateGameEnd(0)
+                }
+            }, 500);
         }
         else if (gameEnd === 13) {
             props.alertCall('Draw Offer', 'rejected by white', 5000);
-            setTimeout(async () => { await updateGameEnd(0) }, 500);
+            setTimeout(async () => {
+                if (thirdPerson === 0) {
+                    await updateGameEnd(0)
+                }
+            }, 500);
         }
         else if (gameEnd === 14) {
             props.alertCall('Draw Offer', 'rejected by black', 5000);
-            setTimeout(async () => { await updateGameEnd(0) }, 500);
+            setTimeout(async () => {
+                if (thirdPerson === 0) {
+                    await updateGameEnd(0)
+                }
+            }, 500);
         }
 
         // console.log(count);

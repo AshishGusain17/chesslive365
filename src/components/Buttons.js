@@ -126,9 +126,7 @@ export const Buttons = (props) => {
             thirdPerson = 0;
         }
     }
-    else {
-        thirdPerson = 0;
-    }
+
 
     return (
         <>

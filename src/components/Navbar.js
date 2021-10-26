@@ -26,9 +26,6 @@ export default function Navbar(props) {
             thirdPerson = 0;
         }
     }
-    else {
-        thirdPerson = 0;
-    }
 
     let ourColorValue; 
     if (localStorage.getItem('curr')) {

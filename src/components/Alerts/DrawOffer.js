@@ -21,9 +21,7 @@ export default function DrawOffer(props) {
             thirdPerson = 0; 
         }
     }
-    else {
-        thirdPerson = 0;
-    }
+    
 
     let ourColor = 2;
     if (localStorage.getItem('curr')) {
