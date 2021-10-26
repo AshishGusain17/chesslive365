@@ -1,18 +1,36 @@
 import React, { useContext } from 'react';
+import { useLocation } from 'react-router';
 import PositionContext from '../../context/position/PositionContext';
 import drawStyles from '../../css/drawOffer.module.css';
 
 export default function DrawOffer(props) {
     const context = useContext(PositionContext);
+    const location = useLocation();
+
     const {
         drawOffer2
     } = context;
     let drawOffer = drawOffer2;
 
-    
-    let ourColor = JSON.parse(localStorage.getItem('curr')).col;
-    if ((ourColor === 1 && drawOffer.black === 1)
-        || (ourColor === 0 && drawOffer.white === 1)) {
+
+    let thirdPerson = 1;
+    if (localStorage.getItem('curr')) {
+        const game_number_by_id = parseInt(location.pathname.substring(6, 20).trim());
+        const game_number_saved = JSON.parse(localStorage.getItem('curr')).game_number;
+        if (game_number_by_id === game_number_saved) {
+            thirdPerson = 0; 
+        }
+    }
+    else {
+        thirdPerson = 0;
+    }
+
+    let ourColor = 2;
+    if (localStorage.getItem('curr')) {
+        ourColor = JSON.parse(localStorage.getItem('curr')).col;
+    }
+    if ((ourColor === 1 && drawOffer.black === 1 && thirdPerson === 0)
+        || (ourColor === 0 && drawOffer.white === 1 && thirdPerson === 0)) {
         // if ((ourColor === 1)
         // || (ourColor === 0 )) {
         return (

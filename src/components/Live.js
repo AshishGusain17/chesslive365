@@ -25,11 +25,13 @@ export default function Live(props) {
 
     const {
         initGlowSqs,
-        allPositions2, updatePosition2,
+        allPositions2,
+        //  updatePosition2,
         glowSqs2, updateGlowSqs2,
         turn2, updateTurn2,
         pieceClicked2, updatePieceClicked2,
-        enpassant2, updateEnpassant2,
+        enpassant2, 
+        // updateEnpassant2,
         castlePossible2, updateCastlePossible2,
         gameEnd2, updateGameEnd2,
 

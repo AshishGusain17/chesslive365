@@ -18,6 +18,31 @@ export default function Navbar(props) {
     };
 
 
+    let thirdPerson = 1;
+    if (localStorage.getItem('curr')) {
+        const game_number_by_id = parseInt(location.pathname.substring(6, 20).trim());
+        const game_number_saved = JSON.parse(localStorage.getItem('curr')).game_number;
+        if (game_number_by_id === game_number_saved) {
+            thirdPerson = 0;
+        }
+    }
+    else {
+        thirdPerson = 0;
+    }
+
+    let ourColorValue; 
+    if (localStorage.getItem('curr')) {
+        let ourColor = JSON.parse(localStorage.getItem('curr')).col;
+        if(ourColor === 1){
+            ourColorValue = "White";
+        }
+        else{
+            ourColorValue = "Black";
+        }
+    }
+
+
+
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container-fluid">
@@ -31,17 +56,24 @@ export default function Navbar(props) {
                             <li className="nav-item">
                                 <Link className={`nav-link ${location.pathname === '/live' ? 'active' : ''}`} to="/live" onClick={handleNewGame}>Challenge A Friend</Link>
                             </li> :
-                            <li className="nav-item">
-                                <Link className={`nav-link ${location.pathname === '/home' ? 'active' : ''}`} to="/">Home</Link>
-                            </li>
+                            <>
+                                <li className="nav-item">
+                                    <Link className={`nav-link ${location.pathname === '/home' ? 'active' : ''}`} to="/">Home</Link>
+                                </li>
+                                <li className="nav-item nav-link" >
+                                    {thirdPerson === 1 ? 'You are watching a live game' : `You have ${ourColorValue} pieces`}
+                                </li>
+                            </>
+
                         }
+
 
                         <li className="nav-item nav-link" onClick={props.updateChessSet}>
                             {props.chessSet.name} Pieces
                         </li>
 
                         <li className="nav-item nav-link" >
-                            {props.turn===1?"White":"Black"} to Move
+                            {props.turn === 1 ? "White" : "Black"} to Move
                         </li>
 
                         <input type="checkbox" id="toggle" className={reverseStyles.toggleCheckbox} />

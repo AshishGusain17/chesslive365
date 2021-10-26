@@ -117,9 +117,6 @@ const PositionState = (props) => {
         // await updateField("enpassant2", val)
         // await updateField("drawOffer2", initDrawOffer)
         // await updateField("allPositions2", val)
-        updateEnpassant2_setState(enpassantObj);
-        updateDrawOffer2_setState(initDrawOffer);
-        updatePosition2_setState(allPositionsCopy);
 
         const game_id = JSON.parse(localStorage.getItem('curr')).game_id;
         let response = await fetch(`${HOST}/api/chess/updategame`, {
@@ -141,6 +138,10 @@ const PositionState = (props) => {
         }
         // const res_json = await response.json();
         // console.log(fieldName, res_json);
+
+        updateEnpassant2_setState(enpassantObj);
+        updateDrawOffer2_setState(initDrawOffer);
+        updatePosition2_setState(allPositionsCopy);
     }
 
 

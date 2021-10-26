@@ -14,7 +14,7 @@ const liveChessSchema = new Schema({
   currPGN2: { type: String },
   castlePossible2: {},
   drawOffer2: {},
-  gameEnd2: {}
+  gameEnd2: { type: Number, required: true }
 });
 
 const liveGames = mongoose.model("chessGames", liveChessSchema);

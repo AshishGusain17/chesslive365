@@ -118,6 +118,18 @@ export const Buttons = (props) => {
         await updateDrawOffer2({ white: 0, black: 0 });
     }
 
+    let thirdPerson = 1;
+    if (localStorage.getItem('curr')) {
+        const game_number_by_id = parseInt(location.pathname.substring(6, 20).trim());
+        const game_number_saved = JSON.parse(localStorage.getItem('curr')).game_number;
+        if (game_number_by_id === game_number_saved) {
+            thirdPerson = 0;
+        }
+    }
+    else {
+        thirdPerson = 0;
+    }
+
     return (
         <>
             {location.pathname === '/' ?
@@ -153,7 +165,8 @@ export const Buttons = (props) => {
                         <button className={styles2.button2} onClick={props.updateSqcol}>
                             Change Color
                         </button>
-                        {gameEnd2 === 0 || gameEnd2 === 11 || gameEnd2 === 12 || gameEnd2 === 13 || gameEnd2 === 14 ?
+                        {((gameEnd2 === 0 || gameEnd2 === 11 || gameEnd2 === 12 || gameEnd2 === 13 || gameEnd2 === 14)
+                            && thirdPerson === 0) ?
                             (<>
                                 <button className={styles2.button2} onClick={handleDrawOffer}>
                                     Offer a draw
