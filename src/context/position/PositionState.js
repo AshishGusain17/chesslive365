@@ -84,6 +84,9 @@ const PositionState = (props) => {
     // gameEnd = 5   ------>   offer a draw accepted
     // gameEnd = 6   ------>   white resigns
     // gameEnd = 7   ------>   black resigns
+    // gameEnd = 8   ------>   draw, 3 fold-repetition
+    // gameEnd = 9   ------>   draw, 50 move rule
+    // gameEnd = 10  ------>   draw, Insufficient Material 
     // gameEnd = 11  ------>   check to white    
     // gameEnd = 12  ------>   check to black
     // gameEnd = 13  ------>   draw offer rejected by white

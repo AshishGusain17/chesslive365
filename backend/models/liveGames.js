@@ -6,7 +6,7 @@ const liveChessSchema = new Schema({
   expire_at: { type: Date, default: Date.now, expires: 20000 },
   game_number: { type: Number, required: true },
   user_count: { type: Number, required: true },
-  allPositions2: {},
+  allPositions2: [],
   glowSqs2: {},
   turn2: { type: Number, required: true },
   pieceClicked2: {},
@@ -14,7 +14,7 @@ const liveChessSchema = new Schema({
   currPGN2: { type: String },
   castlePossible2: {},
   drawOffer2: {},
-  gameEnd2: { type: Number, required: true }
+  gameEnd2: { type: Number, required: true },
 });
 
 const liveGames = mongoose.model("chessGames", liveChessSchema);

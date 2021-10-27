@@ -406,8 +406,8 @@ export default function Live(props) {
         }
         else {
             if (localStorage.getItem('curr')) {
-                console.log("Move: ", turn);
-                console.log("You: ", JSON.parse(localStorage.getItem('curr')).col);
+                // console.log("Move: ", turn);
+                // console.log("You: ", JSON.parse(localStorage.getItem('curr')).col);
                 if (turn === parseInt(JSON.parse(localStorage.getItem('curr')).col)) {
                     squareClicked(square_id);
                 }
@@ -451,6 +451,9 @@ export default function Live(props) {
         // gameEnd = 5   ------>   offer a draw accepted
         // gameEnd = 6   ------>   white resigns
         // gameEnd = 7   ------>   black resigns
+        // gameEnd = 8   ------>   draw, 3 fold-repetition
+        // gameEnd = 9   ------>   draw, 50 move rule
+        // gameEnd = 10  ------>   draw, Insufficient Material 
         // gameEnd = 11  ------>   check to white    
         // gameEnd = 12  ------>   check to black
         // gameEnd = 13  ------>   draw offer rejected by white
@@ -486,6 +489,18 @@ export default function Live(props) {
             props.alertCall('Game Over', 'Black resigns', 60000);
             liveToHome();
         }
+        else if (gameEnd === 8) {
+            props.alertCall('Draw', 'Threefold Repetition', 60000);
+            liveToHome();
+        }
+        // else if (gameEnd === 9) {
+        //     props.alertCall('Draw', 'Fifty-Move Rule', 60000);
+        //     liveToHome();
+        // }
+        // else if (gameEnd === 10) {
+        //     props.alertCall('Draw', 'Insufficient Material', 60000);
+        //     liveToHome();
+        // }
         else if (gameEnd === 11) {
             props.alertCall('Check', 'to white', 5000);
             setTimeout(async () => {
