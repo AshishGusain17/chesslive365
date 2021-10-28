@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const liveGames = require('../models/liveGames');
 const drawVerify = require('../utils/drawVerify');
-const drawInfo4Game = require('../models/drawInfo');
-// const ObjectId = require('mongodb').ObjectID;
+const gameInfoAlerts = require('../models/gameInfoAlerts');
+
 
 
 // use this function whenever making any changes in data structure
@@ -50,17 +50,16 @@ router.post('/newgame', async (req, res) => {
             enpassant2: enpassant2,
             currPGN2: currPGN2,
             castlePossible2: castlePossible2,
-            gameEnd2: gameEnd2
         })
         const liveGame = await game.save();
 
-
-        const draw_info = new drawInfo4Game({
+        const game_info = new gameInfoAlerts({
             game_number: game_number,
             game_id: liveGame._id,
-            drawOffer2: drawOffer2
+            drawOffer2: drawOffer2,
+            gameEnd2: gameEnd2
         })
-        await draw_info.save();
+        await game_info.save();
 
         res.send(liveGame._id);
 
@@ -94,11 +93,13 @@ router.post('/getgame', async (req, res) => {
             // update allPositions2 with only the last value
             liveGame['allPositions2'] = lastPos;
 
-            // get drawInfo for that particular game
-            let drawInfo4GameArr = await drawInfo4Game.find({ game_id: liveGame._id });
-            let draw_info = drawInfo4GameArr[0];
-            // adding drawOffer2 from drawInfo4Game collection to this final object, that will be sent back
-            liveGame['drawOffer2'] = draw_info['drawOffer2'];
+
+            // get gameInfoAlerts for this particular game
+            let gameInfoAlertsArr = await gameInfoAlerts.find({ game_id: liveGame._id });
+            let game_info = gameInfoAlertsArr[0];
+            // adding drawOffer2 & gameEnd2 from gameInfoAlerts collection to this final object, that will be sent back
+            liveGame['drawOffer2'] = game_info['drawOffer2'];
+            liveGame['gameEnd2'] = game_info['gameEnd2'];
 
             res.send({ "success": 1, "liveGame": liveGame });
         }
@@ -120,7 +121,7 @@ router.put('/updategame', async (req, res) => {
         let game_id = req.body.game_id;
         let varToUpdate = req.body.varToUpdate;
         let fieldName, val;
-        let drawInfo4GameArr, draw_info;
+        let gameInfoAlertsArr, game_info;
 
         // checking if live game is present or not
         let liveGame = await liveGames.findById(game_id);
@@ -128,14 +129,15 @@ router.put('/updategame', async (req, res) => {
             res.json({ "log": "live game not found" });
         }
         else {
-            drawInfo4GameArr = await drawInfo4Game.find({ game_id: liveGame._id });
-            draw_info = drawInfo4GameArr[0];
+            gameInfoAlertsArr = await gameInfoAlerts.find({ game_id: liveGame._id });
+            game_info = gameInfoAlertsArr[0];
         }
 
         if (varToUpdate === "GE_EP_DO_AP") {
-            liveGame["gameEnd2"] = req.body.gameEnd2;           // making changes in object to be updated
+            game_info["gameEnd2"] = req.body.gameEnd2;           // making changes in object to be updated
+            game_info["drawOffer2"] = req.body.drawOffer2;          // making changes in object to be updated 
+
             liveGame["enpassant2"] = req.body.enpassant2;           // making changes in object to be updated
-            draw_info["drawOffer2"] = req.body.drawOffer2;          // making changes in object to be updated 
             liveGame["allPositions2"].push(req.body.allPositions2);         // making changes in object to be updated
             flagDraw = drawVerify.check3Fold(liveGame["allPositions2"]);
             if (flagDraw === 1) {
@@ -144,8 +146,8 @@ router.put('/updategame', async (req, res) => {
             }
         }
         else if (varToUpdate === "GE_DO") {
-            liveGame["gameEnd2"] = req.body.gameEnd2;
-            draw_info["drawOffer2"] = req.body.drawOffer2;
+            game_info["gameEnd2"] = req.body.gameEnd2;
+            game_info["drawOffer2"] = req.body.drawOffer2;
         }
 
         else if (varToUpdate === "all") {
@@ -154,8 +156,8 @@ router.put('/updategame', async (req, res) => {
             if (fieldName === 'allPositions2') {
                 // pass
             }
-            else if (fieldName === "drawOffer2") {
-                draw_info["drawOffer2"] = val;          // making changes in object to be updated
+            else if (fieldName === "drawOffer2" || fieldName === "gameEnd2") {
+                game_info[fieldName] = val;          // making changes in object to be updated
             }
             else {
                 liveGame[fieldName] = val;          // making changes in object to be updated
@@ -165,8 +167,9 @@ router.put('/updategame', async (req, res) => {
 
         // finally updating changes in database
         updatedGame = await liveGames.findByIdAndUpdate(game_id, { $set: liveGame }, { new: true });
-        drawRes = await drawInfo4Game.findByIdAndUpdate(draw_info._id, { $set: draw_info }, { new: true });
+        await gameInfoAlerts.findByIdAndUpdate(game_info._id, { $set: game_info }, { new: true });
         res.send(updatedGame);
+
     } catch (err) {
         console.log(err)
         res.status(500).json({ "success": 0, "log": "error in /updategame endpoint" })

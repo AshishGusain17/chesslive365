@@ -13,7 +13,6 @@ const liveChessSchema = new Schema({
   enpassant2: {},
   currPGN2: { type: String },
   castlePossible2: {},
-  gameEnd2: { type: Number, required: true },
 });
 
 const liveGames = mongoose.model("chessGames", liveChessSchema);
