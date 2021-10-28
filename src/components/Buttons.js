@@ -48,9 +48,9 @@ export const Buttons = (props) => {
         clearAlert();
     }
 
-    const handleHome = () => {
+    const handleHome = async () => {
         clearAlert();
-        handleReset();
+        await handleReset();
         history.push('/');
     }
 
@@ -60,17 +60,17 @@ export const Buttons = (props) => {
         clearAlert();
     };
 
-    const handleDrawOffer = () => {
+    const handleDrawOffer = async() => {
         let ourColor = JSON.parse(localStorage.getItem('curr')).col;
         if (ourColor === 1) {
             let drOff = { ...drawOffer2 };
             drOff.white = 1;
-            updateDrawOffer2(drOff);
+            await updateDrawOffer2(drOff);
         }
         else {
             let drOff = { ...drawOffer2 };
             drOff.black = 1;
-            updateDrawOffer2(drOff);
+            await updateDrawOffer2(drOff);
         }
     }
 
@@ -87,13 +87,13 @@ export const Buttons = (props) => {
     // gameEnd = 12  ------>   check to black
     // gameEnd = 13  ------>   draw offer rejected by white
     // gameEnd = 14  ------>   draw offer rejected by black
-    const handleResign = () => {
+    const handleResign = async() => {
         let ourColor = JSON.parse(localStorage.getItem('curr')).col;
         if (ourColor === 1) {
-            updateGameEnd2(6);
+            await updateGameEnd2(6);
         }
         else {
-            updateGameEnd2(7);
+            await updateGameEnd2(7);
         }
     }
 

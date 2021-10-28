@@ -38,7 +38,7 @@ export default function Live(props) {
 
         createNewGame, getLiveGame, confirm2ndPlayer,
 
-        update_EP_DO_AP, update_GE_DO
+        update_GE_EP_DO_AP, update_GE_DO
     } = context;
 
 
@@ -139,7 +139,7 @@ export default function Live(props) {
         if (glowSqs[square_id] === 1) {
             await updateGlowSqs(initGlowSqs);
             props.nullifyAlert();
-            await updateGameEnd(0);
+            
 
             let opponentTurn;
             if (turn === 1) {
@@ -197,10 +197,11 @@ export default function Live(props) {
                 await updateCastlePossible(tempCastle);
             }
 
+            // await updateGameEnd(0); 
             // await updateEnpassant(enpassantObj);
             // await updatePosition(allPositionsCopy);
-            // combined above 2 updates together below
-            await update_EP_DO_AP(enpassantObj, allPositionsCopy)
+            // combined above 3 updates together below
+            await update_GE_EP_DO_AP(0, enpassantObj, allPositionsCopy);
 
 
             // sending allPositionsCopy variable to all below functions as state takes time to update(async)

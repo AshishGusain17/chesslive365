@@ -132,7 +132,8 @@ router.put('/updategame', async (req, res) => {
             draw_info = drawInfo4GameArr[0];
         }
 
-        if (varToUpdate === "EP_DO_AP") {
+        if (varToUpdate === "GE_EP_DO_AP") {
+            liveGame["gameEnd2"] = req.body.gameEnd2;           // making changes in object to be updated
             liveGame["enpassant2"] = req.body.enpassant2;           // making changes in object to be updated
             draw_info["drawOffer2"] = req.body.drawOffer2;          // making changes in object to be updated 
             liveGame["allPositions2"].push(req.body.allPositions2);         // making changes in object to be updated
