@@ -38,7 +38,7 @@ export default function Live(props) {
 
         createNewGame, getLiveGame, confirm2ndPlayer,
 
-        update_EP_DO_AP
+        update_EP_DO_AP, update_GE_DO
     } = context;
 
 
@@ -501,13 +501,14 @@ export default function Live(props) {
         //     props.alertCall('Draw', 'Insufficient Material', 60000);
         //     liveToHome();
         // }
+
         else if (gameEnd === 11) {
             props.alertCall('Check', 'to white', 5000);
             setTimeout(async () => {
                 if (thirdPerson === 0) {
                     await updateGameEnd(0)
                 }
-            }, 500);
+            }, 800);
         }
         else if (gameEnd === 12) {
             props.alertCall('Check', 'to black', 5000);
@@ -515,7 +516,7 @@ export default function Live(props) {
                 if (thirdPerson === 0) {
                     await updateGameEnd(0)
                 }
-            }, 500);
+            }, 800);
         }
         else if (gameEnd === 13) {
             props.alertCall('Draw Offer', 'rejected by white', 5000);
@@ -523,7 +524,7 @@ export default function Live(props) {
                 if (thirdPerson === 0) {
                     await updateGameEnd(0)
                 }
-            }, 500);
+            }, 800);
         }
         else if (gameEnd === 14) {
             props.alertCall('Draw Offer', 'rejected by black', 5000);
@@ -531,8 +532,10 @@ export default function Live(props) {
                 if (thirdPerson === 0) {
                     await updateGameEnd(0)
                 }
-            }, 500);
+            }, 800);
         }
+
+            
 
         // console.log(count);
         setCount(count + 1);
@@ -588,7 +591,8 @@ export default function Live(props) {
 
             <Buttons createNewGame={createNewGame} reverseState={reverseState}
                 updateChessSet={updateChessSet} chessSet={chessSet2} nullifyAlert={props.nullifyAlert} alertCall={props.alertCall}
-                updateSqcol={updateSqcol} />
+                updateSqcol={updateSqcol}
+                update_GE_DO = {update_GE_DO} />
 
         </>
     )

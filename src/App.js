@@ -39,7 +39,7 @@ export default function App() {
               <About />
             </Route>
             <Route path="/live">
-              <Live alertCall={alertCall} nullifyAlert={nullifyAlert} />
+              <Live alertObj={alertObj} alertCall={alertCall} nullifyAlert={nullifyAlert} />
             </Route>
           </Switch>
           <Heart />

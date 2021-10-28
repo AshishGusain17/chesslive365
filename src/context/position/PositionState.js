@@ -102,7 +102,7 @@ const PositionState = (props) => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "game_id": game_id, fieldName: fieldName, val: val, numFieldsToUpdate: 1
+                "game_id": game_id, fieldName: fieldName, val: val, varToUpdate: "all"
             })
         });
         // below if is just so that I don't get any warning like 'response' is assigned a value but never used
@@ -129,10 +129,10 @@ const PositionState = (props) => {
             },
             body: JSON.stringify({
                 "game_id": game_id,
-                fieldName1: "enpassant2", val1: enpassantObj,
-                fieldName2: "drawOffer2", val2: initDrawOffer,
-                fieldName3: "allPositions2", val3: allPositionsCopy,
-                numFieldsToUpdate: 3
+                "enpassant2": enpassantObj,
+                "drawOffer2": initDrawOffer,
+                "allPositions2": allPositionsCopy,
+                varToUpdate: "EP_DO_AP"
             })
         });
         // below if is just so that I don't get any warning like 'response' is assigned a value but never used
@@ -145,6 +145,27 @@ const PositionState = (props) => {
         updateEnpassant2_setState(enpassantObj);
         updateDrawOffer2_setState(initDrawOffer);
         updatePosition2_setState(allPositionsCopy);
+    }
+
+
+
+    // whenever a draw offer is rejected
+    const update_GE_DO = async (gameEndVal) => {
+        const game_id = JSON.parse(localStorage.getItem('curr')).game_id;
+        await fetch(`${HOST}/api/chess/updategame`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "game_id": game_id,
+                "gameEnd2": gameEnd2,
+                "drawOffer2": initDrawOffer,
+                varToUpdate: "GE_DO"
+            })
+        });
+        updateGameEnd2(gameEndVal);
+        updateDrawOffer2(initDrawOffer);
     }
 
 
@@ -325,7 +346,7 @@ const PositionState = (props) => {
 
             createNewGame, getLiveGame, confirm2ndPlayer,
 
-            update_EP_DO_AP
+            update_EP_DO_AP, update_GE_DO
         }}>
             {props.children}
         </PositionContext.Provider>

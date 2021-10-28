@@ -109,13 +109,12 @@ export const Buttons = (props) => {
         let ourColor = JSON.parse(localStorage.getItem('curr')).col;
         if (ourColor === 1) {
             console.log('Draw offer rejected by white');
-            await updateGameEnd2(13);
+            await props.update_GE_DO(13);
         }
         else {
             console.log('Draw offer rejected by black');
-            await updateGameEnd2(14);
+            await props.update_GE_DO(14);
         }
-        await updateDrawOffer2({ white: 0, black: 0 });
     }
 
     let thirdPerson = 1;
