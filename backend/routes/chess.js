@@ -139,37 +139,50 @@ router.put('/updategame', async (req, res) => {
 
             liveGame["enpassant2"] = req.body.enpassant2;           // making changes in object to be updated
             liveGame["allPositions2"].push(req.body.allPositions2);         // making changes in object to be updated
+
+            // 3 fold repetitions
             flagDraw = drawVerify.check3Fold(liveGame["allPositions2"]);
             if (flagDraw === 1) {
-                // 3 fold repetitions
                 liveGame["gameEnd2"] = 8;           // making changes in object to be updated
             }
+
+            // finally updating changes in database
+            updatedGame = await liveGames.findByIdAndUpdate(game_id, { $set: liveGame }, { new: true });
+            await gameInfoAlerts.findByIdAndUpdate(game_info._id, { $set: game_info }, { new: true });
+            res.send({ "success": 1 });
         }
+
         else if (varToUpdate === "GE_DO") {
             game_info["gameEnd2"] = req.body.gameEnd2;
             game_info["drawOffer2"] = req.body.drawOffer2;
+
+            // finally updating changes in database
+            await gameInfoAlerts.findByIdAndUpdate(game_info._id, { $set: game_info }, { new: true });
+            res.send({ "success": 1 });
         }
 
         else if (varToUpdate === "all") {
             fieldName = req.body.fieldName;
             val = req.body.val;
             if (fieldName === 'allPositions2') {
-                // pass
+                res.send({ "success": 1 });
             }
             else if (fieldName === "drawOffer2" || fieldName === "gameEnd2") {
                 game_info[fieldName] = val;          // making changes in object to be updated
+
+                // finally updating changes in database
+                await gameInfoAlerts.findByIdAndUpdate(game_info._id, { $set: game_info }, { new: true });
+                res.send({ "success": 1 });
             }
             else {
                 liveGame[fieldName] = val;          // making changes in object to be updated
+
+                // finally updating changes in database
+                updatedGame = await liveGames.findByIdAndUpdate(game_id, { $set: liveGame }, { new: true });
+                res.send({ "success": 1 });
             }
+
         }
-
-
-        // finally updating changes in database
-        updatedGame = await liveGames.findByIdAndUpdate(game_id, { $set: liveGame }, { new: true });
-        await gameInfoAlerts.findByIdAndUpdate(game_info._id, { $set: game_info }, { new: true });
-        res.send(updatedGame);
-
     } catch (err) {
         console.log(err)
         res.status(500).json({ "success": 0, "log": "error in /updategame endpoint" })

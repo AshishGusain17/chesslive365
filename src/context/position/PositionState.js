@@ -241,6 +241,9 @@ const PositionState = (props) => {
                     updatePosition2_setState(res_json.allPositions2);
                 }
             }
+            else{
+                updatePosition2_setState(res_json.allPositions2);
+            }
             // updateGlowSqs2_setState(res_json.glowSqs2);
             updateTurn2_setState(res_json.turn2);
             // updatePieceClicked2_setState(res_json.pieceClicked2);
