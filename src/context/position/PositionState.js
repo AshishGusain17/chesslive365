@@ -236,10 +236,11 @@ const PositionState = (props) => {
         if (res_json.success) {
             res_json = res_json.liveGame;
             // update position only if it's opponent's turn
-            if (turn2 !== JSON.parse(localStorage.getItem('curr')).col) {
-                updatePosition2_setState(res_json.allPositions2);
+            if (localStorage.getItem('curr')) {
+                if (turn2 !== JSON.parse(localStorage.getItem('curr')).col) {
+                    updatePosition2_setState(res_json.allPositions2);
+                }
             }
-
             // updateGlowSqs2_setState(res_json.glowSqs2);
             updateTurn2_setState(res_json.turn2);
             // updatePieceClicked2_setState(res_json.pieceClicked2);
