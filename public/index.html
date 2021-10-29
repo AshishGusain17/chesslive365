@@ -49,14 +49,26 @@
         position: absolute;
       }
       .centerImg {
-        height:85%;
-        width:28%;
+        height: 85%;
+        width: 28%;
         top: 0;
         bottom: 0;
         left: 0;
         right: 0;
         margin: auto;
         position: absolute;
+      }
+      @media screen and (max-width: 900px) {
+        .centerImg {
+          height: 85%;
+          width: 70%;
+        }
+      }
+      @media screen and (max-width: 900px)and (min-width: 500px) {
+        .centerImg {
+          height: 85%;
+          width: 40%;
+        }
       }
       @keyframes spin {
         0% {
@@ -81,7 +93,7 @@
 
     <div class="loader-container">
       <img
-      class = "centerImg"
+        class="centerImg"
         src="https://github.com/AshishGusain17/display/blob/main/Chesslive365/mobile_version.jpeg?raw=true"
         alt="Logo"
       />
