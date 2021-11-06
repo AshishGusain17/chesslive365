@@ -28,7 +28,7 @@ export const Connect = () => {
 
 
 
-            <a href="https://github.com/AshishGusain17/">
+            <a href="https://github.com/AshishGusain17/chesslive365">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" aria-labelledby="title"
                     height="23"
                     width="23"
@@ -49,7 +49,7 @@ export const Connect = () => {
 
 
 
-            <a href="https://www.youtube.com/watch?v=LHlgFDLzG00">
+            <a href="https://youtu.be/IIoAEb1a2U8">
                 <svg xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 1 48 48"
                     width="30px"
