@@ -76,12 +76,15 @@ router.post('/newgame', async (req, res) => {
 
 
 router.post('/getgame', async (req, res) => {
+    console.log("router.post(getgame");
     try {
         let liveGameArr = await liveGames.find({ game_number: req.body.game_number }).sort('-datetime');
         if (liveGameArr.length === 0) {
+            console.log("router.post(getgame length 0 ");
             res.json({ "success": 0, "log": "no such game in database" });
         }
         else {
+            console.log("router.post(getgame length not 0 ");
             // if in the rarest case, 2 games have same game_number within 6 hours, so get the latest one
             let firstLiveGame = liveGameArr[0];
             let liveGame = JSON.parse(JSON.stringify(firstLiveGame));
@@ -100,6 +103,8 @@ router.post('/getgame', async (req, res) => {
             // adding drawOffer2 & gameEnd2 from gameInfoAlerts collection to this final object, that will be sent back
             liveGame['drawOffer2'] = game_info['drawOffer2'];
             liveGame['gameEnd2'] = game_info['gameEnd2'];
+
+            console.log("router.post getgame", liveGame);
 
             res.send({ "success": 1, "liveGame": liveGame });
         }

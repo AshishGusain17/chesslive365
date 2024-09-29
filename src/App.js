@@ -29,10 +29,18 @@ export default function App() {
         <Router>
           <Switch>
             <Route exact path="/">
+              home path '/'
               <Home alertCall={alertCall} nullifyAlert={nullifyAlert} />
             </Route>
             <Route path="/live">
+              live path /live
               <Live alertObj={alertObj} alertCall={alertCall} nullifyAlert={nullifyAlert} />
+            </Route>
+            <Route exact path="/test">
+              exact test path /test
+            </Route>
+            <Route path="/test2">
+              test path /test2
             </Route>
           </Switch>
           <Heart />

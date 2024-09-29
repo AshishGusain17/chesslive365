@@ -231,9 +231,11 @@ const PositionState = (props) => {
                 "game_number": game_number_by_id
             })
         });
+        console.log("response from /getgame: ", response);
 
         let res_json = await response.json();
         if (res_json.success) {
+            console.log("res_json.success");
             res_json = res_json.liveGame;
             // update position only if it's opponent's turn
             if (localStorage.getItem('curr')) {

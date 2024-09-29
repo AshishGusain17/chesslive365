@@ -20,6 +20,7 @@ import { Buttons } from './Buttons';
 
 
 export default function Live(props) {
+    console.log("/live is called");
     const context = useContext(PositionContext);
     const history = useHistory();
     let location = useLocation();
@@ -70,14 +71,19 @@ export default function Live(props) {
             thirdPerson = 0;
         }
     }
-
     useEffect(() => {
+        console.log("useEffect(), location.pathname: ", location.pathname);
+        console.log("useEffect(), location.pathname.substring(0, 6): ", location.pathname.substring(0, 6));
+        console.log("useEffect(), location.pathname.substring(6,20): ", location.pathname.substring(6, 20));
         async function performLiveCall() {
             if (location.pathname === '/live') {
                 history.push('/');
             }
             else if (location.pathname.length > 5 && location.pathname.substring(0, 6) === '/live/') {
+                console.log("reached inside, checking for game number in database");
                 let flag = await getLiveGame(location.pathname.substring(6, 20));
+                console.log("reached inside, checking for game number in database, flag: ", flag);
+
                 // if the url game_number provided does not exists in the database.....means there is no such live game
                 if (!flag) {
                     history.push('/');
@@ -440,7 +446,9 @@ export default function Live(props) {
             await updateGlowSqs(initGlowSqs);
         }
 
+        console.log("useInterval async");
         let flag = await getLiveGame(location.pathname.substring(6, 20));
+        console.log("useInterval async, flag: ", flag);
         if (!flag) {
             history.push('/');
         }
