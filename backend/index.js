@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port || '0.0.0.0', () => {
-  console.log(`backend of the app listening at http://localhost:${port}`)
+  console.log(`backend of the app listening at port: ${port}`)
 })
 
 

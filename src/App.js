@@ -34,6 +34,9 @@ export default function App() {
             <Route path="/live">
               <Live alertObj={alertObj} alertCall={alertCall} nullifyAlert={nullifyAlert} />
             </Route>
+            <Route path="/test2">
+              test path /test2
+            </Route>
           </Switch>
           <Heart />
           <Alert alertObj={alertObj} nullifyAlert={nullifyAlert} />
