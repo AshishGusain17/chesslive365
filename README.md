@@ -2,7 +2,7 @@
 A chess website where you can challenge your friends for a 2-player match without logging in or any verification. <br>
 Also, all other persons with the access to the game-link can view the game live.<br>
 Visit:
-https://chesslive365.herokuapp.com/
+https://chesslive365.onrender.com/
 <br>
 
 
@@ -56,7 +56,7 @@ Create a .env file inside root folder and provide following env variable:
 REACT_APP_BACKEND_LOCALHOST = 'http://localhost:5000'
 
 Create a .env file inside backend folder too and provide following env variables:
-MONGO_URL 
+MONGO_URL = <MONGO_URL>
 PORT = 5000
 ```
 
@@ -75,7 +75,7 @@ Create a .env file inside root folder and provide following env variable:
 REACT_APP_BACKEND_HOST = <end_point_url>
 
 Create a .env file inside backend folder too and provide following env variables:
-MONGO_URL 
+MONGO_URL = <MONGO_URL> 
 PORT = 5000
 ```
 
